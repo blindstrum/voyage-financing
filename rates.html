@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+   ______                            __
+  / ____/___  ____ ___  ____  __  __/ /____  _____
+ / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
+\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
+                    /_/
+        Created with Perplexity Computer
+        https://www.perplexity.ai/computer
+-->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Today's Mortgage Rates — Voyage Financing</title>
+<meta name="description" content="See today's lowest mortgage rates from Voyage Financing. Compare 30-year fixed, 15-year fixed, and more. $0 lender fees.">
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./base.css">
+<link rel="stylesheet" href="./style.css">
+<style>
+  .rates-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  @media (min-width: 768px) {
+    .rates-layout {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+    }
+  }
+  .rate-hero-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-divider);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .rate-hero-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  }
+  .rate-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .rate-type-card {
+    background: var(--color-primary-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color var(--transition-interactive), transform var(--transition-interactive);
+  }
+  .rate-type-card:hover, .rate-type-card.active {
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+  .rate-type-card .rate-type-name {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+  .rate-type-card .rate-type-value {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 800;
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .rate-type-card .rate-type-apr {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+  .zero-fees-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--color-success);
+    color: #fff;
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    margin: var(--space-4) auto;
+  }
+  .zero-fees-callout {
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-surface) 100%);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+  .zero-fees-callout h3 {
+    font-size: var(--text-xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-2);
+  }
+  .zero-fees-callout p {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    max-width: 52ch;
+    margin: 0 auto;
+  }
+  .points-section {
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-divider);
+  }
+  .points-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .points-item {
+    text-align: center;
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    background: var(--color-primary-light);
+  }
+  .points-item .points-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-1);
+  }
+  .points-item .points-rate {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .points-item .points-cost {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  @media (min-width: 768px) {
+    .glossary-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .glossary-item {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    border: 1px solid var(--color-divider);
+  }
+  .glossary-item h4 {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--space-2);
+  }
+  .glossary-item p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+  .cta-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  @media (min-width: 768px) {
+    .cta-cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .cta-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-divider);
+    transition: transform var(--transition-interactive), box-shadow var(--transition-interactive);
+  }
+  .cta-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .cta-card-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto var(--space-4);
+    background: var(--color-primary-light);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+  }
+  .cta-card h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-2);
+  }
+  .cta-card p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+    line-height: 1.6;
+  }
+  .scenario-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+  @media (max-width: 480px) {
+    .scenario-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="site-header">
+  <nav class="nav-container">
+    <a href="./index.html" class="nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-label="Voyage Financing">
+        <rect width="36" height="36" rx="8" fill="var(--color-primary)"/>
+        <path d="M8 14L18 26L28 14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 10h16" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <circle cx="18" cy="10" r="2" fill="white" opacity="0.8"/>
+      </svg>
+      <span>Voyage Financing</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="./affordability.html">Affordability Calculator</a></li>
+      <li><a href="./rates.html">Today's Rates</a></li>
+      <li><a href="./compare.html">Compare Lenders</a></li>
+      <li><a href="./benefits.html">Benefits</a></li>
+      <li><a href="./about.html">About</a></li>
+      <li><a href="./faq.html">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tel:+18005551234" class="nav-phone">(800) 555-1234</a>
+      <button class="nav-signin">Sign in</button>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="./rates.html" class="btn btn-primary btn-sm">Get Started</a>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <h1>Today's Mortgage Rates</h1>
+    <p>Transparent pricing, updated in real time. See what you'd actually pay — no bait-and-switch, no hidden fees.</p>
+  </div>
+</section>
+
+<!-- MAIN RATE DISPLAY -->
+<section class="section" style="background: var(--color-bg);">
+  <div class="container">
+
+    <!-- Rate Hero Card -->
+    <div class="rate-hero-card" style="max-width: 800px; margin: 0 auto var(--space-8);">
+      <div class="result-label" style="font-size: var(--text-base); margin-bottom: var(--space-2);">30-Year Fixed Rate</div>
+      <div class="rate-big" id="main-rate">6.250%</div>
+      <div class="result-sublabel" style="font-size: var(--text-sm); margin-top: var(--space-1);" id="main-apr">6.380% APR</div>
+      <div class="zero-fees-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        $0 Lender Fees
+      </div>
+      <div class="rate-types">
+        <div class="rate-type-card active" data-rate-type="30fixed">
+          <div class="rate-type-name">30-Year Fixed</div>
+          <div class="rate-type-value">6.250%</div>
+          <div class="rate-type-apr">6.380% APR</div>
+        </div>
+        <div class="rate-type-card" data-rate-type="15fixed">
+          <div class="rate-type-name">15-Year Fixed</div>
+          <div class="rate-type-value">5.625%</div>
+          <div class="rate-type-apr">5.790% APR</div>
+        </div>
+        <div class="rate-type-card" data-rate-type="arm">
+          <div class="rate-type-name">7/1 ARM</div>
+          <div class="rate-type-value">5.875%</div>
+          <div class="rate-type-apr">6.210% APR</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario Inputs -->
+    <div class="rates-layout" style="max-width: 800px; margin: 0 auto var(--space-8);">
+      <div class="tool-card">
+        <h3 style="font-size: var(--text-lg); margin-bottom: var(--space-6);">Your Scenario</h3>
+        <div class="scenario-row">
+          <div class="form-group">
+            <label for="home-value">Home Value</label>
+            <input type="text" id="home-value" class="form-input" value="$500,000">
+          </div>
+          <div class="form-group">
+            <label for="down-payment">Down Payment</label>
+            <input type="text" id="down-payment" class="form-input" value="$100,000">
+          </div>
+        </div>
+        <div class="scenario-row">
+          <div class="form-group">
+            <label for="property-type">Property Type</label>
+            <select id="property-type" class="form-select">
+              <option value="single">Single Family Home</option>
+              <option value="condo">Condo</option>
+              <option value="townhouse">Townhouse</option>
+              <option value="multi">Multi-Family (2-4 units)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="loan-type">Loan Type</label>
+            <select id="loan-type" class="form-select">
+              <option value="purchase">Purchase</option>
+              <option value="refinance">Refinance</option>
+              <option value="cashout">Cash-Out Refinance</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <h3 style="font-size: var(--text-lg); margin-bottom: var(--space-4);">Your Estimate</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4);">
+          <div class="result-item" style="background: var(--color-primary-light); border-radius: var(--radius-lg); padding: var(--space-4);">
+            <div class="result-label">Loan Amount</div>
+            <div class="result-value" id="scenario-loan">$400,000</div>
+          </div>
+          <div class="result-item" style="background: var(--color-primary-light); border-radius: var(--radius-lg); padding: var(--space-4);">
+            <div class="result-label">Est. Monthly</div>
+            <div class="result-value" id="scenario-monthly">$2,463</div>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+          <div class="result-item" style="background: var(--color-primary-light); border-radius: var(--radius-lg); padding: var(--space-4);">
+            <div class="result-label">Down Payment %</div>
+            <div class="result-value" id="scenario-pct">20%</div>
+          </div>
+          <div class="result-item" style="background: var(--color-primary-light); border-radius: var(--radius-lg); padding: var(--space-4);">
+            <div class="result-label">Est. Closing Costs</div>
+            <div class="result-value" id="scenario-closing">$10,000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- $0 Lender Fees Callout -->
+    <div class="zero-fees-callout">
+      <h3>$0 Lender Fees. Seriously.</h3>
+      <p>Unlike most lenders who charge $1,000–$3,000+ in origination and processing fees, Voyage charges nothing. That means more money stays in your pocket at the closing table.</p>
+    </div>
+
+    <!-- Buy a Lower Rate -->
+    <div class="points-section" style="max-width: 800px; margin: 0 auto var(--space-8);">
+      <h3 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Buy a Lower Rate</h3>
+      <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-4);">Paying discount points upfront can lower your interest rate for the life of the loan. Drag the slider to see the tradeoff.</p>
+      <div class="form-group" style="margin-bottom: var(--space-2);">
+        <label for="points-slider">Discount Points</label>
+        <div style="display: flex; align-items: center; gap: var(--space-4);">
+          <input type="range" id="points-slider" class="range-slider" min="0" max="3" step="0.25" value="0" style="flex: 1;">
+          <span id="points-value" style="font-family: var(--font-display); font-weight: 700; font-size: var(--text-lg); min-width: 60px; text-align: right; color: var(--color-text);">0 pts</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: var(--text-xs); color: var(--color-text-faint); margin-top: var(--space-1);">
+          <span>0 points (no cost)</span>
+          <span>3 points (max savings)</span>
+        </div>
+      </div>
+      <div class="points-display">
+        <div class="points-item">
+          <div class="points-label">Rate</div>
+          <div class="points-rate" id="points-rate">6.250%</div>
+        </div>
+        <div class="points-item">
+          <div class="points-label">Upfront Cost</div>
+          <div class="points-rate" id="points-upfront">$0</div>
+          <div class="points-cost" id="points-upfront-note">No additional cost</div>
+        </div>
+        <div class="points-item">
+          <div class="points-label">Monthly Payment</div>
+          <div class="points-rate" id="points-monthly">$2,463</div>
+          <div class="points-cost" id="points-savings">—</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- RATE GLOSSARY -->
+<section class="section-sm" style="background: var(--color-surface-2);">
+  <div class="container">
+    <h2 style="font-size: var(--text-xl); text-align: center; margin-bottom: var(--space-8);">Rate Glossary</h2>
+    <div class="glossary-grid">
+      <div class="glossary-item">
+        <h4>Interest Rate</h4>
+        <p>The percentage charged by the lender for borrowing money. This is the base cost of your loan and determines how much interest accrues each month on your remaining balance.</p>
+      </div>
+      <div class="glossary-item">
+        <h4>APR (Annual Percentage Rate)</h4>
+        <p>The total yearly cost of borrowing, including the interest rate plus other charges like prepaid interest and third-party fees. APR gives you a more complete picture of what you'll pay.</p>
+      </div>
+      <div class="glossary-item">
+        <h4>Closing Costs</h4>
+        <p>Fees paid when your mortgage closes, including appraisal, title insurance, escrow, and recording fees. Typically 2–5% of the home price. Voyage charges $0 in lender fees.</p>
+      </div>
+      <div class="glossary-item">
+        <h4>Points & Credits</h4>
+        <p>Discount points are upfront fees you pay to lower your interest rate (1 point = 1% of the loan). Lender credits work in reverse — the lender covers some closing costs in exchange for a slightly higher rate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA OPTIONS -->
+<section class="section" style="background: var(--color-bg);">
+  <div class="container">
+    <h2 style="font-size: var(--text-xl); text-align: center; margin-bottom: var(--space-3);">What would you like to do next?</h2>
+    <p style="font-size: var(--text-base); color: var(--color-text-muted); text-align: center; max-width: 48ch; margin: 0 auto var(--space-8);">Choose the option that works best for you. No pressure, no commitment.</p>
+    <div class="cta-cards">
+      <div class="cta-card">
+        <div class="cta-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+        </div>
+        <h3>Get Estimate via Email</h3>
+        <p>We'll send you a detailed rate estimate customized to your scenario — no login required.</p>
+        <a href="#" class="btn btn-primary btn-sm" target="_blank">Send My Estimate</a>
+      </div>
+      <div class="cta-card">
+        <div class="cta-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <h3>Review with an Advisor</h3>
+        <p>Talk through your options with a Voyage mortgage advisor. Average wait time: less than 1 minute.</p>
+        <a href="tel:+18005551234" class="btn btn-secondary btn-sm">Call (800) 555-1234</a>
+      </div>
+      <div class="cta-card">
+        <div class="cta-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        </div>
+        <h3>Track Rates</h3>
+        <p>Get daily or weekly rate alerts delivered to your inbox so you can lock in at the perfect moment.</p>
+        <a href="#" class="btn btn-secondary btn-sm" target="_blank">Set Up Alerts</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section class="section-sm" style="background: var(--color-surface-2);">
+  <div class="container" style="text-align: center;">
+    <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-2);">Questions about rates?</p>
+    <p style="font-size: var(--text-xl); font-family: var(--font-display); font-weight: 700;">
+      <a href="tel:+18005551234" style="color: var(--color-text);">(800) 555-1234</a>
+    </p>
+    <p style="font-size: var(--text-xs); color: var(--color-text-faint); margin-top: var(--space-1);">Average wait time: less than 1 minute</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="./index.html" class="nav-logo" style="margin-bottom: var(--space-3); display: inline-flex;">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-label="Voyage Financing">
+            <rect width="36" height="36" rx="8" fill="var(--color-primary)"/>
+            <path d="M8 14L18 26L28 14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 10h16" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <circle cx="18" cy="10" r="2" fill="white" opacity="0.8"/>
+          </svg>
+          <span>Voyage Financing</span>
+        </a>
+        <p>Making homeownership easier, more transparent, and more affordable for everyone.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="./affordability.html">Affordability Calculator</a></li>
+          <li><a href="./rates.html">Get Pre-Approved</a></li>
+          <li><a href="./rates.html">Today's Rates</a></li>
+          <li><a href="./compare.html">Compare Lenders</a></li>
+          <li><a href="./faq.html">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./benefits.html">Benefits & Features</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Licenses</a></li>
+          <li><a href="#">Equal Housing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Voyage Financing LLC. All rights reserved. NMLS #XXXXXXX. Equal Housing Lender.</p>
+      <div class="footer-legal">
+        <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Theme Toggle
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  function updateIcon(){
+    if(!t)return;
+    t.innerHTML=d==='dark'?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  }
+  updateIcon();
+  t&&t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);updateIcon();});
+})();
+
+// Sticky Header
+const header=document.getElementById('site-header');
+window.addEventListener('scroll',()=>{header&&header.classList.toggle('scrolled',window.scrollY>10);},{passive:true});
+
+// Mobile Menu
+const menuBtn=document.getElementById('mobile-menu-btn');
+const navLinks=document.getElementById('nav-links');
+menuBtn&&menuBtn.addEventListener('click',()=>{navLinks.classList.toggle('open');});
+
+// ===== RATES PAGE LOGIC =====
+const fmt = v => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(v);
+
+const rateData = {
+  '30fixed': { rate: 6.250, apr: 6.380, name: '30-Year Fixed', term: 30 },
+  '15fixed': { rate: 5.625, apr: 5.790, name: '15-Year Fixed', term: 15 },
+  'arm':     { rate: 5.875, apr: 6.210, name: '7/1 ARM',       term: 30 }
+};
+
+let currentType = '30fixed';
+
+// Rate type selection
+document.querySelectorAll('.rate-type-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.rate-type-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    currentType = card.dataset.rateType;
+    const data = rateData[currentType];
+    document.getElementById('main-rate').textContent = data.rate.toFixed(3) + '%';
+    document.getElementById('main-apr').textContent = data.apr.toFixed(3) + '% APR';
+    updateScenario();
+    updatePoints();
+  });
+});
+
+// Parse currency input
+function parseCurrency(str) {
+  return parseInt(str.replace(/[^0-9]/g, '')) || 0;
+}
+
+// Format input on blur
+function formatInput(el) {
+  el.addEventListener('blur', () => {
+    const val = parseCurrency(el.value);
+    if (val > 0) el.value = fmt(val);
+  });
+  el.addEventListener('focus', () => {
+    const val = parseCurrency(el.value);
+    el.value = val > 0 ? val : '';
+  });
+}
+
+const homeValueInput = document.getElementById('home-value');
+const downPaymentInput = document.getElementById('down-payment');
+
+formatInput(homeValueInput);
+formatInput(downPaymentInput);
+
+function updateScenario() {
+  const homeValue = parseCurrency(homeValueInput.value);
+  const downPayment = parseCurrency(downPaymentInput.value);
+  const loan = Math.max(0, homeValue - downPayment);
+  const data = rateData[currentType];
+  const r = (data.rate / 100) / 12;
+  const n = data.term * 12;
+  const monthly = loan > 0 ? loan * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1) : 0;
+  const pct = homeValue > 0 ? Math.round((downPayment / homeValue) * 100) : 0;
+  const closing = Math.round(homeValue * 0.025);
+
+  document.getElementById('scenario-loan').textContent = fmt(loan);
+  document.getElementById('scenario-monthly').textContent = fmt(Math.round(monthly));
+  document.getElementById('scenario-pct').textContent = pct + '%';
+  document.getElementById('scenario-closing').textContent = fmt(closing);
+}
+
+[homeValueInput, downPaymentInput,
+ document.getElementById('property-type'),
+ document.getElementById('loan-type')].forEach(el => {
+  el.addEventListener('input', updateScenario);
+  el.addEventListener('change', updateScenario);
+});
+
+// Points slider
+const pointsSlider = document.getElementById('points-slider');
+const pointsValue = document.getElementById('points-value');
+const pointsRate = document.getElementById('points-rate');
+const pointsUpfront = document.getElementById('points-upfront');
+const pointsUpfrontNote = document.getElementById('points-upfront-note');
+const pointsMonthly = document.getElementById('points-monthly');
+const pointsSavings = document.getElementById('points-savings');
+
+function updatePoints() {
+  const points = parseFloat(pointsSlider.value);
+  const data = rateData[currentType];
+  const adjustedRate = data.rate - (points * 0.25);
+  const homeValue = parseCurrency(homeValueInput.value);
+  const downPayment = parseCurrency(downPaymentInput.value);
+  const loan = Math.max(0, homeValue - downPayment);
+  const cost = Math.round(loan * (points / 100));
+
+  const r = (adjustedRate / 100) / 12;
+  const n = data.term * 12;
+  const monthly = loan > 0 ? loan * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1) : 0;
+
+  // Base monthly for comparison
+  const rBase = (data.rate / 100) / 12;
+  const baseMonthly = loan > 0 ? loan * (rBase * Math.pow(1 + rBase, n)) / (Math.pow(1 + rBase, n) - 1) : 0;
+  const monthlySavings = baseMonthly - monthly;
+
+  pointsValue.textContent = points.toFixed(points % 1 === 0 ? 0 : 2) + ' pts';
+  pointsRate.textContent = adjustedRate.toFixed(3) + '%';
+  pointsUpfront.textContent = fmt(cost);
+  pointsUpfrontNote.textContent = cost === 0 ? 'No additional cost' : (points.toFixed(points % 1 === 0 ? 0 : 2) + '% of loan amount');
+  pointsMonthly.textContent = fmt(Math.round(monthly));
+  pointsSavings.textContent = monthlySavings > 0 ? ('Save ' + fmt(Math.round(monthlySavings)) + '/mo') : '—';
+}
+
+pointsSlider.addEventListener('input', updatePoints);
+
+// Initialize
+updateScenario();
+updatePoints();
+</script>
+</body>
+</html>

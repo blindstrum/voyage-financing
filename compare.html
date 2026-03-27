@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+   ______                            __
+  / ____/___  ____ ___  ____  __  __/ /____  _____
+ / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
+\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
+                    /_/
+        Created with Perplexity Computer
+        https://www.perplexity.ai/computer
+-->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare Mortgage Lenders — Voyage Financing</title>
+<meta name="description" content="See how 50+ mortgage lenders stack up on rates today. Compare side-by-side and find the best deal for your home purchase.">
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./base.css">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="site-header">
+  <nav class="nav-container">
+    <a href="./index.html" class="nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-label="Voyage Financing">
+        <rect width="36" height="36" rx="8" fill="var(--color-primary)"/>
+        <path d="M8 14L18 26L28 14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 10h16" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <circle cx="18" cy="10" r="2" fill="white" opacity="0.8"/>
+      </svg>
+      <span>Voyage Financing</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="./affordability.html">Affordability Calculator</a></li>
+      <li><a href="./rates.html">Today's Rates</a></li>
+      <li><a href="./compare.html">Compare Lenders</a></li>
+      <li><a href="./benefits.html">Benefits</a></li>
+      <li><a href="./about.html">About</a></li>
+      <li><a href="./faq.html">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tel:+18005551234" class="nav-phone">(800) 555-1234</a>
+      <button class="nav-signin">Sign in</button>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="./rates.html" class="btn btn-primary btn-sm">Get Started</a>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <h1>Compare Mortgage Lenders</h1>
+    <p>See how 50+ lenders stack up on rates today. Transparency isn't just our value — it's our competitive advantage.</p>
+  </div>
+</section>
+
+<!-- RATE RANGE & LEGEND -->
+<section class="section" style="background: var(--color-surface);">
+  <div class="container-narrow">
+    <div class="tool-card" style="text-align: center; margin-bottom: var(--space-8);">
+      <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-2);">Current 30-Year Fixed Rate Range</p>
+      <div class="rate-big" style="margin-bottom: var(--space-3);">6.21% — 6.91%</div>
+      <p style="font-size: var(--text-xs); color: var(--color-text-faint);">Based on $500K purchase · $100K down · 740+ credit score · Updated March 27, 2026</p>
+      <div style="margin-top: var(--space-6); display: flex; justify-content: center; flex-wrap: wrap;">
+        <span class="rate-tier"><span class="rate-tier-dot low"></span> Low (below 6.35%)</span>
+        <span class="rate-tier"><span class="rate-tier-dot avg"></span> Average (6.35% – 6.65%)</span>
+        <span class="rate-tier"><span class="rate-tier-dot high"></span> High (above 6.65%)</span>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="tool-card" style="margin-bottom: var(--space-10);">
+      <h2 style="font-size: var(--text-lg); margin-bottom: var(--space-6);">Customize Your Comparison</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+        <div class="form-group">
+          <label for="compare-location">Location</label>
+          <select id="compare-location" class="form-select">
+            <option>Texas</option>
+            <option>California</option>
+            <option>New York</option>
+            <option>Florida</option>
+            <option>Colorado</option>
+            <option>Washington</option>
+            <option>Arizona</option>
+            <option>Georgia</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="compare-credit">Credit Score</label>
+          <select id="compare-credit" class="form-select">
+            <option>740+</option>
+            <option>720–739</option>
+            <option>700–719</option>
+            <option>680–699</option>
+            <option>660–679</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="compare-price">Purchase Price</label>
+          <input id="compare-price" class="form-input" type="text" value="$500,000">
+        </div>
+        <div class="form-group">
+          <label for="compare-down">Down Payment</label>
+          <input id="compare-down" class="form-input" type="text" value="$100,000">
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPARISON BARS -->
+    <h2 style="font-size: var(--text-xl); margin-bottom: var(--space-6);">Today's Lender Rates</h2>
+    <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-8);">30-year fixed rates for a $400,000 loan in Texas. Rates shown include discount points where applicable.</p>
+
+    <div class="compare-bar-container">
+      <div class="compare-bar-label">
+        <span class="bar-name" style="color: var(--color-primary); font-weight: 700;">★ Voyage Financing</span>
+        <span class="bar-rate" style="color: var(--color-primary); font-weight: 700;">6.21%</span>
+      </div>
+      <div class="compare-bar-track">
+        <div class="compare-bar-fill voyage" style="width: 62%;"></div>
+      </div>
+    </div>
+
+    <div class="compare-bar-container">
+      <div class="compare-bar-label">
+        <span class="bar-name">Better Mortgage</span>
+        <span class="bar-rate">6.33%</span>
+      </div>
+      <div class="compare-bar-track">
+        <div class="compare-bar-fill low" style="width: 66%;"></div>
+      </div>
+    </div>
+
+    <div class="compare-bar-container">
+      <div class="compare-bar-label">
+        <span class="bar-name">Ally Home</span>
+        <span class="bar-rate">6.38%</span>
+      </div>
+      <div class="compare-bar-track">
+        <div class="compare-bar-fill avg" style="width: 68%;"></div>
+      </div>
+    </div>
+
+    <div class="compare-bar-container">
+      <div class="compare-bar-label">
+        <span class="bar-name">Rocket Mortgage</span>
+        <span class="bar-rate">6.50%</span>
+      </div>
+      <div class="compare-bar-track">
+        <div class="compare-bar-fill avg" style="width: 72%;"></div>
+      </div>
+    </div>
+
+    <div class="compare-bar-container">
+      <div class="compare-bar-label">
+        <span class="bar-name">LoanDepot</span>
+        <span class="bar-rate">6.55%</span>
+      </div>
+      <div class="compare-bar-track">
+        <div class="compare-bar-fill avg" style="width: 74%;"></div>
+      </div>
+    </div>
+
+    <div class="compare-bar-container">
+      <div class="compare-bar-label">
+        <span class="bar-name">Chase Home Lending</span>
+        <span class="bar-rate">6.63%</span>
+      </div>
+      <div class="compare-bar-track">
+        <div class="compare-bar-fill avg" style="width: 77%;"></div>
+      </div>
+    </div>
+
+    <div class="compare-bar-container">
+      <div class="compare-bar-label">
+        <span class="bar-name">Wells Fargo</span>
+        <span class="bar-rate">6.75%</span>
+      </div>
+      <div class="compare-bar-track">
+        <div class="compare-bar-fill high" style="width: 82%;"></div>
+      </div>
+    </div>
+
+    <div class="compare-bar-container">
+      <div class="compare-bar-label">
+        <span class="bar-name">Bank of America</span>
+        <span class="bar-rate">6.91%</span>
+      </div>
+      <div class="compare-bar-track">
+        <div class="compare-bar-fill high" style="width: 90%;"></div>
+      </div>
+    </div>
+
+    <p style="font-size: var(--text-xs); color: var(--color-text-faint); margin-top: var(--space-6); text-align: center;">Rates are illustrative and updated periodically. Your actual rate depends on credit, loan amount, and other factors. Lender names shown for comparison purposes.</p>
+  </div>
+</section>
+
+<!-- ANALYSIS -->
+<section class="section" style="background: var(--color-bg);">
+  <div class="container-narrow">
+    <h2 style="font-size: var(--text-xl); margin-bottom: var(--space-6);">Rate Insights</h2>
+    <div class="mission-box" style="margin-bottom: var(--space-8);">
+      <h3>Why Voyage Is Lower</h3>
+      <p>Traditional lenders bake in origination fees, marketing costs, and commission structures that inflate your rate. Voyage Financing operates with zero lender fees and a lean technology-first model, passing the savings directly to you. The result: rates that are typically 0.3% – 0.5% below the industry average.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);">
+      <div class="feature-card">
+        <h3>Market Commentary</h3>
+        <p>Mortgage rates have stabilized in the mid-6% range after the Fed's recent pause. Borrowers with strong credit profiles are seeing the most competitive offers, especially from online-first lenders that carry lower overhead. The spread between the best and worst rates remains wide — over 0.70% — making comparison shopping essential.</p>
+      </div>
+      <div class="feature-card">
+        <h3>What Moves Rates</h3>
+        <p>Mortgage rates track the 10-year Treasury yield, but individual lender pricing depends on their margin, overhead, and appetite for new loans. Factors like your credit score, down payment, loan amount, and property type all affect the rate you'll be offered. Shopping multiple lenders can save you tens of thousands over a 30-year loan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ SUBSECTION -->
+<section class="section-sm" style="background: var(--color-surface-2);">
+  <div class="container-narrow">
+    <h2 style="font-size: var(--text-xl); margin-bottom: var(--space-6);">Rate Shopping FAQ</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Does shopping for rates hurt my credit score?
+        <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+      <div class="faq-answer">
+        <p>No. Multiple mortgage inquiries within a 14–45 day window (depending on the scoring model) are treated as a single inquiry. The credit bureaus expect you to rate shop, and they won't penalize you for it.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        How often do these rates change?
+        <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+      <div class="faq-answer">
+        <p>Mortgage rates can change daily — sometimes multiple times a day — based on bond market movements. The rates shown here are updated periodically to reflect current market conditions. For the most up-to-date rate, request a personalized quote.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Why is there such a big spread between lenders?
+        <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+      <div class="faq-answer">
+        <p>Each lender sets its own margin on top of the wholesale rate. Lenders with high overhead — brick-and-mortar branches, large sales teams, heavy advertising — need to charge more. Online-first lenders like Voyage can offer lower rates because our costs are dramatically lower.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Should I just pick the lowest rate?
+        <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+      <div class="faq-answer">
+        <p>Rate matters, but so do fees. Some lenders advertise low rates but charge thousands in origination fees or discount points to get there. Always compare the APR (which includes fees) and the Loan Estimate, not just the interest rate. At Voyage, what you see is what you get — no hidden fees.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band section">
+  <div class="container">
+    <h2>Get Your Personalized Rate</h2>
+    <p>See exactly what you'd pay with Voyage — no commitment, no credit hit to check.</p>
+    <a href="./rates.html" class="btn btn-lg">Check My Rate</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="./index.html" class="nav-logo" style="margin-bottom: var(--space-3); display: inline-flex;">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-label="Voyage Financing">
+            <rect width="36" height="36" rx="8" fill="var(--color-primary)"/>
+            <path d="M8 14L18 26L28 14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 10h16" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <circle cx="18" cy="10" r="2" fill="white" opacity="0.8"/>
+          </svg>
+          <span>Voyage Financing</span>
+        </a>
+        <p>Making homeownership easier, more transparent, and more affordable for everyone.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="./affordability.html">Affordability Calculator</a></li>
+          <li><a href="./rates.html">Get Pre-Approved</a></li>
+          <li><a href="./rates.html">Today's Rates</a></li>
+          <li><a href="./compare.html">Compare Lenders</a></li>
+          <li><a href="./faq.html">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./benefits.html">Benefits & Features</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Licenses</a></li>
+          <li><a href="#">Equal Housing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Voyage Financing LLC. All rights reserved. NMLS #XXXXXXX. Equal Housing Lender.</p>
+      <div class="footer-legal">
+        <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Theme Toggle
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  function updateIcon(){
+    if(!t)return;
+    t.innerHTML=d==='dark'?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  }
+  updateIcon();
+  t&&t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);updateIcon();});
+})();
+
+// Sticky Header
+const header=document.getElementById('site-header');
+window.addEventListener('scroll',()=>{header&&header.classList.toggle('scrolled',window.scrollY>10);},{passive:true});
+
+// Mobile Menu
+const menuBtn=document.getElementById('mobile-menu-btn');
+const navLinks=document.getElementById('nav-links');
+menuBtn&&menuBtn.addEventListener('click',()=>{navLinks.classList.toggle('open');});
+
+// FAQ Accordion
+document.querySelectorAll('.faq-question').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.parentElement;
+    const isOpen=item.classList.contains('open');
+    item.classList.toggle('open');
+    btn.setAttribute('aria-expanded',!isOpen);
+  });
+});
+</script>
+</body>
+</html>
