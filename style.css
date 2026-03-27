@@ -270,6 +270,11 @@ a:hover {
 .nav-logo svg {
   flex-shrink: 0;
 }
+.nav-logo img {
+  flex-shrink: 0;
+  max-height: 50px;
+  width: auto;
+}
 
 .nav-links {
   display: flex;
@@ -1235,6 +1240,11 @@ a:hover {
   cursor: pointer;
   color: var(--color-text-muted);
   border-radius: var(--radius-md);
+}
+@media (max-width: 767px) {
+  .theme-toggle {
+    display: none;
+  }
 }
 .theme-toggle:hover {
   color: var(--color-text);
