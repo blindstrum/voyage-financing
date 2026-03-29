@@ -20,11 +20,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Voyage Financing — Low Rates, Total Transparency</title>
 <meta name="description" content="Voyage Financing makes buying a home easy, honest, and way less expensive. Low rates, no hidden fees, and 98% on-time closings.">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./base.css">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+
+<!-- STARFIELD -->
+<div class="starfield"></div>
+<div class="page-content">
+
 
 <!-- UTILITY BAR -->
 <div class="utility-bar">
@@ -52,7 +57,14 @@
 <header class="site-header" id="site-header">
   <nav class="nav-container">
     <a href="./index.html" class="nav-logo">
-      <img src="./assets/logo-dark.svg" alt="Voyage Home Loans" height="45" style="height: 45px; width: auto;">
+      <svg class="logo-icon" viewBox="0 0 36 36" fill="none" style="width: 36px; height: 36px; flex-shrink: 0;">
+        <circle cx="18" cy="18" r="16" stroke="var(--color-primary)" stroke-width="1.5" opacity="0.3"/>
+        <circle cx="18" cy="18" r="10" stroke="var(--color-primary)" stroke-width="1" opacity="0.5"/>
+        <path d="M18 6 L20 16 L18 28 L16 16 Z" fill="var(--color-primary)" opacity="0.8"/>
+        <path d="M6 18 L16 16 L28 18 L16 20 Z" fill="var(--color-primary)" opacity="0.6"/>
+        <circle cx="18" cy="18" r="3" fill="var(--color-primary)"/>
+      </svg>
+      Voyage
     </a>
     <ul class="nav-links" id="nav-links">
       <li><a href="./affordability.html">Affordability Calculator</a></li>
@@ -64,9 +76,6 @@
     </ul>
     <div class="nav-actions">
       <a href="tel:+14143096013" class="nav-phone"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(414) 309-6013</a>
-      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
       <a href="./apply.html" class="btn btn-primary btn-sm">Apply Now</a>
       <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
         <span></span><span></span><span></span>
@@ -78,25 +87,27 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg">
-    <img src="./assets/hero-couple.jpg" alt="Happy couple celebrating their new home purchase" width="1920" height="1080" loading="eager">
+    <img src="./assets/space-hero.png" alt="Deep space with Earth" width="1920" height="1080" loading="eager">
   </div>
-  <div class="hero-overlay"></div>
   <div class="hero-content">
-    <span class="hero-eyebrow">Voyage Financing</span>
-    <h1>Low Rates, Total Transparency</h1>
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      Mission Control for Home Loans
+    </div>
+    <h1>Navigate Your Way <span class="highlight">Home.</span></h1>
     <p>Voyage Financing makes buying a home easy, honest, and way less expensive. No hidden fees. No bait-and-switch. Just the best rate we can find you.</p>
-    <div style="display: flex; gap: var(--space-4); flex-wrap: wrap;">
-      <a href="./apply.html" class="btn btn-primary btn-lg">Apply Now</a>
-      <a href="tel:+14143096013" class="btn btn-lg" style="background: transparent; border: 2px solid #fff; color: #fff;">Contact Us</a>
+    <div class="hero-buttons">
+      <a href="./apply.html" class="btn btn-primary btn-lg">Launch Your Application</a>
+      <a href="./rates.html" class="btn btn-secondary btn-lg">See Today's Rates</a>
     </div>
   </div>
 </section>
 
 <!-- VALUE PROPOSITIONS -->
-<section class="section" style="background: var(--color-bg);">
+<section class="section" >
   <div class="container">
-    <span class="eyebrow" style="text-align: center;">Why Choose Us</span>
-    <h2 style="font-size: var(--text-xl); text-align: center; margin-bottom: var(--space-10);">Why more people are switching</h2>
+    <span class="eyebrow" style="text-align: center;">Why Voyage</span>
+    <h2 style="font-size: var(--text-xl); text-align: center; margin-bottom: var(--space-10); color: #fff;">Built for a <span class="highlight">smoother orbit.</span></h2>
     <div class="value-props-grid">
       <div class="dark-card fade-in">
         <div class="card-icon">
@@ -124,7 +135,7 @@
 </section>
 
 <!-- TRUERATE TEASER -->
-<section class="section-sm" style="background: var(--color-bg);">
+<section class="section-sm" >
   <div class="container" style="text-align: center;">
     <p style="font-size: var(--text-lg); color: var(--color-text-muted); max-width: 48ch; margin: 0 auto var(--space-4);">We want you to get a great rate, even if it's not with us.</p>
     <a href="./compare.html" class="btn btn-secondary">Compare Lenders</a>
@@ -205,7 +216,7 @@
 <!-- TESTIMONIALS -->
 <section class="testimonials section">
   <div class="container">
-    <h2 style="font-size: var(--text-xl); text-align: center; margin-bottom: var(--space-10);">What our customers are saying</h2>
+    <h2 style="font-size: var(--text-xl); text-align: center; margin-bottom: var(--space-10); color: #fff;">What our customers are saying</h2>
     <div class="testimonials-grid">
       <div class="testimonial-card fade-in">
         <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
@@ -227,9 +238,9 @@
 </section>
 
 <!-- AFFORDABILITY TEASER -->
-<section class="section-sm" style="background: var(--color-surface-2);">
+<section class="section-sm" >
   <div class="container" style="text-align: center;">
-    <h2 style="font-size: var(--text-xl); margin-bottom: var(--space-3);">How much house can I afford?</h2>
+    <h2 style="font-size: var(--text-xl); margin-bottom: var(--space-3); color: #fff;">How much house can I afford?</h2>
     <p style="font-size: var(--text-base); color: var(--color-text-muted); max-width: 48ch; margin: 0 auto var(--space-6);">Use our free calculator to find out your personalized home buying budget in less than a minute.</p>
     <a href="./affordability.html" class="btn btn-primary">Try the Calculator</a>
   </div>
@@ -273,7 +284,14 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="./index.html" class="nav-logo" style="margin-bottom: var(--space-3); display: inline-flex;">
-          <img src="./assets/logo-dark.svg" alt="Voyage Home Loans" height="35" style="height: 35px; width: auto;">
+          <svg class="logo-icon" viewBox="0 0 36 36" fill="none" style="width: 28px; height: 28px; flex-shrink: 0;">
+        <circle cx="18" cy="18" r="16" stroke="var(--color-primary)" stroke-width="1.5" opacity="0.3"/>
+        <circle cx="18" cy="18" r="10" stroke="var(--color-primary)" stroke-width="1" opacity="0.5"/>
+        <path d="M18 6 L20 16 L18 28 L16 16 Z" fill="var(--color-primary)" opacity="0.8"/>
+        <path d="M6 18 L16 16 L28 18 L16 20 Z" fill="var(--color-primary)" opacity="0.6"/>
+        <circle cx="18" cy="18" r="3" fill="var(--color-primary)"/>
+      </svg>
+          Voyage
         </a>
         <p>Your new home is closer than you think. We're here to guide you every step of the way. Let's get you moving.</p>
         <div style="margin-top: var(--space-4);">
@@ -308,18 +326,7 @@
 </footer>
 
 <script>
-// Theme Toggle
-(function(){
-  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
-  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
-  r.setAttribute('data-theme',d);
-  function updateIcon(){
-    if(!t)return;
-    t.innerHTML=d==='dark'?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-  }
-  updateIcon();
-  t&&t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);updateIcon();});
-})();
+// Space theme — no toggle needed
 
 // Sticky Header
 const header=document.getElementById('site-header');
@@ -355,6 +362,8 @@ downSlider&&downSlider.addEventListener('input',updateDemo);
 </script>
 
 <!-- SCROLL TO TOP -->
+</div><!-- /.page-content -->
+
 <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>

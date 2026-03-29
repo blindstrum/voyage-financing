@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voyage Home Loans — Space Theme Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ===== SPACE THEME TOKENS ===== */
+:root {
+  /* Core space palette */
+  --space-void:       #06091A;
+  --space-deep:       #0B1128;
+  --space-mid:        #111B3A;
+  --space-surface:    #162040;
+  --space-card:       #1A2550;
+  --space-border:     rgba(255,255,255,0.08);
+  --space-border-glow:rgba(110,140,255,0.15);
+
+  /* Text */
+  --text-bright:      #FFFFFF;
+  --text-main:        #C8D0E8;
+  --text-muted:       #7B89B0;
+  --text-faint:       #4A5580;
+
+  /* Accent — cosmic teal (keeping brand continuity) */
+  --accent:           #3ECFCF;
+  --accent-hover:     #50E0E0;
+  --accent-glow:      rgba(62,207,207,0.3);
+
+  /* Secondary — nebula purple */
+  --nebula:           #8B5CF6;
+  --nebula-glow:      rgba(139,92,246,0.2);
+
+  /* Warm accent — star gold */
+  --star-gold:        #F5C842;
+  --star-gold-glow:   rgba(245,200,66,0.15);
+
+  /* Fonts */
+  --font-display: 'Space Grotesk', 'Montserrat', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--space-void);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ===== ANIMATED STARFIELD (CSS only) ===== */
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 80% 50%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 80%, rgba(110,140,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 90%, rgba(139,92,246,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 15%, rgba(62,207,207,0.6) 0%, transparent 100%);
+  background-size: 250px 250px, 300px 350px, 350px 200px, 200px 300px, 400px 250px, 280px 400px, 320px 280px, 220px 330px;
+  animation: drift 120s linear infinite;
+}
+@keyframes drift {
+  from { transform: translateY(0); }
+  to { transform: translateY(-300px); }
+}
+
+/* Second layer — brighter, slower */
+.starfield::after {
+  content: '';
+  position: absolute;
+  inset: -300px 0 0 0;
+  background:
+    radial-gradient(2px 2px at 15% 25%, rgba(255,255,255,1) 0%, transparent 100%),
+    radial-gradient(2px 2px at 55% 65%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 85% 35%, rgba(62,207,207,0.8) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 85%, rgba(139,92,246,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 75% 15%, rgba(245,200,66,0.6) 0%, transparent 100%);
+  background-size: 500px 500px, 400px 600px, 600px 400px, 450px 550px, 550px 350px;
+  animation: drift 200s linear infinite;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== UTILITY BAR ===== */
+.utility-bar {
+  background: rgba(6,9,26,0.6);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--space-border);
+  padding: 8px 0;
+  font-size: 0.75rem;
+}
+.utility-bar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.utility-bar a, .utility-bar span {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.utility-bar a:hover { color: var(--accent); }
+.utility-bar svg { opacity: 0.6; }
+
+/* ===== NAV ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(6,9,26,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--space-border);
+  transition: background 0.3s;
+}
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-bright);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+}
+.nav-logo .logo-icon {
+  width: 36px;
+  height: 36px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text-bright); }
+.nav-links a.active { color: var(--accent); }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+.nav-phone {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+  background: rgba(62,207,207,0.1);
+  border: 1px solid rgba(62,207,207,0.2);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  transition: all 0.2s;
+}
+.nav-phone:hover {
+  background: var(--accent);
+  color: var(--space-void);
+  border-color: var(--accent);
+}
+@media (min-width: 1100px) {
+  .nav-phone { display: inline-flex; }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: all 0.25s;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--space-void);
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 0 24px var(--accent-glow), 0 0 60px rgba(62,207,207,0.15);
+  transform: translateY(-1px);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--text-bright);
+  border: 1.5px solid rgba(255,255,255,0.25);
+}
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(62,207,207,0.05);
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, var(--space-void) 0%, rgba(6,9,26,0.7) 50%, rgba(6,9,26,0.3) 100%),
+    linear-gradient(to top, var(--space-void) 0%, transparent 40%);
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+}
+.hero-eyebrow .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 12px var(--accent-glow); }
+  50% { opacity: 0.5; box-shadow: 0 0 24px var(--accent-glow); }
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  font-weight: 700;
+  color: var(--text-bright);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+}
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--nebula) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+  color: var(--text-muted);
+  max-width: 520px;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ===== SECTION STYLES ===== */
+.section {
+  padding: 5rem 1rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Eyebrow label */
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+.section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.5rem + 1.5vw, 2.75rem);
+  font-weight: 700;
+  color: var(--text-bright);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+}
+.section h2 .highlight {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--nebula) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.section > .container > p {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin-bottom: 3rem;
+}
+
+/* ===== FEATURE CARDS (WHY VOYAGE) ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.feature-card {
+  background: rgba(26,37,80,0.4);
+  border: 1px solid var(--space-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feature-card:hover {
+  border-color: var(--space-border-glow);
+  background: rgba(26,37,80,0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.feature-card:hover::before { opacity: 1; }
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: rgba(62,207,207,0.1);
+  border: 1px solid rgba(62,207,207,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: var(--accent);
+}
+.feature-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 0.75rem;
+}
+.feature-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+/* ===== STATS BAND ===== */
+.stats-band {
+  background: linear-gradient(135deg, var(--space-deep) 0%, var(--space-mid) 100%);
+  border-top: 1px solid var(--space-border);
+  border-bottom: 1px solid var(--space-border);
+  padding: 3rem 1rem;
+}
+.stats-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+.stat-item .stat-value {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+  font-weight: 700;
+  color: var(--text-bright);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.stat-item .stat-value .accent { color: var(--accent); }
+.stat-item .stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+/* ===== PHONE CTA ===== */
+.phone-cta {
+  background: var(--space-deep);
+  overflow: hidden;
+  border-top: 1px solid var(--space-border);
+}
+.phone-cta-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  min-height: 360px;
+}
+.phone-cta-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 2rem;
+  color: var(--text-bright);
+}
+.phone-cta-content .cta-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+.phone-cta-content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-bright);
+  margin-bottom: 1rem;
+}
+.phone-cta-content p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  max-width: 400px;
+}
+.phone-cta-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.phone-cta-number:hover { transform: translateX(4px); }
+.phone-cta-number .phone-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+.phone-cta-number .phone-icon svg { color: var(--space-void); }
+.phone-cta-number .phone-digits {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+.phone-cta-number .phone-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.phone-cta-image {
+  position: relative;
+  overflow: hidden;
+}
+.phone-cta-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.phone-cta-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--space-deep) 0%, transparent 40%);
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: var(--space-void);
+  border-top: 1px solid var(--space-border);
+  padding: 3rem 1rem 1.5rem;
+}
+.footer-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+.footer-brand p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 280px;
+  line-height: 1.6;
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.footer-heading {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-bright);
+  margin-bottom: 1rem;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 0.6rem; }
+.footer-links a {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--accent); }
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--space-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+.footer-bottom a {
+  color: var(--text-faint);
+  text-decoration: none;
+}
+.footer-bottom a:hover { color: var(--accent); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1023px) {
+  .nav-links { display: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 767px) {
+  .phone-cta-inner { grid-template-columns: 1fr; }
+  .phone-cta-image { height: 240px; order: -1; }
+  .phone-cta-image::after {
+    background: linear-gradient(to top, var(--space-deep) 10%, transparent 60%);
+  }
+  .phone-cta-content { text-align: center; align-items: center; padding: 2rem 1rem; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- STARFIELD -->
+<div class="starfield"></div>
+
+<div class="page-content">
+
+<!-- UTILITY BAR -->
+<div class="utility-bar">
+  <div class="utility-bar-inner">
+    <span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Menomonee Falls, WI
+    </span>
+    <span style="display: flex; gap: 1.5rem;">
+      <a href="tel:+14143096013">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (414) 309-6013
+      </a>
+      <a href="mailto:team@voyagefinancing.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        team@voyagefinancing.com
+      </a>
+    </span>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="#" class="nav-logo">
+      <!-- Inline rocket/compass logo -->
+      <svg class="logo-icon" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="16" stroke="var(--accent)" stroke-width="1.5" opacity="0.3"/>
+        <circle cx="18" cy="18" r="10" stroke="var(--accent)" stroke-width="1" opacity="0.5"/>
+        <path d="M18 6 L20 16 L18 28 L16 16 Z" fill="var(--accent)" opacity="0.8"/>
+        <path d="M6 18 L16 16 L28 18 L16 20 Z" fill="var(--accent)" opacity="0.6"/>
+        <circle cx="18" cy="18" r="3" fill="var(--accent)"/>
+      </svg>
+      Voyage
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Affordability Calculator</a></li>
+      <li><a href="#" class="active">Today's Rates</a></li>
+      <li><a href="#">Compare Lenders</a></li>
+      <li><a href="#">Benefits</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tel:+14143096013" class="nav-phone">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (414) 309-6013
+      </a>
+      <a href="#" class="btn btn-primary" style="font-size: 0.85rem; padding: 8px 20px;">Apply Now</a>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="./assets/space-hero.png" alt="Deep space with Earth" width="1920" height="1080">
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      Mission Control for Home Loans
+    </div>
+    <h1>Navigate Your Way <span class="highlight">Home.</span></h1>
+    <p>Voyage Financing makes buying a home easy, honest, and way less expensive. No hidden fees. No bait-and-switch. Just the best rate we can find you.</p>
+    <div class="hero-buttons">
+      <a href="#" class="btn btn-primary">Launch Your Application</a>
+      <a href="#" class="btn btn-outline">See Today's Rates</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY VOYAGE -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Why Voyage</div>
+    <h2>Built for a <span class="highlight">smoother orbit.</span></h2>
+    <p>Other lenders hide fees in the fine print. We put everything on the launchpad so you can see exactly what you're getting.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <h3>$0 Lender Fees — Always</h3>
+        <p>Zero origination fees. Zero processing fees. Zero junk fees. The money you save stays in your orbit.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3>Lock Your Rate in 60 Seconds</h3>
+        <p>Get a personalized rate in under a minute. No login required. No credit pull. No spam calls at lightspeed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Transparent Flight Plan</h3>
+        <p>See every cost upfront. Your closing disclosure will match your estimate — no last-minute surprises on landing day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<section class="stats-band">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-value"><span class="accent">$0</span></div>
+      <div class="stat-label">Lender Fees</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">60<span class="accent">s</span></div>
+      <div class="stat-label">To Get Your Rate</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">4.8<span class="accent">★</span></div>
+      <div class="stat-label">Customer Rating</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">3<span class="accent">x</span></div>
+      <div class="stat-label">Faster Than Average</div>
+    </div>
+  </div>
+</section>
+
+<!-- PHONE CTA -->
+<section class="phone-cta">
+  <div class="phone-cta-inner">
+    <div class="phone-cta-content">
+      <span class="cta-label">Talk to a real person</span>
+      <h2>Got questions?<br>We pick up the phone.</h2>
+      <p>No phone trees, no hold music. A licensed loan officer will walk you through your options in plain English.</p>
+      <a href="tel:+14143096013" class="phone-cta-number">
+        <span class="phone-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </span>
+        <span>
+          <span class="phone-digits">(414) 309-6013</span><br>
+          <span class="phone-sub">Average wait: under 1 minute</span>
+        </span>
+      </a>
+    </div>
+    <div class="phone-cta-image">
+      <img src="./assets/agent-headset.png" alt="Voyage advisor ready to help" width="600" height="800" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="margin-bottom: 0.75rem; display: inline-flex;">
+        <svg class="logo-icon" viewBox="0 0 36 36" fill="none" style="width: 28px; height: 28px;">
+          <circle cx="18" cy="18" r="16" stroke="var(--accent)" stroke-width="1.5" opacity="0.3"/>
+          <circle cx="18" cy="18" r="10" stroke="var(--accent)" stroke-width="1" opacity="0.5"/>
+          <path d="M18 6 L20 16 L18 28 L16 16 Z" fill="var(--accent)" opacity="0.8"/>
+          <path d="M6 18 L16 16 L28 18 L16 20 Z" fill="var(--accent)" opacity="0.6"/>
+          <circle cx="18" cy="18" r="3" fill="var(--accent)"/>
+        </svg>
+        Voyage
+      </a>
+      <p>Your new home is closer than you think. We're here to guide you every step of the way. Let's get you moving.</p>
+      <a href="#" class="btn btn-primary" style="font-size: 0.8rem; padding: 8px 20px;">Start Your Application</a>
+    </div>
+    <div>
+      <div class="footer-heading">Quicklinks</div>
+      <ul class="footer-links">
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Mortgage Calculators</a></li>
+        <li><a href="#">Mortgage FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Connect</div>
+      <ul class="footer-links">
+        <li><a href="tel:+14143096013">(414) 309-6013</a></li>
+        <li><a href="mailto:team@voyagefinancing.com">team@voyagefinancing.com</a></li>
+        <li>N88W16447 Main Street, Suite 200, Menomonee Falls, Wisconsin 53051</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>LL Financial LLC DBA Voyage Home Loans NMLS#2667229. Fair Housing Lender.</span>
+    <span>
+      <a href="#">Contact Us</a>
+    </span>
+  </div>
+</footer>
+
+</div><!-- /.page-content -->
+
+</body>
+</html>

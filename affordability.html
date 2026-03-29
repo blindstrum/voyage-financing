@@ -20,7 +20,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>How Much House Can I Afford? — Voyage Financing</title>
 <meta name="description" content="Use Voyage Financing's free affordability calculator to find out how much house you can afford based on your income, debts, and down payment.">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./base.css">
 <link rel="stylesheet" href="./style.css">
 <style>
@@ -100,6 +100,11 @@
 </head>
 <body>
 
+<!-- STARFIELD -->
+<div class="starfield"></div>
+<div class="page-content">
+
+
 <!-- UTILITY BAR -->
 <div class="utility-bar">
   <div class="utility-bar-inner">
@@ -126,7 +131,14 @@
 <header class="site-header" id="site-header">
   <nav class="nav-container">
     <a href="./index.html" class="nav-logo">
-      <img src="./assets/logo-dark.svg" alt="Voyage Home Loans" height="45" style="height: 45px; width: auto;">
+      <svg class="logo-icon" viewBox="0 0 36 36" fill="none" style="width: 36px; height: 36px; flex-shrink: 0;">
+        <circle cx="18" cy="18" r="16" stroke="var(--color-primary)" stroke-width="1.5" opacity="0.3"/>
+        <circle cx="18" cy="18" r="10" stroke="var(--color-primary)" stroke-width="1" opacity="0.5"/>
+        <path d="M18 6 L20 16 L18 28 L16 16 Z" fill="var(--color-primary)" opacity="0.8"/>
+        <path d="M6 18 L16 16 L28 18 L16 20 Z" fill="var(--color-primary)" opacity="0.6"/>
+        <circle cx="18" cy="18" r="3" fill="var(--color-primary)"/>
+      </svg>
+      Voyage
     </a>
     <ul class="nav-links" id="nav-links">
       <li><a href="./affordability.html">Affordability Calculator</a></li>
@@ -138,9 +150,6 @@
     </ul>
     <div class="nav-actions">
       <a href="tel:+14143096013" class="nav-phone"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(414) 309-6013</a>
-      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
       <a href="./apply.html" class="btn btn-primary btn-sm">Apply Now</a>
       <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
         <span></span><span></span><span></span>
@@ -159,7 +168,7 @@
 </section>
 
 <!-- CALCULATOR -->
-<section class="section" style="background: var(--color-bg);">
+<section class="section" >
   <div class="container">
     <div class="calc-layout">
 
@@ -262,7 +271,7 @@
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="section-sm" style="background: var(--color-surface-2);">
+<section class="section-sm" >
   <div class="container" style="text-align: center;">
     <h2 style="font-size: var(--text-xl); margin-bottom: var(--space-3);">Ready to make it official?</h2>
     <p style="font-size: var(--text-base); color: var(--color-text-muted); max-width: 48ch; margin: 0 auto var(--space-6);">Get pre-approved in minutes with no impact to your credit score. Our advisors are standing by to help you find the perfect home.</p>
@@ -279,7 +288,14 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="./index.html" class="nav-logo" style="margin-bottom: var(--space-3); display: inline-flex;">
-          <img src="./assets/logo-dark.svg" alt="Voyage Home Loans" height="35" style="height: 35px; width: auto;">
+          <svg class="logo-icon" viewBox="0 0 36 36" fill="none" style="width: 28px; height: 28px; flex-shrink: 0;">
+        <circle cx="18" cy="18" r="16" stroke="var(--color-primary)" stroke-width="1.5" opacity="0.3"/>
+        <circle cx="18" cy="18" r="10" stroke="var(--color-primary)" stroke-width="1" opacity="0.5"/>
+        <path d="M18 6 L20 16 L18 28 L16 16 Z" fill="var(--color-primary)" opacity="0.8"/>
+        <path d="M6 18 L16 16 L28 18 L16 20 Z" fill="var(--color-primary)" opacity="0.6"/>
+        <circle cx="18" cy="18" r="3" fill="var(--color-primary)"/>
+      </svg>
+          Voyage
         </a>
         <p>Your new home is closer than you think. We're here to guide you every step of the way. Let's get you moving.</p>
         <div style="margin-top: var(--space-4);">
@@ -314,18 +330,7 @@
 </footer>
 
 <script>
-// Theme Toggle
-(function(){
-  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
-  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
-  r.setAttribute('data-theme',d);
-  function updateIcon(){
-    if(!t)return;
-    t.innerHTML=d==='dark'?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-  }
-  updateIcon();
-  t&&t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);updateIcon();});
-})();
+// Space theme — no toggle needed
 
 // Sticky Header
 const header=document.getElementById('site-header');
@@ -420,6 +425,8 @@ calculate();
 </script>
 
 <!-- SCROLL TO TOP -->
+</div><!-- /.page-content -->
+
 <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
