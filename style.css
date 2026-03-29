@@ -279,7 +279,7 @@ a:hover {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--space-4);
   list-style: none;
 }
 
@@ -288,6 +288,7 @@ a:hover {
   font-weight: 500;
   color: var(--color-text-muted);
   text-decoration: none;
+  white-space: nowrap;
   transition: color var(--transition-interactive);
 }
 .nav-links a:hover,
@@ -299,17 +300,53 @@ a:hover {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  flex-shrink: 0;
 }
 
 .nav-phone {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  text-decoration: none;
-  font-weight: 500;
   display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-dark-teal);
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--color-primary-light);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  transition: background var(--transition-interactive), color var(--transition-interactive);
+  letter-spacing: 0.01em;
 }
-@media (min-width: 1024px) {
-  .nav-phone { display: inline; }
+.nav-phone svg {
+  flex-shrink: 0;
+}
+.nav-phone:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+@media (min-width: 1100px) {
+  .nav-phone { display: inline-flex; }
+}
+
+/* Dark mode: flip phone pill colors for readability */
+[data-theme="dark"] .nav-phone {
+  color: var(--color-primary);
+  background: var(--color-surface-2);
+}
+[data-theme="dark"] .nav-phone:hover {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .nav-phone {
+    color: var(--color-primary);
+    background: var(--color-surface-2);
+  }
+  :root:not([data-theme]) .nav-phone:hover {
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+  }
 }
 
 .nav-signin {
