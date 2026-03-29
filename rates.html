@@ -18,285 +18,419 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get Your Rate — Voyage Financing</title>
+<title>Today's Rates — Voyage Financing</title>
 <meta name="description" content="Get a personalized mortgage rate in 60 seconds. No login, no spam. $0 lender fees guaranteed.">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./base.css">
 <link rel="stylesheet" href="./style.css">
 <style>
-  /* ─── RATES PAGE STYLES ─── */
+  /* ─── RATES PAGE — COMMAND BAR DESIGN ─── */
+
+  /* Hero: minimal, date-focused */
   .rates-hero {
     background: var(--color-dark-charcoal);
     color: #fff;
-    text-align: center;
-    padding: var(--space-12) 0 var(--space-16);
+    padding: var(--space-10) 0 var(--space-16);
   }
-  .rates-hero h1 {
-    font-size: var(--text-2xl);
-    font-weight: 800;
-    margin-bottom: var(--space-3);
-  }
-  .rates-hero p {
-    font-size: var(--text-base);
-    opacity: 0.75;
-    max-width: 44ch;
+  .rates-hero-inner {
+    max-width: var(--content-wide);
     margin: 0 auto;
+    padding: 0 var(--space-4);
+  }
+  .rates-date {
+    font-size: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .rates-summary {
+    font-size: var(--text-base);
+    color: rgba(255,255,255,0.7);
+    margin-top: var(--space-2);
+    max-width: 60ch;
+    line-height: 1.5;
+  }
+  .rates-summary .editable-link {
+    color: var(--color-primary);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    transition: color var(--transition-interactive);
+  }
+  .rates-summary .editable-link:hover {
+    color: var(--color-primary-hover);
+    text-decoration-style: solid;
   }
 
-  /* Main layout: inputs left, result right */
-  .rates-main {
-    max-width: 1000px;
-    margin: calc(-1 * var(--space-10)) auto 0;
+  /* ─── COMMAND BAR ─── */
+  .command-bar {
+    max-width: var(--content-wide);
+    margin: calc(-1 * var(--space-8)) auto 0;
     padding: 0 var(--space-4);
     position: relative;
-    z-index: 2;
+    z-index: 100;
   }
-  .rates-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-  }
-  @media (min-width: 768px) {
-    .rates-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-6);
-      align-items: start;
-    }
-  }
-
-  .rates-card {
+  .command-bar-inner {
     background: var(--color-surface);
     border: 1px solid var(--color-divider);
     border-radius: var(--radius-xl);
-    padding: var(--space-8);
     box-shadow: var(--shadow-lg);
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    flex-wrap: wrap;
   }
-  .rates-card h2 {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-6);
+  .cmd-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    font-weight: 500;
     color: var(--color-text);
+    transition: background var(--transition-interactive);
+    white-space: nowrap;
+    user-select: none;
   }
-
-  /* Form inputs */
-  .r-form-group {
-    margin-bottom: var(--space-5);
+  .cmd-item:hover {
+    background: var(--color-surface-2);
   }
-  .r-form-group label {
-    display: block;
-    font-size: var(--text-xs);
+  .cmd-item.active {
+    background: var(--color-primary-light);
+    z-index: 101;
+  }
+  .cmd-label {
+    font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-muted);
+    letter-spacing: 0.06em;
+    color: var(--color-text-faint);
+    margin-right: 2px;
+  }
+  .cmd-value {
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .cmd-divider {
+    width: 1px;
+    height: 28px;
+    background: var(--color-divider);
+    margin: 0 var(--space-1);
+    flex-shrink: 0;
+  }
+
+  /* Dropdown for command bar items */
+  .cmd-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 240px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-4);
+    z-index: 100;
+    display: none;
+  }
+  .cmd-dropdown.open {
+    display: block;
+    animation: cmdDropIn 0.18s var(--ease-out);
+    z-index: 101;
+  }
+  @keyframes cmdDropIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .cmd-dropdown label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-faint);
     margin-bottom: var(--space-2);
   }
-  .r-input, .r-select {
+  .cmd-dropdown input,
+  .cmd-dropdown select {
     width: 100%;
-    padding: 12px 16px;
+    padding: 10px 14px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     font-family: var(--font-body);
     font-size: var(--text-base);
     color: var(--color-text);
     background: var(--color-surface-2);
-    transition: border-color 0.15s;
     -webkit-appearance: none;
     appearance: none;
   }
-  .r-input:focus, .r-select:focus {
+  .cmd-dropdown input:focus,
+  .cmd-dropdown select:focus {
     outline: none;
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(62, 207, 207, 0.15);
   }
-  .r-select {
+  .cmd-dropdown select {
     background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%235a6366' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 14px center;
     padding-right: 40px;
   }
-  .r-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
-  }
-
-  /* Pill selectors for loan purpose */
-  .r-pills {
+  .cmd-dropdown .cmd-pills {
     display: flex;
     gap: var(--space-2);
   }
-  .r-pill {
+  .cmd-dropdown .cmd-pill {
     flex: 1;
-    padding: 10px 8px;
+    padding: 8px 6px;
     border: 2px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     background: var(--color-surface-2);
     color: var(--color-text-muted);
     font-family: var(--font-body);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     font-weight: 600;
     text-align: center;
     cursor: pointer;
     transition: all 0.15s;
   }
-  .r-pill:hover {
+  .cmd-dropdown .cmd-pill:hover {
     border-color: var(--color-primary);
     color: var(--color-text);
   }
-  .r-pill.active {
+  .cmd-dropdown .cmd-pill.active {
     border-color: var(--color-primary);
     background: var(--color-primary-light);
     color: var(--color-primary);
   }
 
-  /* ─── RESULT CARD ─── */
-  .result-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-divider);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-    position: sticky;
-    top: 100px;
+  /* ─── RATE DISPLAY — HERO ZONE ─── */
+  .rate-showcase {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--space-10) var(--space-4) 0;
   }
-  .result-card-header {
-    background: var(--color-dark-teal);
-    color: #fff;
-    padding: var(--space-6) var(--space-8);
-    text-align: center;
+  .rate-showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
-  .result-card-header .result-eyebrow {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    opacity: 0.7;
-    margin-bottom: var(--space-2);
-  }
-  .result-rate {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    font-weight: 800;
-    line-height: 1;
-    color: var(--color-primary);
-    font-variant-numeric: tabular-nums;
-  }
-  .result-apr {
-    font-size: var(--text-sm);
-    opacity: 0.65;
-    margin-top: var(--space-1);
-  }
-  .result-zero-fees {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(62, 207, 207, 0.15);
-    color: var(--color-primary);
-    padding: 5px 14px;
-    border-radius: var(--radius-full);
-    font-size: var(--text-xs);
-    font-weight: 700;
-    margin-top: var(--space-3);
+  @media (min-width: 768px) {
+    .rate-showcase-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--space-5);
+    }
   }
 
-  .result-card-body {
-    padding: var(--space-6) var(--space-8);
+  /* Product card */
+  .product-card {
+    background: var(--color-surface);
+    border: 2px solid var(--color-divider);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    position: relative;
   }
-  .result-detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
-    margin-bottom: var(--space-6);
+  .product-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
   }
-  .result-detail {
-    text-align: center;
-    padding: var(--space-3);
-    background: var(--color-surface-2);
-    border-radius: var(--radius-md);
+  .product-card.selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(62, 207, 207, 0.18), var(--shadow-md);
   }
-  .result-detail-label {
-    font-size: 11px;
-    font-weight: 600;
+  .product-card.selected::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    height: 4px;
+    background: var(--color-primary);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+  .product-name {
+    font-size: var(--text-xs);
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-faint);
-    margin-bottom: 4px;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
   }
-  .result-detail-value {
+  .product-rate {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+    font-weight: 800;
+    color: var(--color-text);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .product-card.selected .product-rate {
+    color: var(--color-primary);
+  }
+  .product-apr {
+    font-size: var(--text-sm);
+    color: var(--color-text-faint);
+    margin-top: var(--space-1);
+    font-variant-numeric: tabular-nums;
+  }
+  .product-monthly {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-divider);
+  }
+  .product-monthly-value {
     font-family: var(--font-display);
     font-size: var(--text-lg);
     font-weight: 700;
     color: var(--color-text);
     font-variant-numeric: tabular-nums;
   }
+  .product-monthly-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
 
-  /* Alt products row */
-  .alt-products {
-    display: flex;
-    gap: var(--space-2);
-    margin-bottom: var(--space-6);
+  /* ─── DETAIL PANEL (below cards) ─── */
+  .detail-panel {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4) 0;
   }
-  .alt-product {
-    flex: 1;
-    text-align: center;
-    padding: var(--space-3);
-    border-radius: var(--radius-md);
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  @media (min-width: 768px) {
+    .detail-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+  }
+
+  /* Breakdown card */
+  .breakdown-card {
+    background: var(--color-surface);
     border: 1px solid var(--color-divider);
-    cursor: pointer;
-    transition: all 0.15s;
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
   }
-  .alt-product:hover, .alt-product.active {
-    border-color: var(--color-primary);
-    background: var(--color-primary-light);
-  }
-  .alt-product-name {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    margin-bottom: 2px;
-  }
-  .alt-product-rate {
-    font-family: var(--font-display);
-    font-size: var(--text-base);
+  .breakdown-title {
+    font-size: var(--text-xs);
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-faint);
+    margin-bottom: var(--space-4);
+  }
+  .breakdown-rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-sm);
+  }
+  .breakdown-row-label {
+    color: var(--color-text-muted);
+  }
+  .breakdown-row-value {
+    font-weight: 600;
     color: var(--color-text);
     font-variant-numeric: tabular-nums;
   }
-  .alt-product.active .alt-product-name {
-    color: var(--color-primary);
-  }
-
-  /* Savings callout */
-  .savings-callout {
-    background: var(--color-primary-light);
-    border-radius: var(--radius-md);
-    padding: var(--space-3) var(--space-4);
-    text-align: center;
-    margin-bottom: var(--space-6);
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-  }
-  .savings-callout strong {
+  .breakdown-row.highlight .breakdown-row-value {
     color: var(--color-primary);
     font-weight: 700;
   }
 
-  .result-cta {
-    text-align: center;
+  /* Savings card */
+  .savings-card {
+    background: var(--color-dark-teal);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
-  .result-cta .btn {
-    width: 100%;
-  }
-  .result-cta p {
+  .savings-card .savings-top {}
+  .savings-card .savings-eyebrow {
     font-size: var(--text-xs);
-    color: var(--color-text-faint);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.65;
+    margin-bottom: var(--space-3);
+  }
+  .savings-amount {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .savings-context {
+    font-size: var(--text-sm);
+    opacity: 0.75;
     margin-top: var(--space-2);
+    line-height: 1.5;
+  }
+  .savings-card .zero-fees-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(62, 207, 207, 0.15);
+    color: var(--color-primary);
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    margin-top: var(--space-5);
   }
 
-  /* ─── LEAD CAPTURE SECTION ─── */
+  /* ─── CTA STRIP ─── */
+  .cta-strip {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .cta-strip .btn {
+    min-width: 320px;
+  }
+  .cta-strip p {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    text-align: center;
+  }
+  @media (max-width: 767px) {
+    .cta-strip .btn { min-width: 0; width: 100%; }
+  }
+
+  /* ─── LEAD CAPTURE ─── */
   .lead-section {
     max-width: 640px;
-    margin: var(--space-16) auto var(--space-12);
+    margin: var(--space-8) auto var(--space-12);
     padding: 0 var(--space-4);
     text-align: center;
   }
@@ -320,22 +454,51 @@
     box-shadow: var(--shadow-md);
     text-align: left;
   }
-  .lead-form .r-row {
-    margin-bottom: 0;
+  .lead-form .l-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
   }
-  .lead-form .r-form-group:last-of-type {
+  .l-form-group {
+    margin-bottom: var(--space-5);
+  }
+  .l-form-group label {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+  .l-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    background: var(--color-surface-2);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .l-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(62, 207, 207, 0.15);
+  }
+  .lead-form .l-form-group:last-of-type {
     margin-bottom: var(--space-6);
   }
 
-  /* Confirmation state */
+  /* Confirmation */
   .lead-confirmation {
     display: none;
     text-align: center;
     padding: var(--space-8);
   }
-  .lead-confirmation.show {
-    display: block;
-  }
+  .lead-confirmation.show { display: block; }
   .lead-confirmation .confirm-icon {
     width: 64px;
     height: 64px;
@@ -360,7 +523,6 @@
     margin-right: auto;
   }
 
-  /* No-spam note */
   .trust-note {
     display: flex;
     align-items: center;
@@ -372,12 +534,52 @@
   }
   .trust-note svg { flex-shrink: 0; }
 
+  /* ─── MOBILE ─── */
   @media (max-width: 767px) {
-    .rates-main { margin-top: calc(-1 * var(--space-8)); }
-    .rates-card, .result-card-body { padding: var(--space-6); }
-    .result-card { position: static; }
-    .r-row { grid-template-columns: 1fr; }
-    .alt-products { flex-direction: column; }
+    .command-bar-inner {
+      gap: var(--space-1);
+      padding: var(--space-2) var(--space-3);
+    }
+    .cmd-item {
+      padding: 6px 10px;
+      font-size: var(--text-xs);
+    }
+    .cmd-divider { display: none; }
+    .cmd-dropdown {
+      position: fixed;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      min-width: 100%;
+      padding: var(--space-6) var(--space-4) var(--space-8);
+    }
+    .cmd-dropdown.open {
+      animation: cmdSlideUp 0.25s var(--ease-out);
+    }
+    @keyframes cmdSlideUp {
+      from { opacity: 0; transform: translateY(100%); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .lead-form .l-row { grid-template-columns: 1fr; }
+    .product-card { padding: var(--space-5); }
+  }
+
+  /* Overlay for mobile dropdown */
+  .cmd-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 99;
+  }
+  .cmd-overlay.visible {
+    display: block;
+    animation: fadeIn 0.18s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
   }
 </style>
 </head>
@@ -432,144 +634,219 @@
   </nav>
 </header>
 
-<!-- HERO -->
+<!-- HERO: Date + Summary Sentence -->
 <section class="rates-hero">
-  <div class="container">
-    <h1>Get Your Rate in 60 Seconds</h1>
-    <p>Adjust the details below. Your estimated rate updates instantly. No login required.</p>
+  <div class="rates-hero-inner">
+    <div class="rates-date" id="rates-date">Today's rates: Mar 29, 2026</div>
+    <p class="rates-summary" id="rates-summary">
+      Your quote for a <span class="editable-link" data-target="cmd-property">single-family home</span>
+      in <span class="editable-link" data-target="cmd-location">Wisconsin</span>
+      with a purchase price of <span class="editable-link" data-target="cmd-price">$400,000</span>
+      and <span class="editable-link" data-target="cmd-down">$80,000 down</span>.
+    </p>
   </div>
 </section>
 
-<!-- MAIN: INPUTS + RESULT -->
-<section style="background: var(--color-bg); padding-bottom: var(--space-12);">
-  <div class="rates-main">
-    <div class="rates-grid">
+<!-- COMMAND BAR -->
+<div class="cmd-overlay" id="cmd-overlay"></div>
+<div class="command-bar">
+  <div class="command-bar-inner" id="command-bar">
 
-      <!-- LEFT: INPUTS -->
-      <div class="rates-card">
-        <h2>Your Details</h2>
-
-        <div class="r-form-group">
-          <label>Loan Purpose</label>
-          <div class="r-pills" id="purpose-pills">
-            <button class="r-pill active" data-value="purchase">Purchase</button>
-            <button class="r-pill" data-value="refinance">Refinance</button>
-            <button class="r-pill" data-value="cashout">Cash-Out Refi</button>
-          </div>
+    <!-- Purpose -->
+    <div class="cmd-item" id="cmd-purpose" tabindex="0">
+      <span class="cmd-label">Purpose</span>
+      <span class="cmd-value" id="cmd-purpose-val">Purchase</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      <div class="cmd-dropdown" id="drop-purpose">
+        <label>Loan Purpose</label>
+        <div class="cmd-pills" id="pills-purpose">
+          <button class="cmd-pill active" data-value="purchase">Purchase</button>
+          <button class="cmd-pill" data-value="refinance">Refinance</button>
+          <button class="cmd-pill" data-value="cashout">Cash-Out</button>
         </div>
+      </div>
+    </div>
 
-        <div class="r-row">
-          <div class="r-form-group">
-            <label for="r-home-price">Home Price</label>
-            <input type="text" id="r-home-price" class="r-input" value="$400,000" inputmode="numeric">
-          </div>
-          <div class="r-form-group">
-            <label for="r-down-payment">Down Payment</label>
-            <input type="text" id="r-down-payment" class="r-input" value="$80,000" inputmode="numeric">
-          </div>
-        </div>
+    <div class="cmd-divider"></div>
 
-        <div class="r-row">
-          <div class="r-form-group">
-            <label for="r-credit-score">Credit Score</label>
-            <select id="r-credit-score" class="r-select">
-              <option value="760">Excellent (760+)</option>
-              <option value="740">Very Good (740–759)</option>
-              <option value="720" selected>Good (720–739)</option>
-              <option value="700">Above Average (700–719)</option>
-              <option value="680">Average (680–699)</option>
-              <option value="660">Below Average (660–679)</option>
-              <option value="640">Fair (640–659)</option>
-              <option value="620">Minimum (620–639)</option>
-            </select>
-          </div>
-          <div class="r-form-group">
-            <label for="r-property-type">Property Type</label>
-            <select id="r-property-type" class="r-select">
-              <option value="single">Single Family</option>
-              <option value="condo">Condo</option>
-              <option value="townhouse">Townhouse</option>
-              <option value="multi">Multi-Family (2-4)</option>
-            </select>
-          </div>
-        </div>
+    <!-- Home Price -->
+    <div class="cmd-item" id="cmd-price" tabindex="0">
+      <span class="cmd-label">Price</span>
+      <span class="cmd-value" id="cmd-price-val">$400,000</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      <div class="cmd-dropdown" id="drop-price">
+        <label>Home Price</label>
+        <input type="text" id="input-price" value="400000" inputmode="numeric">
+      </div>
+    </div>
 
-        <div class="r-form-group">
-          <label for="r-location">Property Location</label>
-          <input type="text" id="r-location" class="r-input" value="Wisconsin" placeholder="State or ZIP code">
-        </div>
+    <div class="cmd-divider"></div>
 
-        <div class="r-form-group" style="margin-bottom: 0;">
-          <label>Are you a first-time homebuyer?</label>
-          <div class="r-pills" id="ftb-pills">
-            <button class="r-pill active" data-value="yes">Yes</button>
-            <button class="r-pill" data-value="no">No</button>
-          </div>
+    <!-- Down Payment -->
+    <div class="cmd-item" id="cmd-down" tabindex="0">
+      <span class="cmd-label">Down</span>
+      <span class="cmd-value" id="cmd-down-val">$80,000</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      <div class="cmd-dropdown" id="drop-down">
+        <label>Down Payment</label>
+        <input type="text" id="input-down" value="80000" inputmode="numeric">
+      </div>
+    </div>
+
+    <div class="cmd-divider"></div>
+
+    <!-- Credit Score -->
+    <div class="cmd-item" id="cmd-credit" tabindex="0">
+      <span class="cmd-label">Credit</span>
+      <span class="cmd-value" id="cmd-credit-val">720+</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      <div class="cmd-dropdown" id="drop-credit">
+        <label>Credit Score</label>
+        <select id="input-credit">
+          <option value="760">Excellent (760+)</option>
+          <option value="740">Very Good (740–759)</option>
+          <option value="720" selected>Good (720–739)</option>
+          <option value="700">Above Average (700–719)</option>
+          <option value="680">Average (680–699)</option>
+          <option value="660">Below Average (660–679)</option>
+          <option value="640">Fair (640–659)</option>
+          <option value="620">Minimum (620–639)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cmd-divider"></div>
+
+    <!-- Property Type -->
+    <div class="cmd-item" id="cmd-property" tabindex="0">
+      <span class="cmd-label">Type</span>
+      <span class="cmd-value" id="cmd-property-val">Single Family</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      <div class="cmd-dropdown" id="drop-property">
+        <label>Property Type</label>
+        <select id="input-property">
+          <option value="single" selected>Single Family</option>
+          <option value="condo">Condo</option>
+          <option value="townhouse">Townhouse</option>
+          <option value="multi">Multi-Family (2-4)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cmd-divider"></div>
+
+    <!-- Location -->
+    <div class="cmd-item" id="cmd-location" tabindex="0">
+      <span class="cmd-label">Location</span>
+      <span class="cmd-value" id="cmd-location-val">Wisconsin</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      <div class="cmd-dropdown" id="drop-location">
+        <label>Property Location</label>
+        <input type="text" id="input-location" value="Wisconsin" placeholder="State or ZIP code">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RATE CARDS -->
+<section style="background: var(--color-bg); padding-bottom: var(--space-4);">
+  <div class="rate-showcase">
+    <div class="rate-showcase-grid" id="rate-cards">
+
+      <!-- 30-Year Fixed -->
+      <div class="product-card selected" data-product="30fixed">
+        <div class="product-name">30-Year Fixed</div>
+        <div class="product-rate" id="rate-30yr">6.125%</div>
+        <div class="product-apr" id="apr-30yr">6.255% APR</div>
+        <div class="product-monthly">
+          <span class="product-monthly-value" id="monthly-30yr">$1,944</span>
+          <span class="product-monthly-label">/ month P&amp;I</span>
         </div>
       </div>
 
-      <!-- RIGHT: RESULT -->
-      <div class="result-card" id="result-card">
-        <div class="result-card-header">
-          <div class="result-eyebrow">Your Estimated Rate</div>
-          <div class="result-rate" id="r-rate-display">6.125%</div>
-          <div class="result-apr" id="r-apr-display">6.255% APR</div>
-          <div class="result-zero-fees">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-            $0 Lender Fees
-          </div>
+      <!-- 15-Year Fixed -->
+      <div class="product-card" data-product="15fixed">
+        <div class="product-name">15-Year Fixed</div>
+        <div class="product-rate" id="rate-15yr">5.500%</div>
+        <div class="product-apr" id="apr-15yr">5.630% APR</div>
+        <div class="product-monthly">
+          <span class="product-monthly-value" id="monthly-15yr">$2,615</span>
+          <span class="product-monthly-label">/ month P&amp;I</span>
         </div>
-        <div class="result-card-body">
-          <!-- Product tabs -->
-          <div class="alt-products" id="product-tabs">
-            <div class="alt-product active" data-product="30fixed">
-              <div class="alt-product-name">30-Yr Fixed</div>
-              <div class="alt-product-rate" id="tab-30yr">6.125%</div>
-            </div>
-            <div class="alt-product" data-product="15fixed">
-              <div class="alt-product-name">15-Yr Fixed</div>
-              <div class="alt-product-rate" id="tab-15yr">5.500%</div>
-            </div>
-            <div class="alt-product" data-product="arm">
-              <div class="alt-product-name">7/1 ARM</div>
-              <div class="alt-product-rate" id="tab-arm">5.750%</div>
-            </div>
-          </div>
+      </div>
 
-          <!-- Details grid -->
-          <div class="result-detail-grid">
-            <div class="result-detail">
-              <div class="result-detail-label">Monthly P&I</div>
-              <div class="result-detail-value" id="r-monthly">$1,944</div>
-            </div>
-            <div class="result-detail">
-              <div class="result-detail-label">Loan Amount</div>
-              <div class="result-detail-value" id="r-loan-amt">$320,000</div>
-            </div>
-            <div class="result-detail">
-              <div class="result-detail-label">Down Payment</div>
-              <div class="result-detail-value" id="r-down-pct">20%</div>
-            </div>
-            <div class="result-detail">
-              <div class="result-detail-label">Est. Closing Costs</div>
-              <div class="result-detail-value" id="r-closing">$8,000</div>
-            </div>
-          </div>
-
-          <!-- Savings callout -->
-          <div class="savings-callout" id="savings-callout">
-            You could save <strong id="r-savings">$4,200</strong> vs. the average lender over the life of your loan
-          </div>
-
-          <!-- CTA -->
-          <div class="result-cta">
-            <a href="./apply.html" class="btn btn-primary btn-lg">Start Your Application</a>
-            <p>10 minutes. No commitment. No impact on credit score.</p>
-          </div>
+      <!-- 7/1 ARM -->
+      <div class="product-card" data-product="arm">
+        <div class="product-name">7/1 ARM</div>
+        <div class="product-rate" id="rate-arm">5.750%</div>
+        <div class="product-apr" id="apr-arm">5.880% APR</div>
+        <div class="product-monthly">
+          <span class="product-monthly-value" id="monthly-arm">$1,867</span>
+          <span class="product-monthly-label">/ month P&amp;I</span>
         </div>
       </div>
 
     </div>
+  </div>
+</section>
+
+<!-- DETAIL PANEL -->
+<section style="background: var(--color-bg);">
+  <div class="detail-panel">
+    <div class="detail-grid">
+
+      <!-- Loan Breakdown -->
+      <div class="breakdown-card">
+        <div class="breakdown-title">Loan Breakdown</div>
+        <div class="breakdown-rows">
+          <div class="breakdown-row">
+            <span class="breakdown-row-label">Loan Amount</span>
+            <span class="breakdown-row-value" id="detail-loan">$320,000</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-row-label">Down Payment</span>
+            <span class="breakdown-row-value" id="detail-down">$80,000 (20%)</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-row-label">Loan Term</span>
+            <span class="breakdown-row-value" id="detail-term">30 years</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-row-label">Monthly P&amp;I</span>
+            <span class="breakdown-row-value" id="detail-monthly">$1,944</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-row-label">Est. Closing Costs</span>
+            <span class="breakdown-row-value" id="detail-closing">$8,000</span>
+          </div>
+          <div class="breakdown-row highlight">
+            <span class="breakdown-row-label">Lender Fees</span>
+            <span class="breakdown-row-value">$0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Savings / Value -->
+      <div class="savings-card">
+        <div class="savings-top">
+          <div class="savings-eyebrow">Estimated Lifetime Savings</div>
+          <div class="savings-amount" id="detail-savings">$4,200</div>
+          <div class="savings-context">compared to the average lender rate over the life of your loan.</div>
+        </div>
+        <div class="zero-fees-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+          $0 Lender Fees — Always
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-strip">
+    <a href="./apply.html" class="btn btn-primary btn-lg">Lock This Rate — Start Your Application</a>
+    <p>10 minutes. No commitment. No impact on credit score.</p>
   </div>
 </section>
 
@@ -580,24 +857,24 @@
     <p>Leave your info and an advisor will send you a personalized rate quote — usually within a few hours.</p>
 
     <div class="lead-form" id="lead-form">
-      <div class="r-row">
-        <div class="r-form-group">
+      <div class="l-row">
+        <div class="l-form-group">
           <label for="lead-first">First Name</label>
-          <input type="text" id="lead-first" class="r-input" placeholder="John">
+          <input type="text" id="lead-first" class="l-input" placeholder="John">
         </div>
-        <div class="r-form-group">
+        <div class="l-form-group">
           <label for="lead-last">Last Name</label>
-          <input type="text" id="lead-last" class="r-input" placeholder="Smith">
+          <input type="text" id="lead-last" class="l-input" placeholder="Smith">
         </div>
       </div>
-      <div class="r-row">
-        <div class="r-form-group">
+      <div class="l-row">
+        <div class="l-form-group">
           <label for="lead-email">Email</label>
-          <input type="email" id="lead-email" class="r-input" placeholder="john@example.com">
+          <input type="email" id="lead-email" class="l-input" placeholder="john@example.com">
         </div>
-        <div class="r-form-group">
+        <div class="l-form-group">
           <label for="lead-phone">Phone</label>
-          <input type="tel" id="lead-phone" class="r-input" placeholder="(414) 555-1234">
+          <input type="tel" id="lead-phone" class="l-input" placeholder="(414) 555-1234">
         </div>
       </div>
       <button class="btn btn-primary btn-lg" style="width: 100%;" id="lead-submit">Get My Personalized Rate</button>
@@ -671,7 +948,7 @@
 </footer>
 
 <script>
-// Theme Toggle
+// ===== THEME TOGGLE =====
 (function(){
   const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
   let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
@@ -684,49 +961,36 @@
   t&&t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);updateIcon();});
 })();
 
-// Sticky Header
+// ===== STICKY HEADER =====
 const header=document.getElementById('site-header');
 window.addEventListener('scroll',()=>{header&&header.classList.toggle('scrolled',window.scrollY>10);},{passive:true});
 
-// Mobile Menu
+// ===== MOBILE MENU =====
 const menuBtn=document.getElementById('mobile-menu-btn');
 const navLinks=document.getElementById('nav-links');
 menuBtn&&menuBtn.addEventListener('click',()=>{navLinks.classList.toggle('open');});
 
+// ===== SET DYNAMIC DATE =====
+(function(){
+  const now = new Date();
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('rates-date').textContent =
+    'Today\'s rates: ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+})();
+
 // ===== RATE ENGINE =====
-// This is isolated so you can swap in a live API call later.
-// Just replace getRates() with an async fetch to your rate API.
-
 function getRates(params) {
-  // Base rates by product (placeholder — swap for API)
-  const baseRates = {
-    '30fixed': 6.375,
-    '15fixed': 5.750,
-    'arm': 5.875
-  };
-
-  // Credit score adjustment
-  const creditAdj = {
-    760: -0.250, 740: -0.125, 720: 0, 700: 0.125,
-    680: 0.250, 660: 0.500, 640: 0.750, 620: 1.000
-  };
-
-  // LTV adjustment
+  const baseRates = { '30fixed': 6.375, '15fixed': 5.750, 'arm': 5.875 };
+  const creditAdj = { 760: -0.250, 740: -0.125, 720: 0, 700: 0.125, 680: 0.250, 660: 0.500, 640: 0.750, 620: 1.000 };
   const ltv = params.loanAmount / params.homePrice;
   let ltvAdj = 0;
   if (ltv > 0.95) ltvAdj = 0.375;
   else if (ltv > 0.90) ltvAdj = 0.250;
   else if (ltv > 0.80) ltvAdj = 0.125;
-
-  // Property type adjustment
   const propAdj = { single: 0, townhouse: 0, condo: 0.125, multi: 0.375 };
-
-  // Loan purpose adjustment
   const purposeAdj = { purchase: 0, refinance: 0.125, cashout: 0.250 };
-
   const adj = (creditAdj[params.creditScore] || 0) + ltvAdj +
               (propAdj[params.propertyType] || 0) + (purposeAdj[params.purpose] || 0);
-
   const rates = {};
   for (const [product, base] of Object.entries(baseRates)) {
     const rate = Math.max(3.0, Math.round((base + adj) * 1000) / 1000);
@@ -737,112 +1001,223 @@ function getRates(params) {
     const monthly = params.loanAmount > 0
       ? Math.round(params.loanAmount * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1))
       : 0;
-
     rates[product] = { rate, apr, monthly, term };
   }
-
   return rates;
 }
 
-// ===== UI LOGIC =====
+// ===== FORMATTING =====
 const fmt = v => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v);
-
 function parseCurrency(str) { return parseInt(String(str).replace(/[^0-9]/g, '')) || 0; }
 
-function formatCurrencyInput(el) {
-  el.addEventListener('blur', () => {
-    const v = parseCurrency(el.value);
-    if (v > 0) el.value = fmt(v);
-  });
-  el.addEventListener('focus', () => {
-    const v = parseCurrency(el.value);
-    el.value = v > 0 ? v : '';
-  });
-}
-
-const homePriceInput = document.getElementById('r-home-price');
-const downPaymentInput = document.getElementById('r-down-payment');
-const creditScoreSelect = document.getElementById('r-credit-score');
-const propertyTypeSelect = document.getElementById('r-property-type');
-
-formatCurrencyInput(homePriceInput);
-formatCurrencyInput(downPaymentInput);
-
-let currentProduct = '30fixed';
-let currentPurpose = 'purchase';
-let isFirstTimeBuyer = true;
-
-// Pill selectors
-document.querySelectorAll('#purpose-pills .r-pill').forEach(pill => {
-  pill.addEventListener('click', () => {
-    document.querySelectorAll('#purpose-pills .r-pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    currentPurpose = pill.dataset.value;
-    updateRates();
-  });
-});
-
-document.querySelectorAll('#ftb-pills .r-pill').forEach(pill => {
-  pill.addEventListener('click', () => {
-    document.querySelectorAll('#ftb-pills .r-pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    isFirstTimeBuyer = pill.dataset.value === 'yes';
-    updateRates();
-  });
-});
-
-// Product tabs
-document.querySelectorAll('#product-tabs .alt-product').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('#product-tabs .alt-product').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    currentProduct = tab.dataset.product;
-    updateDisplay();
-  });
-});
-
+// ===== STATE =====
+let state = {
+  purpose: 'purchase',
+  homePrice: 400000,
+  downPayment: 80000,
+  creditScore: 720,
+  propertyType: 'single',
+  location: 'Wisconsin',
+  selectedProduct: '30fixed'
+};
 let cachedRates = {};
 
-function updateRates() {
-  const homePrice = parseCurrency(homePriceInput.value);
-  const downPayment = parseCurrency(downPaymentInput.value);
-  const loanAmount = Math.max(0, homePrice - downPayment);
+// ===== COMMAND BAR DROPDOWNS =====
+const overlay = document.getElementById('cmd-overlay');
+let activeDropdown = null;
 
-  cachedRates = getRates({
-    homePrice,
-    loanAmount,
-    downPayment,
-    creditScore: parseInt(creditScoreSelect.value),
-    propertyType: propertyTypeSelect.value,
-    purpose: currentPurpose,
-    firstTimeBuyer: isFirstTimeBuyer
-  });
+function openDropdown(cmdId) {
+  closeAllDropdowns();
+  const item = document.getElementById(cmdId);
+  const drop = item.querySelector('.cmd-dropdown');
+  if (!drop) return;
+  item.classList.add('active');
+  drop.classList.add('open');
+  overlay.classList.add('visible');
+  activeDropdown = cmdId;
 
-  // Update tab rates
-  document.getElementById('tab-30yr').textContent = cachedRates['30fixed'].rate.toFixed(3) + '%';
-  document.getElementById('tab-15yr').textContent = cachedRates['15fixed'].rate.toFixed(3) + '%';
-  document.getElementById('tab-arm').textContent = cachedRates['arm'].rate.toFixed(3) + '%';
-
-  updateDisplay();
+  // Focus the first input/select
+  const focusable = drop.querySelector('input, select');
+  if (focusable) setTimeout(() => focusable.focus(), 50);
 }
 
-function updateDisplay() {
-  const homePrice = parseCurrency(homePriceInput.value);
-  const downPayment = parseCurrency(downPaymentInput.value);
-  const loanAmount = Math.max(0, homePrice - downPayment);
-  const downPct = homePrice > 0 ? Math.round((downPayment / homePrice) * 100) : 0;
+function closeAllDropdowns() {
+  document.querySelectorAll('.cmd-item').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.cmd-dropdown').forEach(el => el.classList.remove('open'));
+  overlay.classList.remove('visible');
+  activeDropdown = null;
+}
 
-  const data = cachedRates[currentProduct];
+// Click on cmd-item to toggle
+document.querySelectorAll('.cmd-item').forEach(item => {
+  item.addEventListener('click', (e) => {
+    // Don't toggle if clicking inside the dropdown itself
+    if (e.target.closest('.cmd-dropdown')) return;
+    const id = item.id;
+    if (activeDropdown === id) {
+      closeAllDropdowns();
+    } else {
+      openDropdown(id);
+    }
+  });
+});
+
+// Editable links in summary sentence
+document.querySelectorAll('.editable-link').forEach(link => {
+  link.addEventListener('click', () => {
+    const target = link.dataset.target;
+    if (target) openDropdown(target);
+  });
+});
+
+// Close on overlay click
+overlay.addEventListener('click', closeAllDropdowns);
+
+// Close on Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeAllDropdowns();
+});
+
+// ===== PURPOSE PILLS =====
+document.querySelectorAll('#pills-purpose .cmd-pill').forEach(pill => {
+  pill.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.querySelectorAll('#pills-purpose .cmd-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    state.purpose = pill.dataset.value;
+    const labels = { purchase: 'Purchase', refinance: 'Refinance', cashout: 'Cash-Out' };
+    document.getElementById('cmd-purpose-val').textContent = labels[state.purpose];
+    updateAll();
+    setTimeout(closeAllDropdowns, 150);
+  });
+});
+
+// ===== INPUT HANDLERS =====
+const inputPrice = document.getElementById('input-price');
+const inputDown = document.getElementById('input-down');
+const inputCredit = document.getElementById('input-credit');
+const inputProperty = document.getElementById('input-property');
+const inputLocation = document.getElementById('input-location');
+
+function handlePriceChange() {
+  const v = parseCurrency(inputPrice.value);
+  state.homePrice = v;
+  document.getElementById('cmd-price-val').textContent = fmt(v);
+  inputPrice.value = v;
+  updateAll();
+}
+
+function handleDownChange() {
+  const v = parseCurrency(inputDown.value);
+  state.downPayment = v;
+  document.getElementById('cmd-down-val').textContent = fmt(v);
+  inputDown.value = v;
+  updateAll();
+}
+
+inputPrice.addEventListener('change', handlePriceChange);
+inputPrice.addEventListener('keydown', (e) => { if (e.key === 'Enter') { handlePriceChange(); closeAllDropdowns(); }});
+
+inputDown.addEventListener('change', handleDownChange);
+inputDown.addEventListener('keydown', (e) => { if (e.key === 'Enter') { handleDownChange(); closeAllDropdowns(); }});
+
+inputCredit.addEventListener('change', (e) => {
+  e.stopPropagation();
+  state.creditScore = parseInt(inputCredit.value);
+  const labels = { 760: '760+', 740: '740+', 720: '720+', 700: '700+', 680: '680+', 660: '660+', 640: '640+', 620: '620+' };
+  document.getElementById('cmd-credit-val').textContent = labels[state.creditScore] || state.creditScore + '+';
+  updateAll();
+  setTimeout(closeAllDropdowns, 150);
+});
+
+inputProperty.addEventListener('change', (e) => {
+  e.stopPropagation();
+  state.propertyType = inputProperty.value;
+  const labels = { single: 'Single Family', condo: 'Condo', townhouse: 'Townhouse', multi: 'Multi-Family' };
+  document.getElementById('cmd-property-val').textContent = labels[state.propertyType];
+  updateAll();
+  setTimeout(closeAllDropdowns, 150);
+});
+
+inputLocation.addEventListener('change', () => {
+  state.location = inputLocation.value || 'Wisconsin';
+  document.getElementById('cmd-location-val').textContent = state.location;
+  updateAll();
+});
+inputLocation.addEventListener('keydown', (e) => { if (e.key === 'Enter') { state.location = inputLocation.value || 'Wisconsin'; document.getElementById('cmd-location-val').textContent = state.location; updateAll(); closeAllDropdowns(); }});
+
+// Stop dropdown clicks from bubbling to cmd-item
+document.querySelectorAll('.cmd-dropdown').forEach(drop => {
+  drop.addEventListener('click', (e) => e.stopPropagation());
+});
+
+// ===== PRODUCT CARD SELECTION =====
+document.querySelectorAll('.product-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.selectedProduct = card.dataset.product;
+    updateDetails();
+  });
+});
+
+// ===== UPDATE EVERYTHING =====
+function updateAll() {
+  const loanAmount = Math.max(0, state.homePrice - state.downPayment);
+
+  cachedRates = getRates({
+    homePrice: state.homePrice,
+    loanAmount,
+    downPayment: state.downPayment,
+    creditScore: state.creditScore,
+    propertyType: state.propertyType,
+    purpose: state.purpose,
+    firstTimeBuyer: true
+  });
+
+  // Update rate cards
+  for (const [product, data] of Object.entries(cachedRates)) {
+    const suffix = product === '30fixed' ? '30yr' : product === '15fixed' ? '15yr' : 'arm';
+    document.getElementById('rate-' + suffix).textContent = data.rate.toFixed(3) + '%';
+    document.getElementById('apr-' + suffix).textContent = data.apr.toFixed(3) + '% APR';
+    document.getElementById('monthly-' + suffix).textContent = fmt(data.monthly);
+  }
+
+  // Update summary sentence
+  const propLabels = { single: 'single-family home', condo: 'condo', townhouse: 'townhouse', multi: 'multi-family property' };
+  const summaryEl = document.getElementById('rates-summary');
+  summaryEl.innerHTML =
+    'Your quote for a <span class="editable-link" data-target="cmd-property">' + (propLabels[state.propertyType] || 'home') + '</span>' +
+    ' in <span class="editable-link" data-target="cmd-location">' + state.location + '</span>' +
+    ' with a ' + (state.purpose === 'purchase' ? 'purchase price' : state.purpose === 'refinance' ? 'home value' : 'home value') +
+    ' of <span class="editable-link" data-target="cmd-price">' + fmt(state.homePrice) + '</span>' +
+    (state.purpose === 'purchase' ? ' and <span class="editable-link" data-target="cmd-down">' + fmt(state.downPayment) + ' down</span>' : '') +
+    '.';
+
+  // Re-bind editable links
+  summaryEl.querySelectorAll('.editable-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = link.dataset.target;
+      if (target) openDropdown(target);
+    });
+  });
+
+  updateDetails();
+}
+
+function updateDetails() {
+  const loanAmount = Math.max(0, state.homePrice - state.downPayment);
+  const downPct = state.homePrice > 0 ? Math.round((state.downPayment / state.homePrice) * 100) : 0;
+  const data = cachedRates[state.selectedProduct];
   if (!data) return;
 
-  document.getElementById('r-rate-display').textContent = data.rate.toFixed(3) + '%';
-  document.getElementById('r-apr-display').textContent = data.apr.toFixed(3) + '% APR';
-  document.getElementById('r-monthly').textContent = fmt(data.monthly);
-  document.getElementById('r-loan-amt').textContent = fmt(loanAmount);
-  document.getElementById('r-down-pct').textContent = downPct + '%';
-  document.getElementById('r-closing').textContent = fmt(Math.round(homePrice * 0.02));
+  document.getElementById('detail-loan').textContent = fmt(loanAmount);
+  document.getElementById('detail-down').textContent = fmt(state.downPayment) + ' (' + downPct + '%)';
+  document.getElementById('detail-term').textContent = data.term + ' years';
+  document.getElementById('detail-monthly').textContent = fmt(data.monthly);
+  document.getElementById('detail-closing').textContent = fmt(Math.round(state.homePrice * 0.02));
 
-  // Savings: compare to avg lender rate (+0.5%) over loan life
+  // Savings calc
   const avgRate = data.rate + 0.5;
   const rAvg = (avgRate / 100) / 12;
   const n = data.term * 12;
@@ -850,17 +1225,11 @@ function updateDisplay() {
     ? loanAmount * (rAvg * Math.pow(1 + rAvg, n)) / (Math.pow(1 + rAvg, n) - 1)
     : 0;
   const totalSavings = Math.round((avgMonthly - data.monthly) * n);
-  document.getElementById('r-savings').textContent = fmt(Math.max(0, totalSavings));
+  document.getElementById('detail-savings').textContent = fmt(Math.max(0, totalSavings));
 }
 
-// Bind inputs
-[homePriceInput, downPaymentInput, creditScoreSelect, propertyTypeSelect].forEach(el => {
-  el.addEventListener('input', updateRates);
-  el.addEventListener('change', updateRates);
-});
-
 // Initialize
-updateRates();
+updateAll();
 
 // ===== LEAD CAPTURE =====
 document.getElementById('lead-submit').addEventListener('click', async () => {
@@ -874,10 +1243,8 @@ document.getElementById('lead-submit').addEventListener('click', async () => {
     return;
   }
 
-  // Gather scenario data
-  const homePrice = parseCurrency(homePriceInput.value);
-  const downPayment = parseCurrency(downPaymentInput.value);
-  const data = cachedRates[currentProduct];
+  const loanAmount = Math.max(0, state.homePrice - state.downPayment);
+  const data = cachedRates[state.selectedProduct];
 
   try {
     await fetch('./api/lead', {
@@ -889,13 +1256,13 @@ document.getElementById('lead-submit').addEventListener('click', async () => {
         phone,
         leadMode: 'rate_quote',
         scenario: {
-          purpose: currentPurpose,
-          homePrice: fmt(homePrice),
-          downPayment: fmt(downPayment),
-          creditScore: creditScoreSelect.value,
-          propertyType: propertyTypeSelect.value,
-          firstTimeBuyer: isFirstTimeBuyer,
-          product: currentProduct,
+          purpose: state.purpose,
+          homePrice: fmt(state.homePrice),
+          downPayment: fmt(state.downPayment),
+          creditScore: state.creditScore,
+          propertyType: state.propertyType,
+          location: state.location,
+          product: state.selectedProduct,
           estimatedRate: data ? data.rate.toFixed(3) + '%' : 'N/A',
           estimatedMonthly: data ? fmt(data.monthly) : 'N/A'
         }
@@ -905,7 +1272,6 @@ document.getElementById('lead-submit').addEventListener('click', async () => {
     console.error('Lead submit error:', e);
   }
 
-  // Show confirmation
   document.getElementById('confirm-name').textContent = firstName;
   document.getElementById('lead-form').style.display = 'none';
   document.getElementById('lead-confirmation').classList.add('show');
@@ -916,6 +1282,15 @@ document.getElementById('lead-submit').addEventListener('click', async () => {
 <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
+<script>
+  const scrollBtn = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => {
+    scrollBtn && scrollBtn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+  scrollBtn && scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
 <script src="./chatbot.js"></script>
 </body>
 </html>
