@@ -4,7 +4,7 @@
   // ─── CONFIG ───
   const API_URL = './api/chat';
   const LEAD_URL = './api/lead';
-  const ARIVE_URL = 'https://voyagefinancing.my1003app.com/1859439/register';
+  const APPLY_URL = './apply.html';
   const PHONE = '(414) 309-6013';
 
   // ─── STATE ───
@@ -501,7 +501,7 @@
       );
     } else {
       addMessage(
-        `Thanks, ${leadData.name}! I've got all your info. Here's what happens next:\n\n1. One of our advisors will review your details and reach out within 1 business day\n2. To get a head start, you can [complete your full application here](${ARIVE_URL}) — it takes about 10 minutes\n\nFeel free to ask me anything else in the meantime!`,
+        `Thanks, ${leadData.name}! I've got all your info. Here's what happens next:\n\n1. One of our advisors will review your details and reach out within 1 business day\n2. To get a head start, you can [complete your full application here](${APPLY_URL}) — it takes about 10 minutes\n\nFeel free to ask me anything else in the meantime!`,
         'bot'
       );
     }

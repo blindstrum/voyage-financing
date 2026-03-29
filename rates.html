@@ -18,226 +18,366 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Today's Mortgage Rates — Voyage Financing</title>
-<meta name="description" content="See today's lowest mortgage rates from Voyage Financing. Compare 30-year fixed, 15-year fixed, and more. $0 lender fees.">
+<title>Get Your Rate — Voyage Financing</title>
+<meta name="description" content="Get a personalized mortgage rate in 60 seconds. No login, no spam. $0 lender fees guaranteed.">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./base.css">
 <link rel="stylesheet" href="./style.css">
 <style>
-  .rates-layout {
+  /* ─── RATES PAGE STYLES ─── */
+  .rates-hero {
+    background: var(--color-dark-charcoal);
+    color: #fff;
+    text-align: center;
+    padding: var(--space-12) 0 var(--space-16);
+  }
+  .rates-hero h1 {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    margin-bottom: var(--space-3);
+  }
+  .rates-hero p {
+    font-size: var(--text-base);
+    opacity: 0.75;
+    max-width: 44ch;
+    margin: 0 auto;
+  }
+
+  /* Main layout: inputs left, result right */
+  .rates-main {
+    max-width: 1000px;
+    margin: calc(-1 * var(--space-10)) auto 0;
+    padding: 0 var(--space-4);
+    position: relative;
+    z-index: 2;
+  }
+  .rates-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-8);
+    gap: var(--space-6);
   }
   @media (min-width: 768px) {
-    .rates-layout {
+    .rates-grid {
       grid-template-columns: 1fr 1fr;
-      gap: var(--space-8);
+      gap: var(--space-6);
+      align-items: start;
     }
   }
-  .rate-hero-card {
+
+  .rates-card {
     background: var(--color-surface);
+    border: 1px solid var(--color-divider);
     border-radius: var(--radius-xl);
     padding: var(--space-8);
     box-shadow: var(--shadow-lg);
-    border: 1px solid var(--color-divider);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
   }
-  .rate-hero-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  .rates-card h2 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-6);
+    color: var(--color-text);
   }
-  .rate-types {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-6);
+
+  /* Form inputs */
+  .r-form-group {
+    margin-bottom: var(--space-5);
   }
-  .rate-type-card {
-    background: var(--color-primary-light);
-    border-radius: var(--radius-lg);
-    padding: var(--space-4);
-    text-align: center;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: border-color var(--transition-interactive), transform var(--transition-interactive);
+  .r-form-group label {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
   }
-  .rate-type-card:hover, .rate-type-card.active {
+  .r-input, .r-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    background: var(--color-surface-2);
+    transition: border-color 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .r-input:focus, .r-select:focus {
+    outline: none;
     border-color: var(--color-primary);
-    transform: translateY(-1px);
+    box-shadow: 0 0 0 3px rgba(62, 207, 207, 0.15);
   }
-  .rate-type-card .rate-type-name {
+  .r-select {
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%235a6366' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+  }
+  .r-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  /* Pill selectors for loan purpose */
+  .r-pills {
+    display: flex;
+    gap: var(--space-2);
+  }
+  .r-pill {
+    flex: 1;
+    padding: 10px 8px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-2);
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: var(--space-1);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
   }
-  .rate-type-card .rate-type-value {
+  .r-pill:hover {
+    border-color: var(--color-primary);
+    color: var(--color-text);
+  }
+  .r-pill.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  /* ─── RESULT CARD ─── */
+  .result-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    position: sticky;
+    top: 100px;
+  }
+  .result-card-header {
+    background: var(--color-dark-teal);
+    color: #fff;
+    padding: var(--space-6) var(--space-8);
+    text-align: center;
+  }
+  .result-card-header .result-eyebrow {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.7;
+    margin-bottom: var(--space-2);
+  }
+  .result-rate {
     font-family: var(--font-display);
-    font-size: var(--text-xl);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 800;
+    line-height: 1;
     color: var(--color-primary);
     font-variant-numeric: tabular-nums;
   }
-  .rate-type-card .rate-type-apr {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
+  .result-apr {
+    font-size: var(--text-sm);
+    opacity: 0.65;
+    margin-top: var(--space-1);
   }
-  .zero-fees-badge {
+  .result-zero-fees {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
-    background: var(--color-success);
-    color: #fff;
-    padding: var(--space-2) var(--space-5);
-    border-radius: var(--radius-full);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    margin: var(--space-4) auto;
-  }
-  .zero-fees-callout {
-    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-surface) 100%);
-    border: 2px solid var(--color-primary);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8);
-    text-align: center;
-    margin-bottom: var(--space-8);
-  }
-  .zero-fees-callout h3 {
-    font-size: var(--text-xl);
+    gap: 6px;
+    background: rgba(62, 207, 207, 0.15);
     color: var(--color-primary);
-    margin-bottom: var(--space-2);
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    margin-top: var(--space-3);
   }
-  .zero-fees-callout p {
-    font-size: var(--text-base);
-    color: var(--color-text-muted);
-    max-width: 52ch;
-    margin: 0 auto;
+
+  .result-card-body {
+    padding: var(--space-6) var(--space-8);
   }
-  .points-section {
-    background: var(--color-surface);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--color-divider);
-  }
-  .points-display {
+  .result-detail-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--space-4);
-    margin-top: var(--space-4);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-6);
   }
-  .points-item {
+  .result-detail {
     text-align: center;
     padding: var(--space-3);
-    border-radius: var(--radius-lg);
-    background: var(--color-primary-light);
+    background: var(--color-surface-2);
+    border-radius: var(--radius-md);
   }
-  .points-item .points-label {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-1);
+  .result-detail-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-faint);
+    margin-bottom: 4px;
   }
-  .points-item .points-rate {
+  .result-detail-value {
     font-family: var(--font-display);
     font-size: var(--text-lg);
     font-weight: 700;
-    color: var(--color-primary);
+    color: var(--color-text);
     font-variant-numeric: tabular-nums;
   }
-  .points-item .points-cost {
-    font-size: var(--text-xs);
-    color: var(--color-text-faint);
+
+  /* Alt products row */
+  .alt-products {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
   }
-  .glossary-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-  }
-  @media (min-width: 768px) {
-    .glossary-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  .glossary-item {
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
+  .alt-product {
+    flex: 1;
+    text-align: center;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
     border: 1px solid var(--color-divider);
+    cursor: pointer;
+    transition: all 0.15s;
   }
-  .glossary-item h4 {
+  .alt-product:hover, .alt-product.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+  .alt-product-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: 2px;
+  }
+  .alt-product-rate {
     font-family: var(--font-display);
     font-size: var(--text-base);
     font-weight: 700;
-    color: var(--color-primary);
-    margin-bottom: var(--space-2);
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
   }
-  .glossary-item p {
+  .alt-product.active .alt-product-name {
+    color: var(--color-primary);
+  }
+
+  /* Savings callout */
+  .savings-callout {
+    background: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    text-align: center;
+    margin-bottom: var(--space-6);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
-    line-height: 1.7;
   }
-  .cta-cards {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
+  .savings-callout strong {
+    color: var(--color-primary);
+    font-weight: 700;
   }
-  @media (min-width: 768px) {
-    .cta-cards {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  .cta-card {
-    background: var(--color-surface);
-    border-radius: var(--radius-xl);
-    padding: var(--space-6);
+
+  .result-cta {
     text-align: center;
-    box-shadow: var(--shadow-sm);
+  }
+  .result-cta .btn {
+    width: 100%;
+  }
+  .result-cta p {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    margin-top: var(--space-2);
+  }
+
+  /* ─── LEAD CAPTURE SECTION ─── */
+  .lead-section {
+    max-width: 640px;
+    margin: var(--space-16) auto var(--space-12);
+    padding: 0 var(--space-4);
+    text-align: center;
+  }
+  .lead-section h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+  }
+  .lead-section > p {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+    max-width: 44ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .lead-form {
+    background: var(--color-surface);
     border: 1px solid var(--color-divider);
-    transition: transform var(--transition-interactive), box-shadow var(--transition-interactive);
-  }
-  .cta-card:hover {
-    transform: translateY(-2px);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
     box-shadow: var(--shadow-md);
+    text-align: left;
   }
-  .cta-card-icon {
-    width: 48px;
-    height: 48px;
+  .lead-form .r-row {
+    margin-bottom: 0;
+  }
+  .lead-form .r-form-group:last-of-type {
+    margin-bottom: var(--space-6);
+  }
+
+  /* Confirmation state */
+  .lead-confirmation {
+    display: none;
+    text-align: center;
+    padding: var(--space-8);
+  }
+  .lead-confirmation.show {
+    display: block;
+  }
+  .lead-confirmation .confirm-icon {
+    width: 64px;
+    height: 64px;
     margin: 0 auto var(--space-4);
     background: var(--color-primary-light);
-    border-radius: var(--radius-lg);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--color-primary);
   }
-  .cta-card h3 {
-    font-size: var(--text-base);
+  .lead-confirmation h3 {
+    font-size: var(--text-lg);
     margin-bottom: var(--space-2);
   }
-  .cta-card p {
+  .lead-confirmation p {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
     margin-bottom: var(--space-4);
-    line-height: 1.6;
+    max-width: 40ch;
+    margin-left: auto;
+    margin-right: auto;
   }
-  .scenario-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
+
+  /* No-spam note */
+  .trust-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    margin-top: var(--space-3);
   }
-  @media (max-width: 480px) {
-    .scenario-row {
-      grid-template-columns: 1fr;
-    }
+  .trust-note svg { flex-shrink: 0; }
+
+  @media (max-width: 767px) {
+    .rates-main { margin-top: calc(-1 * var(--space-8)); }
+    .rates-card, .result-card-body { padding: var(--space-6); }
+    .result-card { position: static; }
+    .r-row { grid-template-columns: 1fr; }
+    .alt-products { flex-direction: column; }
   }
 </style>
 </head>
@@ -284,7 +424,7 @@
       <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
-      <a href="https://voyagefinancing.my1003app.com/1859439/register" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Apply Now</a>
+      <a href="./apply.html" class="btn btn-primary btn-sm">Apply Now</a>
       <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
@@ -292,211 +432,197 @@
   </nav>
 </header>
 
-<!-- PAGE HERO -->
-<section class="page-hero">
+<!-- HERO -->
+<section class="rates-hero">
   <div class="container">
-    <h1>Today's Mortgage Rates</h1>
-    <p>Transparent pricing, updated in real time. See what you'd actually pay — no bait-and-switch, no hidden fees.</p>
-    <span class="teal-underline"></span>
+    <h1>Get Your Rate in 60 Seconds</h1>
+    <p>Adjust the details below. Your estimated rate updates instantly. No login required.</p>
   </div>
 </section>
 
-<!-- MAIN RATE DISPLAY -->
-<section class="section" style="background: var(--color-bg);">
-  <div class="container">
+<!-- MAIN: INPUTS + RESULT -->
+<section style="background: var(--color-bg); padding-bottom: var(--space-12);">
+  <div class="rates-main">
+    <div class="rates-grid">
 
-    <!-- Rate Hero Card -->
-    <div class="rate-hero-card" style="max-width: 800px; margin: 0 auto var(--space-8);">
-      <div class="result-label" style="font-size: var(--text-base); margin-bottom: var(--space-2);">30-Year Fixed Rate</div>
-      <div class="rate-big" id="main-rate">6.250%</div>
-      <div class="result-sublabel" style="font-size: var(--text-sm); margin-top: var(--space-1);" id="main-apr">6.380% APR</div>
-      <div class="zero-fees-badge">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-        $0 Lender Fees
-      </div>
-      <div class="rate-types">
-        <div class="rate-type-card active" data-rate-type="30fixed">
-          <div class="rate-type-name">30-Year Fixed</div>
-          <div class="rate-type-value">6.250%</div>
-          <div class="rate-type-apr">6.380% APR</div>
-        </div>
-        <div class="rate-type-card" data-rate-type="15fixed">
-          <div class="rate-type-name">15-Year Fixed</div>
-          <div class="rate-type-value">5.625%</div>
-          <div class="rate-type-apr">5.790% APR</div>
-        </div>
-        <div class="rate-type-card" data-rate-type="arm">
-          <div class="rate-type-name">7/1 ARM</div>
-          <div class="rate-type-value">5.875%</div>
-          <div class="rate-type-apr">6.210% APR</div>
-        </div>
-      </div>
-    </div>
+      <!-- LEFT: INPUTS -->
+      <div class="rates-card">
+        <h2>Your Details</h2>
 
-    <!-- Scenario Inputs -->
-    <div class="rates-layout" style="max-width: 800px; margin: 0 auto var(--space-8);">
-      <div class="tool-card">
-        <h3 style="font-size: var(--text-lg); margin-bottom: var(--space-6);">Your Scenario</h3>
-        <div class="scenario-row">
-          <div class="form-group">
-            <label for="home-value">Home Value</label>
-            <input type="text" id="home-value" class="form-input" value="$500,000">
-          </div>
-          <div class="form-group">
-            <label for="down-payment">Down Payment</label>
-            <input type="text" id="down-payment" class="form-input" value="$100,000">
+        <div class="r-form-group">
+          <label>Loan Purpose</label>
+          <div class="r-pills" id="purpose-pills">
+            <button class="r-pill active" data-value="purchase">Purchase</button>
+            <button class="r-pill" data-value="refinance">Refinance</button>
+            <button class="r-pill" data-value="cashout">Cash-Out Refi</button>
           </div>
         </div>
-        <div class="scenario-row">
-          <div class="form-group">
-            <label for="property-type">Property Type</label>
-            <select id="property-type" class="form-select">
-              <option value="single">Single Family Home</option>
+
+        <div class="r-row">
+          <div class="r-form-group">
+            <label for="r-home-price">Home Price</label>
+            <input type="text" id="r-home-price" class="r-input" value="$400,000" inputmode="numeric">
+          </div>
+          <div class="r-form-group">
+            <label for="r-down-payment">Down Payment</label>
+            <input type="text" id="r-down-payment" class="r-input" value="$80,000" inputmode="numeric">
+          </div>
+        </div>
+
+        <div class="r-row">
+          <div class="r-form-group">
+            <label for="r-credit-score">Credit Score</label>
+            <select id="r-credit-score" class="r-select">
+              <option value="760">Excellent (760+)</option>
+              <option value="740">Very Good (740–759)</option>
+              <option value="720" selected>Good (720–739)</option>
+              <option value="700">Above Average (700–719)</option>
+              <option value="680">Average (680–699)</option>
+              <option value="660">Below Average (660–679)</option>
+              <option value="640">Fair (640–659)</option>
+              <option value="620">Minimum (620–639)</option>
+            </select>
+          </div>
+          <div class="r-form-group">
+            <label for="r-property-type">Property Type</label>
+            <select id="r-property-type" class="r-select">
+              <option value="single">Single Family</option>
               <option value="condo">Condo</option>
               <option value="townhouse">Townhouse</option>
-              <option value="multi">Multi-Family (2-4 units)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="loan-type">Loan Type</label>
-            <select id="loan-type" class="form-select">
-              <option value="purchase">Purchase</option>
-              <option value="refinance">Refinance</option>
-              <option value="cashout">Cash-Out Refinance</option>
+              <option value="multi">Multi-Family (2-4)</option>
             </select>
           </div>
         </div>
-      </div>
-      <div class="tool-card">
-        <h3 style="font-size: var(--text-lg); margin-bottom: var(--space-4);">Your Estimate</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4);">
-          <div class="result-item" style="background: var(--color-primary-light); border-radius: var(--radius-lg); padding: var(--space-4);">
-            <div class="result-label">Loan Amount</div>
-            <div class="result-value" id="scenario-loan">$400,000</div>
-          </div>
-          <div class="result-item" style="background: var(--color-primary-light); border-radius: var(--radius-lg); padding: var(--space-4);">
-            <div class="result-label">Est. Monthly</div>
-            <div class="result-value" id="scenario-monthly">$2,463</div>
-          </div>
+
+        <div class="r-form-group">
+          <label for="r-location">Property Location</label>
+          <input type="text" id="r-location" class="r-input" value="Wisconsin" placeholder="State or ZIP code">
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
-          <div class="result-item" style="background: var(--color-primary-light); border-radius: var(--radius-lg); padding: var(--space-4);">
-            <div class="result-label">Down Payment %</div>
-            <div class="result-value" id="scenario-pct">20%</div>
-          </div>
-          <div class="result-item" style="background: var(--color-primary-light); border-radius: var(--radius-lg); padding: var(--space-4);">
-            <div class="result-label">Est. Closing Costs</div>
-            <div class="result-value" id="scenario-closing">$10,000</div>
+
+        <div class="r-form-group" style="margin-bottom: 0;">
+          <label>Are you a first-time homebuyer?</label>
+          <div class="r-pills" id="ftb-pills">
+            <button class="r-pill active" data-value="yes">Yes</button>
+            <button class="r-pill" data-value="no">No</button>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- $0 Lender Fees Callout -->
-    <div class="zero-fees-callout">
-      <h3>$0 Lender Fees. Seriously.</h3>
-      <p>Unlike most lenders who charge $1,000–$3,000+ in origination and processing fees, Voyage charges nothing. That means more money stays in your pocket at the closing table.</p>
-    </div>
+      <!-- RIGHT: RESULT -->
+      <div class="result-card" id="result-card">
+        <div class="result-card-header">
+          <div class="result-eyebrow">Your Estimated Rate</div>
+          <div class="result-rate" id="r-rate-display">6.125%</div>
+          <div class="result-apr" id="r-apr-display">6.255% APR</div>
+          <div class="result-zero-fees">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+            $0 Lender Fees
+          </div>
+        </div>
+        <div class="result-card-body">
+          <!-- Product tabs -->
+          <div class="alt-products" id="product-tabs">
+            <div class="alt-product active" data-product="30fixed">
+              <div class="alt-product-name">30-Yr Fixed</div>
+              <div class="alt-product-rate" id="tab-30yr">6.125%</div>
+            </div>
+            <div class="alt-product" data-product="15fixed">
+              <div class="alt-product-name">15-Yr Fixed</div>
+              <div class="alt-product-rate" id="tab-15yr">5.500%</div>
+            </div>
+            <div class="alt-product" data-product="arm">
+              <div class="alt-product-name">7/1 ARM</div>
+              <div class="alt-product-rate" id="tab-arm">5.750%</div>
+            </div>
+          </div>
 
-    <!-- Buy a Lower Rate -->
-    <div class="points-section" style="max-width: 800px; margin: 0 auto var(--space-8);">
-      <h3 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Buy a Lower Rate</h3>
-      <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-4);">Paying discount points upfront can lower your interest rate for the life of the loan. Drag the slider to see the tradeoff.</p>
-      <div class="form-group" style="margin-bottom: var(--space-2);">
-        <label for="points-slider">Discount Points</label>
-        <div style="display: flex; align-items: center; gap: var(--space-4);">
-          <input type="range" id="points-slider" class="range-slider" min="0" max="3" step="0.25" value="0" style="flex: 1;">
-          <span id="points-value" style="font-family: var(--font-display); font-weight: 700; font-size: var(--text-lg); min-width: 60px; text-align: right; color: var(--color-text);">0 pts</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; font-size: var(--text-xs); color: var(--color-text-faint); margin-top: var(--space-1);">
-          <span>0 points (no cost)</span>
-          <span>3 points (max savings)</span>
-        </div>
-      </div>
-      <div class="points-display">
-        <div class="points-item">
-          <div class="points-label">Rate</div>
-          <div class="points-rate" id="points-rate">6.250%</div>
-        </div>
-        <div class="points-item">
-          <div class="points-label">Upfront Cost</div>
-          <div class="points-rate" id="points-upfront">$0</div>
-          <div class="points-cost" id="points-upfront-note">No additional cost</div>
-        </div>
-        <div class="points-item">
-          <div class="points-label">Monthly Payment</div>
-          <div class="points-rate" id="points-monthly">$2,463</div>
-          <div class="points-cost" id="points-savings">—</div>
-        </div>
-      </div>
-    </div>
+          <!-- Details grid -->
+          <div class="result-detail-grid">
+            <div class="result-detail">
+              <div class="result-detail-label">Monthly P&I</div>
+              <div class="result-detail-value" id="r-monthly">$1,944</div>
+            </div>
+            <div class="result-detail">
+              <div class="result-detail-label">Loan Amount</div>
+              <div class="result-detail-value" id="r-loan-amt">$320,000</div>
+            </div>
+            <div class="result-detail">
+              <div class="result-detail-label">Down Payment</div>
+              <div class="result-detail-value" id="r-down-pct">20%</div>
+            </div>
+            <div class="result-detail">
+              <div class="result-detail-label">Est. Closing Costs</div>
+              <div class="result-detail-value" id="r-closing">$8,000</div>
+            </div>
+          </div>
 
-  </div>
-</section>
+          <!-- Savings callout -->
+          <div class="savings-callout" id="savings-callout">
+            You could save <strong id="r-savings">$4,200</strong> vs. the average lender over the life of your loan
+          </div>
 
-<!-- RATE GLOSSARY -->
-<section class="section-sm" style="background: var(--color-surface-2);">
-  <div class="container">
-    <h2 style="font-size: var(--text-xl); text-align: center; margin-bottom: var(--space-8);">Rate Glossary</h2>
-    <div class="glossary-grid">
-      <div class="glossary-item">
-        <h4>Interest Rate</h4>
-        <p>The percentage charged by the lender for borrowing money. This is the base cost of your loan and determines how much interest accrues each month on your remaining balance.</p>
+          <!-- CTA -->
+          <div class="result-cta">
+            <a href="./apply.html" class="btn btn-primary btn-lg">Start Your Application</a>
+            <p>10 minutes. No commitment. No impact on credit score.</p>
+          </div>
+        </div>
       </div>
-      <div class="glossary-item">
-        <h4>APR (Annual Percentage Rate)</h4>
-        <p>The total yearly cost of borrowing, including the interest rate plus other charges like prepaid interest and third-party fees. APR gives you a more complete picture of what you'll pay.</p>
-      </div>
-      <div class="glossary-item">
-        <h4>Closing Costs</h4>
-        <p>Fees paid when your mortgage closes, including appraisal, title insurance, escrow, and recording fees. Typically 2–5% of the home price. Voyage charges $0 in lender fees.</p>
-      </div>
-      <div class="glossary-item">
-        <h4>Points & Credits</h4>
-        <p>Discount points are upfront fees you pay to lower your interest rate (1 point = 1% of the loan). Lender credits work in reverse — the lender covers some closing costs in exchange for a slightly higher rate.</p>
-      </div>
+
     </div>
   </div>
 </section>
 
-<!-- CTA OPTIONS -->
-<section class="section" style="background: var(--color-bg);">
-  <div class="container">
-    <h2 style="font-size: var(--text-xl); text-align: center; margin-bottom: var(--space-3);">What would you like to do next?</h2>
-    <p style="font-size: var(--text-base); color: var(--color-text-muted); text-align: center; max-width: 48ch; margin: 0 auto var(--space-8);">Choose the option that works best for you. No pressure, no commitment.</p>
-    <div class="cta-cards">
-      <div class="cta-card">
-        <div class="cta-card-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+<!-- LEAD CAPTURE -->
+<section style="background: var(--color-surface-2);">
+  <div class="lead-section">
+    <h2>Want Your Exact Rate?</h2>
+    <p>Leave your info and an advisor will send you a personalized rate quote — usually within a few hours.</p>
+
+    <div class="lead-form" id="lead-form">
+      <div class="r-row">
+        <div class="r-form-group">
+          <label for="lead-first">First Name</label>
+          <input type="text" id="lead-first" class="r-input" placeholder="John">
         </div>
-        <h3>Get Estimate via Email</h3>
-        <p>We'll send you a detailed rate estimate customized to your scenario — no login required.</p>
-        <a href="#" class="btn btn-primary btn-sm" target="_blank">Send My Estimate</a>
-      </div>
-      <div class="cta-card">
-        <div class="cta-card-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <div class="r-form-group">
+          <label for="lead-last">Last Name</label>
+          <input type="text" id="lead-last" class="r-input" placeholder="Smith">
         </div>
-        <h3>Review with an Advisor</h3>
-        <p>Talk through your options with a Voyage mortgage advisor. Average wait time: less than 1 minute.</p>
-        <a href="tel:+14143096013" class="btn btn-secondary btn-sm">Call (414) 309-6013</a>
       </div>
-      <div class="cta-card">
-        <div class="cta-card-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      <div class="r-row">
+        <div class="r-form-group">
+          <label for="lead-email">Email</label>
+          <input type="email" id="lead-email" class="r-input" placeholder="john@example.com">
         </div>
-        <h3>Track Rates</h3>
-        <p>Get daily or weekly rate alerts delivered to your inbox so you can lock in at the perfect moment.</p>
-        <a href="#" class="btn btn-secondary btn-sm" target="_blank">Set Up Alerts</a>
+        <div class="r-form-group">
+          <label for="lead-phone">Phone</label>
+          <input type="tel" id="lead-phone" class="r-input" placeholder="(414) 555-1234">
+        </div>
       </div>
+      <button class="btn btn-primary btn-lg" style="width: 100%;" id="lead-submit">Get My Personalized Rate</button>
+      <div class="trust-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        No spam. No robo-calls. Your info stays with Voyage.
+      </div>
+    </div>
+
+    <div class="lead-confirmation" id="lead-confirmation">
+      <div class="confirm-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h3>You're all set, <span id="confirm-name">John</span>.</h3>
+      <p>A Voyage advisor will reach out with your personalized rate quote — usually within a few hours.</p>
+      <a href="./apply.html" class="btn btn-primary">Start Your Full Application</a>
+      <p style="margin-top: var(--space-3); font-size: var(--text-xs); color: var(--color-text-faint);">Or call us now at <a href="tel:+14143096013">(414) 309-6013</a></p>
     </div>
   </div>
 </section>
 
-<!-- SUPPORT -->
-<section class="section-sm" style="background: var(--color-surface-2);">
+<!-- SUPPORT BAND -->
+<section class="section-sm" style="background: var(--color-bg);">
   <div class="container" style="text-align: center;">
-    <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-2);">Questions about rates?</p>
+    <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-2);">Prefer to talk it through?</p>
     <p style="font-size: var(--text-xl); font-family: var(--font-display); font-weight: 700;">
       <a href="tel:+14143096013" style="color: var(--color-text);">(414) 309-6013</a>
     </p>
@@ -514,7 +640,7 @@
         </a>
         <p>Your new home is closer than you think. We're here to guide you every step of the way. Let's get you moving.</p>
         <div style="margin-top: var(--space-4);">
-          <a href="https://voyagefinancing.my1003app.com/1859439/register" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Start Your Application</a>
+          <a href="./apply.html" class="btn btn-primary btn-sm">Start Your Application</a>
         </div>
       </div>
       <div class="footer-col">
@@ -567,118 +693,223 @@ const menuBtn=document.getElementById('mobile-menu-btn');
 const navLinks=document.getElementById('nav-links');
 menuBtn&&menuBtn.addEventListener('click',()=>{navLinks.classList.toggle('open');});
 
-// ===== RATES PAGE LOGIC =====
-const fmt = v => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(v);
+// ===== RATE ENGINE =====
+// This is isolated so you can swap in a live API call later.
+// Just replace getRates() with an async fetch to your rate API.
 
-const rateData = {
-  '30fixed': { rate: 6.250, apr: 6.380, name: '30-Year Fixed', term: 30 },
-  '15fixed': { rate: 5.625, apr: 5.790, name: '15-Year Fixed', term: 15 },
-  'arm':     { rate: 5.875, apr: 6.210, name: '7/1 ARM',       term: 30 }
-};
+function getRates(params) {
+  // Base rates by product (placeholder — swap for API)
+  const baseRates = {
+    '30fixed': 6.375,
+    '15fixed': 5.750,
+    'arm': 5.875
+  };
 
-let currentType = '30fixed';
+  // Credit score adjustment
+  const creditAdj = {
+    760: -0.250, 740: -0.125, 720: 0, 700: 0.125,
+    680: 0.250, 660: 0.500, 640: 0.750, 620: 1.000
+  };
 
-// Rate type selection
-document.querySelectorAll('.rate-type-card').forEach(card => {
-  card.addEventListener('click', () => {
-    document.querySelectorAll('.rate-type-card').forEach(c => c.classList.remove('active'));
-    card.classList.add('active');
-    currentType = card.dataset.rateType;
-    const data = rateData[currentType];
-    document.getElementById('main-rate').textContent = data.rate.toFixed(3) + '%';
-    document.getElementById('main-apr').textContent = data.apr.toFixed(3) + '% APR';
-    updateScenario();
-    updatePoints();
-  });
-});
+  // LTV adjustment
+  const ltv = params.loanAmount / params.homePrice;
+  let ltvAdj = 0;
+  if (ltv > 0.95) ltvAdj = 0.375;
+  else if (ltv > 0.90) ltvAdj = 0.250;
+  else if (ltv > 0.80) ltvAdj = 0.125;
 
-// Parse currency input
-function parseCurrency(str) {
-  return parseInt(str.replace(/[^0-9]/g, '')) || 0;
+  // Property type adjustment
+  const propAdj = { single: 0, townhouse: 0, condo: 0.125, multi: 0.375 };
+
+  // Loan purpose adjustment
+  const purposeAdj = { purchase: 0, refinance: 0.125, cashout: 0.250 };
+
+  const adj = (creditAdj[params.creditScore] || 0) + ltvAdj +
+              (propAdj[params.propertyType] || 0) + (purposeAdj[params.purpose] || 0);
+
+  const rates = {};
+  for (const [product, base] of Object.entries(baseRates)) {
+    const rate = Math.max(3.0, Math.round((base + adj) * 1000) / 1000);
+    const apr = Math.round((rate + 0.130) * 1000) / 1000;
+    const term = product === '15fixed' ? 15 : 30;
+    const r = (rate / 100) / 12;
+    const n = term * 12;
+    const monthly = params.loanAmount > 0
+      ? Math.round(params.loanAmount * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1))
+      : 0;
+
+    rates[product] = { rate, apr, monthly, term };
+  }
+
+  return rates;
 }
 
-// Format input on blur
-function formatInput(el) {
+// ===== UI LOGIC =====
+const fmt = v => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v);
+
+function parseCurrency(str) { return parseInt(String(str).replace(/[^0-9]/g, '')) || 0; }
+
+function formatCurrencyInput(el) {
   el.addEventListener('blur', () => {
-    const val = parseCurrency(el.value);
-    if (val > 0) el.value = fmt(val);
+    const v = parseCurrency(el.value);
+    if (v > 0) el.value = fmt(v);
   });
   el.addEventListener('focus', () => {
-    const val = parseCurrency(el.value);
-    el.value = val > 0 ? val : '';
+    const v = parseCurrency(el.value);
+    el.value = v > 0 ? v : '';
   });
 }
 
-const homeValueInput = document.getElementById('home-value');
-const downPaymentInput = document.getElementById('down-payment');
+const homePriceInput = document.getElementById('r-home-price');
+const downPaymentInput = document.getElementById('r-down-payment');
+const creditScoreSelect = document.getElementById('r-credit-score');
+const propertyTypeSelect = document.getElementById('r-property-type');
 
-formatInput(homeValueInput);
-formatInput(downPaymentInput);
+formatCurrencyInput(homePriceInput);
+formatCurrencyInput(downPaymentInput);
 
-function updateScenario() {
-  const homeValue = parseCurrency(homeValueInput.value);
-  const downPayment = parseCurrency(downPaymentInput.value);
-  const loan = Math.max(0, homeValue - downPayment);
-  const data = rateData[currentType];
-  const r = (data.rate / 100) / 12;
-  const n = data.term * 12;
-  const monthly = loan > 0 ? loan * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1) : 0;
-  const pct = homeValue > 0 ? Math.round((downPayment / homeValue) * 100) : 0;
-  const closing = Math.round(homeValue * 0.025);
+let currentProduct = '30fixed';
+let currentPurpose = 'purchase';
+let isFirstTimeBuyer = true;
 
-  document.getElementById('scenario-loan').textContent = fmt(loan);
-  document.getElementById('scenario-monthly').textContent = fmt(Math.round(monthly));
-  document.getElementById('scenario-pct').textContent = pct + '%';
-  document.getElementById('scenario-closing').textContent = fmt(closing);
-}
-
-[homeValueInput, downPaymentInput,
- document.getElementById('property-type'),
- document.getElementById('loan-type')].forEach(el => {
-  el.addEventListener('input', updateScenario);
-  el.addEventListener('change', updateScenario);
+// Pill selectors
+document.querySelectorAll('#purpose-pills .r-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('#purpose-pills .r-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    currentPurpose = pill.dataset.value;
+    updateRates();
+  });
 });
 
-// Points slider
-const pointsSlider = document.getElementById('points-slider');
-const pointsValue = document.getElementById('points-value');
-const pointsRate = document.getElementById('points-rate');
-const pointsUpfront = document.getElementById('points-upfront');
-const pointsUpfrontNote = document.getElementById('points-upfront-note');
-const pointsMonthly = document.getElementById('points-monthly');
-const pointsSavings = document.getElementById('points-savings');
+document.querySelectorAll('#ftb-pills .r-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('#ftb-pills .r-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    isFirstTimeBuyer = pill.dataset.value === 'yes';
+    updateRates();
+  });
+});
 
-function updatePoints() {
-  const points = parseFloat(pointsSlider.value);
-  const data = rateData[currentType];
-  const adjustedRate = data.rate - (points * 0.25);
-  const homeValue = parseCurrency(homeValueInput.value);
+// Product tabs
+document.querySelectorAll('#product-tabs .alt-product').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('#product-tabs .alt-product').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentProduct = tab.dataset.product;
+    updateDisplay();
+  });
+});
+
+let cachedRates = {};
+
+function updateRates() {
+  const homePrice = parseCurrency(homePriceInput.value);
   const downPayment = parseCurrency(downPaymentInput.value);
-  const loan = Math.max(0, homeValue - downPayment);
-  const cost = Math.round(loan * (points / 100));
+  const loanAmount = Math.max(0, homePrice - downPayment);
 
-  const r = (adjustedRate / 100) / 12;
-  const n = data.term * 12;
-  const monthly = loan > 0 ? loan * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1) : 0;
+  cachedRates = getRates({
+    homePrice,
+    loanAmount,
+    downPayment,
+    creditScore: parseInt(creditScoreSelect.value),
+    propertyType: propertyTypeSelect.value,
+    purpose: currentPurpose,
+    firstTimeBuyer: isFirstTimeBuyer
+  });
 
-  // Base monthly for comparison
-  const rBase = (data.rate / 100) / 12;
-  const baseMonthly = loan > 0 ? loan * (rBase * Math.pow(1 + rBase, n)) / (Math.pow(1 + rBase, n) - 1) : 0;
-  const monthlySavings = baseMonthly - monthly;
+  // Update tab rates
+  document.getElementById('tab-30yr').textContent = cachedRates['30fixed'].rate.toFixed(3) + '%';
+  document.getElementById('tab-15yr').textContent = cachedRates['15fixed'].rate.toFixed(3) + '%';
+  document.getElementById('tab-arm').textContent = cachedRates['arm'].rate.toFixed(3) + '%';
 
-  pointsValue.textContent = points.toFixed(points % 1 === 0 ? 0 : 2) + ' pts';
-  pointsRate.textContent = adjustedRate.toFixed(3) + '%';
-  pointsUpfront.textContent = fmt(cost);
-  pointsUpfrontNote.textContent = cost === 0 ? 'No additional cost' : (points.toFixed(points % 1 === 0 ? 0 : 2) + '% of loan amount');
-  pointsMonthly.textContent = fmt(Math.round(monthly));
-  pointsSavings.textContent = monthlySavings > 0 ? ('Save ' + fmt(Math.round(monthlySavings)) + '/mo') : '—';
+  updateDisplay();
 }
 
-pointsSlider.addEventListener('input', updatePoints);
+function updateDisplay() {
+  const homePrice = parseCurrency(homePriceInput.value);
+  const downPayment = parseCurrency(downPaymentInput.value);
+  const loanAmount = Math.max(0, homePrice - downPayment);
+  const downPct = homePrice > 0 ? Math.round((downPayment / homePrice) * 100) : 0;
+
+  const data = cachedRates[currentProduct];
+  if (!data) return;
+
+  document.getElementById('r-rate-display').textContent = data.rate.toFixed(3) + '%';
+  document.getElementById('r-apr-display').textContent = data.apr.toFixed(3) + '% APR';
+  document.getElementById('r-monthly').textContent = fmt(data.monthly);
+  document.getElementById('r-loan-amt').textContent = fmt(loanAmount);
+  document.getElementById('r-down-pct').textContent = downPct + '%';
+  document.getElementById('r-closing').textContent = fmt(Math.round(homePrice * 0.02));
+
+  // Savings: compare to avg lender rate (+0.5%) over loan life
+  const avgRate = data.rate + 0.5;
+  const rAvg = (avgRate / 100) / 12;
+  const n = data.term * 12;
+  const avgMonthly = loanAmount > 0
+    ? loanAmount * (rAvg * Math.pow(1 + rAvg, n)) / (Math.pow(1 + rAvg, n) - 1)
+    : 0;
+  const totalSavings = Math.round((avgMonthly - data.monthly) * n);
+  document.getElementById('r-savings').textContent = fmt(Math.max(0, totalSavings));
+}
+
+// Bind inputs
+[homePriceInput, downPaymentInput, creditScoreSelect, propertyTypeSelect].forEach(el => {
+  el.addEventListener('input', updateRates);
+  el.addEventListener('change', updateRates);
+});
 
 // Initialize
-updateScenario();
-updatePoints();
+updateRates();
+
+// ===== LEAD CAPTURE =====
+document.getElementById('lead-submit').addEventListener('click', async () => {
+  const firstName = document.getElementById('lead-first').value.trim();
+  const lastName = document.getElementById('lead-last').value.trim();
+  const email = document.getElementById('lead-email').value.trim();
+  const phone = document.getElementById('lead-phone').value.trim();
+
+  if (!firstName || !email) {
+    alert('Please enter at least your first name and email.');
+    return;
+  }
+
+  // Gather scenario data
+  const homePrice = parseCurrency(homePriceInput.value);
+  const downPayment = parseCurrency(downPaymentInput.value);
+  const data = cachedRates[currentProduct];
+
+  try {
+    await fetch('./api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: firstName + ' ' + lastName,
+        email,
+        phone,
+        leadMode: 'rate_quote',
+        scenario: {
+          purpose: currentPurpose,
+          homePrice: fmt(homePrice),
+          downPayment: fmt(downPayment),
+          creditScore: creditScoreSelect.value,
+          propertyType: propertyTypeSelect.value,
+          firstTimeBuyer: isFirstTimeBuyer,
+          product: currentProduct,
+          estimatedRate: data ? data.rate.toFixed(3) + '%' : 'N/A',
+          estimatedMonthly: data ? fmt(data.monthly) : 'N/A'
+        }
+      })
+    });
+  } catch (e) {
+    console.error('Lead submit error:', e);
+  }
+
+  // Show confirmation
+  document.getElementById('confirm-name').textContent = firstName;
+  document.getElementById('lead-form').style.display = 'none';
+  document.getElementById('lead-confirmation').classList.add('show');
+});
 </script>
 
 <!-- SCROLL TO TOP -->
