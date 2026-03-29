@@ -405,6 +405,210 @@
     margin-top: var(--space-5);
   }
 
+  /* ─── BUYDOWN SECTION ─── */
+  .buydown-section {
+    max-width: var(--content-wide);
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-4) 0;
+  }
+  .buydown-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6) var(--space-8);
+  }
+  .buydown-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+  .buydown-header h3 {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .buydown-header .info-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-faint);
+    cursor: help;
+    position: relative;
+  }
+  .buydown-header .info-icon:hover + .tooltip,
+  .buydown-header .tooltip:hover {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .buydown-header .tooltip {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: var(--color-dark-charcoal);
+    color: #fff;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    max-width: 300px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+    z-index: 10;
+  }
+
+  .buydown-slider-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+  .buydown-slider-track {
+    flex: 1;
+    position: relative;
+  }
+  .buydown-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--color-text-faint);
+    margin-bottom: var(--space-2);
+  }
+  .buydown-slider {
+    width: 100%;
+    height: 8px;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--color-surface-offset);
+    border-radius: 4px;
+    outline: none;
+  }
+  .buydown-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 3px solid var(--color-surface);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+  .buydown-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 3px solid var(--color-surface);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+  .buydown-cost-display {
+    text-align: center;
+    min-width: 100px;
+    flex-shrink: 0;
+  }
+  .buydown-cost-value {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 800;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .buydown-cost-label {
+    font-size: 11px;
+    color: var(--color-text-faint);
+    margin-top: 4px;
+  }
+
+  /* Buydown result cards */
+  .buydown-results {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-4);
+  }
+  .buydown-result-item {
+    background: var(--color-surface-2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-5);
+  }
+  .buydown-result-item h4 {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-faint);
+    margin-bottom: var(--space-2);
+  }
+  .buydown-result-item .bd-value {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: var(--space-1);
+  }
+  .buydown-result-item .bd-value.teal {
+    color: var(--color-primary);
+  }
+  .buydown-result-item p {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  /* New rate after buydown */
+  .buydown-new-rate {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .buydown-rate-from {
+    font-size: var(--text-base);
+    color: var(--color-text-faint);
+    text-decoration: line-through;
+    font-variant-numeric: tabular-nums;
+  }
+  .buydown-rate-arrow {
+    color: var(--color-text-faint);
+  }
+  .buydown-rate-to {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 800;
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .buydown-rate-pts {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    background: var(--color-surface-2);
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+  }
+
+  @media (max-width: 767px) {
+    .buydown-card { padding: var(--space-5); }
+    .buydown-slider-row {
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .buydown-cost-display { min-width: auto; }
+    .buydown-results {
+      grid-template-columns: 1fr;
+    }
+    .buydown-new-rate {
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+  }
+
   /* ─── CTA STRIP ─── */
   .cta-strip {
     max-width: var(--content-wide);
@@ -843,6 +1047,63 @@
     </div>
   </div>
 
+  <!-- BUYDOWN SLIDER -->
+  <div class="buydown-section">
+    <div class="buydown-card">
+      <div class="buydown-header">
+        <h3>Buy a lower rate</h3>
+        <div style="position:relative;display:inline-flex;">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          <div class="tooltip">Paying "points" upfront at closing can lower your interest rate. Each point typically costs 1% of your loan amount and reduces your rate by about 0.25%. This makes sense if you plan to stay in your home long enough to recoup the cost through lower monthly payments.</div>
+        </div>
+      </div>
+
+      <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-5); line-height: 1.5;">Drag the slider to see how much more you'd pay at closing to get a lower rate.</p>
+
+      <!-- New rate display -->
+      <div class="buydown-new-rate" id="bd-rate-display">
+        <span class="buydown-rate-from" id="bd-rate-from">6.375%</span>
+        <svg class="buydown-rate-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span class="buydown-rate-to" id="bd-rate-to">6.375%</span>
+        <span class="buydown-rate-pts" id="bd-points-label">0 points</span>
+      </div>
+
+      <!-- Slider -->
+      <div class="buydown-slider-row">
+        <div class="buydown-slider-track">
+          <div class="buydown-slider-labels">
+            <span>No buydown</span>
+            <span id="bd-max-label">3 points</span>
+          </div>
+          <input type="range" class="buydown-slider" id="bd-slider" min="0" max="300" step="1" value="0">
+        </div>
+        <div class="buydown-cost-display">
+          <div class="buydown-cost-value" id="bd-cost-value">$0</div>
+          <div class="buydown-cost-label">at closing</div>
+        </div>
+      </div>
+
+      <!-- Break-even results -->
+      <div class="buydown-results" id="bd-results">
+        <div class="buydown-result-item">
+          <h4>Break Even</h4>
+          <div class="bd-value" id="bd-breakeven">—</div>
+          <p id="bd-breakeven-text">Move the slider to buy down your rate.</p>
+        </div>
+        <div class="buydown-result-item">
+          <h4>Monthly Savings</h4>
+          <div class="bd-value teal" id="bd-monthly-save">$0</div>
+          <p id="bd-monthly-text">Lower payment each month with a buydown.</p>
+        </div>
+        <div class="buydown-result-item">
+          <h4>Upfront Cost</h4>
+          <div class="bd-value" id="bd-upfront">$0</div>
+          <p id="bd-upfront-text">Added to your closing costs at settlement.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- CTA -->
   <div class="cta-strip">
     <a href="./apply.html" class="btn btn-primary btn-lg">Lock This Rate — Start Your Application</a>
@@ -1157,6 +1418,7 @@ document.querySelectorAll('.product-card').forEach(card => {
     document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
     state.selectedProduct = card.dataset.product;
+    document.getElementById('bd-slider').value = 0;
     updateDetails();
   });
 });
@@ -1202,6 +1464,8 @@ function updateAll() {
     });
   });
 
+  // Reset slider position before recalculating details (updateDetails calls updateBuydown)
+  document.getElementById('bd-slider').value = 0;
   updateDetails();
 }
 
@@ -1226,6 +1490,95 @@ function updateDetails() {
     : 0;
   const totalSavings = Math.round((avgMonthly - data.monthly) * n);
   document.getElementById('detail-savings').textContent = fmt(Math.max(0, totalSavings));
+
+  // Update buydown
+  updateBuydown();
+}
+
+// ===== BUYDOWN CALCULATOR =====
+const bdSlider = document.getElementById('bd-slider');
+
+function updateBuydown() {
+  const data = cachedRates[state.selectedProduct];
+  if (!data) return;
+
+  const loanAmount = Math.max(0, state.homePrice - state.downPayment);
+  const points = parseInt(bdSlider.value) / 100; // 0 to 3 in steps of 0.01
+  const rateReduction = points * 0.25; // Each point = ~0.25% rate reduction
+  const originalRate = data.rate;
+  const newRate = Math.max(2.0, originalRate - rateReduction);
+  const upfrontCost = Math.round(loanAmount * (points / 100));
+
+  // Calc original monthly
+  const term = data.term;
+  const n = term * 12;
+  const rOld = (originalRate / 100) / 12;
+  const oldMonthly = loanAmount > 0
+    ? loanAmount * (rOld * Math.pow(1 + rOld, n)) / (Math.pow(1 + rOld, n) - 1)
+    : 0;
+
+  // Calc new monthly
+  const rNew = (newRate / 100) / 12;
+  const newMonthly = loanAmount > 0
+    ? loanAmount * (rNew * Math.pow(1 + rNew, n)) / (Math.pow(1 + rNew, n) - 1)
+    : 0;
+
+  const monthlySavings = Math.round(oldMonthly - newMonthly);
+  const breakEvenMonths = monthlySavings > 0 ? Math.ceil(upfrontCost / monthlySavings) : 0;
+
+  // Update rate display
+  document.getElementById('bd-rate-from').textContent = originalRate.toFixed(3) + '%';
+  document.getElementById('bd-rate-to').textContent = newRate.toFixed(3) + '%';
+  document.getElementById('bd-points-label').textContent = points.toFixed(2) + (points === 1 ? ' point' : ' points');
+
+  // Show/hide strikethrough when no buydown
+  const rateDisplay = document.getElementById('bd-rate-display');
+  if (points === 0) {
+    document.getElementById('bd-rate-from').style.display = 'none';
+    document.querySelector('.buydown-rate-arrow').style.display = 'none';
+    document.getElementById('bd-points-label').textContent = 'No buydown';
+  } else {
+    document.getElementById('bd-rate-from').style.display = '';
+    document.querySelector('.buydown-rate-arrow').style.display = '';
+  }
+
+  // Update cost display
+  document.getElementById('bd-cost-value').textContent = fmt(upfrontCost);
+
+  // Update result cards
+  document.getElementById('bd-upfront').textContent = fmt(upfrontCost);
+
+  if (points > 0 && monthlySavings > 0) {
+    const breakYears = Math.floor(breakEvenMonths / 12);
+    const breakMo = breakEvenMonths % 12;
+    let breakText = '';
+    if (breakYears > 0) breakText += breakYears + (breakYears === 1 ? ' year' : ' years');
+    if (breakMo > 0) breakText += (breakYears > 0 ? ', ' : '') + breakMo + (breakMo === 1 ? ' month' : ' months');
+    document.getElementById('bd-breakeven').textContent = breakText;
+    document.getElementById('bd-breakeven-text').textContent =
+      'Stay in your home longer than ' + breakText + ' to come out ahead.';
+
+    document.getElementById('bd-monthly-save').textContent = '-' + fmt(monthlySavings);
+    document.getElementById('bd-monthly-text').textContent =
+      'You\'ll save ' + fmt(monthlySavings) + ' every month with this buydown.';
+
+    document.getElementById('bd-upfront-text').textContent =
+      'Pay ' + fmt(upfrontCost) + ' more at closing to lock in the lower rate.';
+  } else {
+    document.getElementById('bd-breakeven').textContent = '\u2014';
+    document.getElementById('bd-breakeven-text').textContent = 'Move the slider to buy down your rate.';
+    document.getElementById('bd-monthly-save').textContent = '$0';
+    document.getElementById('bd-monthly-text').textContent = 'Lower payment each month with a buydown.';
+    document.getElementById('bd-upfront-text').textContent = 'Added to your closing costs at settlement.';
+  }
+}
+
+bdSlider.addEventListener('input', updateBuydown);
+
+// Reset slider when product or inputs change
+function resetBuydownSlider() {
+  bdSlider.value = 0;
+  updateBuydown();
 }
 
 // Initialize
