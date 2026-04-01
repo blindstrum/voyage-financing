@@ -185,7 +185,7 @@
   .option-card.selected {
     border-color: var(--color-primary);
     background: var(--color-primary-light);
-    box-shadow: 0 0 0 3px rgba(62, 207, 207, 0.2);
+    box-shadow: 0 0 0 3px rgba(15, 123, 111, 0.2);
   }
   .option-card .card-icon {
     width: 48px;
@@ -271,7 +271,7 @@
   .apply-input:focus, .apply-select:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(62, 207, 207, 0.15);
+    box-shadow: 0 0 0 3px rgba(15, 123, 111, 0.15);
   }
   .apply-input.error, .apply-select.error {
     border-color: var(--color-error);
@@ -531,7 +531,7 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    background: rgba(62, 207, 207, 0.15);
+    background: rgba(15, 123, 111, 0.15);
     color: var(--color-primary);
     padding: 4px 12px;
     border-radius: var(--radius-full);
@@ -582,7 +582,6 @@
 <body>
 
 <!-- STARFIELD -->
-<div class="starfield"></div>
 <div class="page-content">
 
 
@@ -1131,6 +1130,421 @@ document.querySelectorAll('.nav-dropdown-trigger').forEach(trigger => {
     }
   });
 });
+
+// ══════════════════════════════════════════════
+// APPLICATION FORM WIZARD
+// ══════════════════════════════════════════════
+(function() {
+  'use strict';
+
+  // ─── State ───
+  const state = {
+    currentStep: 1,
+    totalSteps: 5,
+    goal: '',
+    propertyType: '',
+    propertyUsage: 'primary',
+    location: '',
+    purchasePrice: 0,
+    downPaymentPct: 20,
+    creditScore: '',
+    income: 0,
+    debts: 0,
+    employment: 'w2',
+    firstTimeBuyer: 'yes',
+    veteran: 'no',
+    whedaInterest: 'yes',
+    notes: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    contactMethod: 'phone'
+  };
+
+  // ─── DOM Refs ───
+  const progressFill = document.getElementById('progress-fill');
+  const progressSteps = document.querySelectorAll('.progress-step');
+  const stepConnectors = document.querySelectorAll('.step-connector');
+  const formSteps = document.querySelectorAll('.form-step');
+
+  // ─── Helpers ───
+  function parseCurrency(str) {
+    if (!str) return 0;
+    return parseInt(str.replace(/[^0-9]/g, ''), 10) || 0;
+  }
+
+  function formatCurrency(num) {
+    return '$' + num.toLocaleString('en-US');
+  }
+
+  function formatPhoneInput(val) {
+    const digits = val.replace(/\D/g, '');
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) return '(' + digits.slice(0,3) + ') ' + digits.slice(3);
+    return '(' + digits.slice(0,3) + ') ' + digits.slice(3,6) + '-' + digits.slice(6,10);
+  }
+
+  // ─── Step Navigation ───
+  function goToStep(stepNum) {
+    if (stepNum < 1 || stepNum > state.totalSteps + 1) return; // +1 for confirm
+
+    // Hide all steps
+    formSteps.forEach(s => s.classList.remove('active'));
+
+    // Show target step
+    if (stepNum <= state.totalSteps) {
+      const target = document.getElementById('step-' + stepNum);
+      if (target) target.classList.add('active');
+    } else {
+      // Confirmation
+      const confirm = document.getElementById('step-confirm');
+      if (confirm) confirm.classList.add('active');
+    }
+
+    state.currentStep = stepNum;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress() {
+    const step = state.currentStep;
+    const pct = step > state.totalSteps ? 100 : Math.max(10, (step / state.totalSteps) * 100);
+    if (progressFill) progressFill.style.width = pct + '%';
+
+    progressSteps.forEach((el, i) => {
+      const sNum = i + 1;
+      el.classList.remove('active', 'done');
+      if (sNum < step) el.classList.add('done');
+      else if (sNum === step) el.classList.add('active');
+    });
+
+    stepConnectors.forEach((el, i) => {
+      el.classList.toggle('done', (i + 1) < step);
+    });
+
+    // Hide progress on confirmation
+    const progressBar = document.getElementById('apply-progress');
+    if (progressBar) {
+      progressBar.style.display = step > state.totalSteps ? 'none' : '';
+    }
+  }
+
+  // ─── Option Card Click Handlers ───
+  function setupOptionGrid(gridId, stateKey, nextBtnId) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    const cards = grid.querySelectorAll('.option-card');
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        // Deselect siblings
+        cards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        state[stateKey] = card.dataset.value;
+
+        // Enable continue button if one exists
+        if (nextBtnId) {
+          const btn = document.getElementById(nextBtnId);
+          if (btn) btn.disabled = false;
+        }
+      });
+    });
+  }
+
+  // ─── Toggle Pill Handlers ───
+  function setupTogglePills(containerId, stateKey) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const pills = container.querySelectorAll('.toggle-pill');
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        state[stateKey] = pill.dataset.value;
+
+        // WHEDA info toggle
+        if (stateKey === 'whedaInterest') {
+          const info = document.getElementById('wheda-info');
+          if (info) info.style.display = pill.dataset.value === 'yes' ? '' : 'none';
+        }
+      });
+    });
+  }
+
+  // ─── Down Payment Slider ───
+  function setupSlider() {
+    const slider = document.getElementById('a-down-payment');
+    const display = document.getElementById('dp-display');
+    if (!slider || !display) return;
+
+    function updateSlider() {
+      const pct = parseInt(slider.value, 10);
+      state.downPaymentPct = pct;
+      const price = state.purchasePrice || 400000;
+      const dpAmount = Math.round(price * pct / 100);
+      display.textContent = formatCurrency(dpAmount) + ' (' + pct + '%)';
+    }
+
+    slider.addEventListener('input', updateSlider);
+    updateSlider();
+  }
+
+  // ─── Currency Input Formatting ───
+  function setupCurrencyInput(inputId, stateKey) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    input.addEventListener('blur', () => {
+      const val = parseCurrency(input.value);
+      state[stateKey] = val;
+      if (val > 0) input.value = formatCurrency(val);
+
+      // Update down payment display when price changes
+      if (stateKey === 'purchasePrice') {
+        const slider = document.getElementById('a-down-payment');
+        if (slider) slider.dispatchEvent(new Event('input'));
+      }
+    });
+
+    input.addEventListener('focus', () => {
+      const val = parseCurrency(input.value);
+      if (val > 0) input.value = val;
+    });
+  }
+
+  // ─── Phone Input Formatting ───
+  function setupPhoneInput() {
+    const phone = document.getElementById('a-phone');
+    if (!phone) return;
+    phone.addEventListener('input', () => {
+      const pos = phone.selectionStart;
+      phone.value = formatPhoneInput(phone.value);
+    });
+  }
+
+  // ─── Validation ───
+  function validateStep(stepNum) {
+    let valid = true;
+
+    function showError(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('show');
+      valid = false;
+    }
+    function clearError(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('show');
+    }
+    function markFieldError(inputId) {
+      const el = document.getElementById(inputId);
+      if (el) el.classList.add('error');
+    }
+    function clearFieldError(inputId) {
+      const el = document.getElementById(inputId);
+      if (el) el.classList.remove('error');
+    }
+
+    if (stepNum === 1) {
+      if (!state.goal) valid = false;
+    }
+
+    if (stepNum === 3) {
+      // Credit score
+      clearError('credit-error');
+      clearFieldError('a-credit');
+      state.creditScore = document.getElementById('a-credit')?.value || '';
+      if (!state.creditScore) {
+        showError('credit-error');
+        markFieldError('a-credit');
+      }
+
+      // Income
+      clearError('income-error');
+      clearFieldError('a-income');
+      state.income = parseCurrency(document.getElementById('a-income')?.value || '');
+      if (!state.income) {
+        showError('income-error');
+        markFieldError('a-income');
+      }
+    }
+
+    if (stepNum === 5) {
+      // First name
+      clearError('first-error');
+      clearFieldError('a-first');
+      state.firstName = document.getElementById('a-first')?.value?.trim() || '';
+      if (!state.firstName) {
+        showError('first-error');
+        markFieldError('a-first');
+      }
+
+      // Last name
+      clearError('last-error');
+      clearFieldError('a-last');
+      state.lastName = document.getElementById('a-last')?.value?.trim() || '';
+      if (!state.lastName) {
+        showError('last-error');
+        markFieldError('a-last');
+      }
+
+      // Email
+      clearError('email-error');
+      clearFieldError('a-email');
+      state.email = document.getElementById('a-email')?.value?.trim() || '';
+      if (!state.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) {
+        showError('email-error');
+        markFieldError('a-email');
+      }
+
+      // Phone
+      clearError('phone-error');
+      clearFieldError('a-phone');
+      state.phone = document.getElementById('a-phone')?.value?.trim() || '';
+      if (!state.phone || state.phone.replace(/\D/g,'').length < 10) {
+        showError('phone-error');
+        markFieldError('a-phone');
+      }
+    }
+
+    return valid;
+  }
+
+  // ─── Read intermediate fields on navigate ───
+  function readStepFields(stepNum) {
+    if (stepNum === 2) {
+      state.location = document.getElementById('a-location')?.value || '';
+      state.purchasePrice = parseCurrency(document.getElementById('a-price')?.value || '');
+    }
+    if (stepNum === 3) {
+      state.debts = parseCurrency(document.getElementById('a-debts')?.value || '');
+      state.employment = document.getElementById('a-employment')?.value || 'w2';
+    }
+    if (stepNum === 4) {
+      state.notes = document.getElementById('a-notes')?.value || '';
+    }
+  }
+
+  // ─── Show Confirmation ───
+  function showConfirmation() {
+    // Set name
+    const nameEl = document.getElementById('confirm-name');
+    if (nameEl) nameEl.textContent = state.firstName;
+
+    // Build summary rows
+    const rows = document.getElementById('summary-rows');
+    if (rows) {
+      const goalLabel = { purchase: 'Buy a Home', refinance: 'Refinance', cashout: 'Cash Out Refi' };
+      const creditLabel = {
+        '760': 'Excellent (760+)', '740': 'Very Good (740-759)', '720': 'Good (720-739)',
+        '700': 'Above Average (700-719)', '680': 'Average (680-699)', '660': 'Below Average (660-679)',
+        '640': 'Fair (640-659)', '620': 'Minimum (620-639)'
+      };
+      const propLabel = { single: 'Single Family', condo: 'Condo', townhouse: 'Townhouse', multi: 'Multi-Family' };
+      const data = [
+        ['Goal', goalLabel[state.goal] || state.goal],
+        ['Property Type', propLabel[state.propertyType] || state.propertyType || '—'],
+        ['Location', state.location || '—'],
+        ['Purchase Price', state.purchasePrice ? formatCurrency(state.purchasePrice) : '—'],
+        ['Down Payment', state.downPaymentPct + '%'],
+        ['Credit Score', creditLabel[state.creditScore] || state.creditScore || '—'],
+        ['Annual Income', state.income ? formatCurrency(state.income) : '—'],
+        ['Name', state.firstName + ' ' + state.lastName],
+        ['Email', state.email],
+        ['Phone', state.phone]
+      ];
+      rows.innerHTML = data.map(([label, value]) =>
+        '<div class="summary-row"><span class="s-label">' + label + '</span><span class="s-value">' + value + '</span></div>'
+      ).join('');
+    }
+
+    // Estimated rate calculation (basic illustrative)
+    const rateEl = document.getElementById('rp-rate');
+    const monthlyEl = document.getElementById('rp-monthly');
+    if (rateEl) {
+      let baseRate = 6.75;
+      const cs = parseInt(state.creditScore, 10) || 700;
+      if (cs >= 760) baseRate = 6.25;
+      else if (cs >= 740) baseRate = 6.375;
+      else if (cs >= 720) baseRate = 6.50;
+      else if (cs >= 700) baseRate = 6.625;
+      else if (cs >= 680) baseRate = 6.875;
+      else if (cs >= 660) baseRate = 7.125;
+      else if (cs >= 640) baseRate = 7.375;
+      else baseRate = 7.625;
+      rateEl.textContent = baseRate.toFixed(3) + '%';
+
+      // Monthly payment estimate
+      if (monthlyEl && state.purchasePrice) {
+        const loanAmount = state.purchasePrice * (1 - state.downPaymentPct / 100);
+        const monthlyRate = baseRate / 100 / 12;
+        const n = 360;
+        const payment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, n)) / (Math.pow(1 + monthlyRate, n) - 1);
+        monthlyEl.textContent = 'Est. monthly payment: ' + formatCurrency(Math.round(payment));
+      }
+    }
+
+    goToStep(state.totalSteps + 1);
+  }
+
+  // ─── Wire Up Buttons ───
+  // Next buttons
+  for (let i = 1; i <= state.totalSteps; i++) {
+    const nextBtn = document.getElementById(i === state.totalSteps ? 'submit-application' : 'next-' + i);
+    if (!nextBtn) continue;
+
+    nextBtn.addEventListener('click', () => {
+      readStepFields(i);
+      if (!validateStep(i)) return;
+
+      if (i === state.totalSteps) {
+        // Submit
+        showConfirmation();
+      } else {
+        goToStep(i + 1);
+      }
+    });
+  }
+
+  // Back buttons
+  for (let i = 2; i <= state.totalSteps; i++) {
+    const backBtn = document.getElementById('back-' + i);
+    if (backBtn) {
+      backBtn.addEventListener('click', () => goToStep(i - 1));
+    }
+  }
+
+  // ─── Initialize ───
+  setupOptionGrid('goal-options', 'goal', 'next-1');
+  setupOptionGrid('property-options', 'propertyType', null);
+  setupTogglePills('usage-pills', 'propertyUsage');
+  setupTogglePills('ftb-pills-apply', 'firstTimeBuyer');
+  setupTogglePills('veteran-pills', 'veteran');
+  setupTogglePills('wheda-pills', 'whedaInterest');
+  setupTogglePills('contact-method-pills', 'contactMethod');
+  setupSlider();
+  setupCurrencyInput('a-price', 'purchasePrice');
+  setupCurrencyInput('a-income', 'income');
+  setupCurrencyInput('a-debts', 'debts');
+  setupPhoneInput();
+
+  // Clear field errors on input
+  document.querySelectorAll('.apply-input, .apply-select').forEach(el => {
+    el.addEventListener('input', () => {
+      el.classList.remove('error');
+      const errEl = el.parentElement?.querySelector('.field-error');
+      if (errEl) errEl.classList.remove('show');
+    });
+    el.addEventListener('change', () => {
+      el.classList.remove('error');
+      const errEl = el.parentElement?.querySelector('.field-error');
+      if (errEl) errEl.classList.remove('show');
+    });
+  });
+
+  // Initialize progress
+  updateProgress();
+
+})();
 </script>
 
 <!-- SCROLL TO TOP -->

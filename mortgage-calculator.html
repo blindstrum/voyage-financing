@@ -73,7 +73,7 @@
     padding: var(--space-3) var(--space-2);
     border-radius: var(--radius-md);
     border: 1.5px solid rgba(255,255,255,0.1);
-    background: rgba(26,37,80,0.3);
+    background: rgba(243,244,246,0.3);
     color: var(--color-text-muted);
     font-family: var(--font-display);
     font-size: var(--text-sm);
@@ -341,7 +341,6 @@
 <body>
 
 <!-- STARFIELD -->
-<div class="starfield"></div>
 <div class="page-content">
 
 
@@ -553,16 +552,16 @@
                   <!-- Interest segment (behind) -->
                   <circle id="pie-interest" cx="50" cy="50" r="40" stroke="#8B5CF6" stroke-dasharray="251.33 251.33" stroke-dashoffset="0"/>
                   <!-- Principal segment (on top) -->
-                  <circle id="pie-principal" cx="50" cy="50" r="40" stroke="#3ECFCF" stroke-dasharray="0 251.33" stroke-dashoffset="0"/>
+                  <circle id="pie-principal" cx="50" cy="50" r="40" stroke="var(--color-primary)" stroke-dasharray="0 251.33" stroke-dashoffset="0"/>
                 </svg>
                 <div class="pie-center-label">
-                  <span id="pie-pct-principal" style="font-size:0.85rem;font-weight:700;color:#3ECFCF;">41%</span>
+                  <span id="pie-pct-principal" style="font-size:0.85rem;font-weight:700;color:var(--color-primary);">41%</span>
                   <span>principal</span>
                 </div>
               </div>
               <div class="pie-legend">
                 <div class="pie-legend-item">
-                  <div class="pie-dot" style="background:#3ECFCF;"></div>
+                  <div class="pie-dot" style="background:var(--color-primary);"></div>
                   <span class="pie-legend-label">Principal</span>
                   <span class="pie-legend-val" id="pie-principal-val">$280,000</span>
                 </div>
@@ -579,14 +578,14 @@
           <div class="breakdown-section">
             <h3>Monthly Payment Breakdown</h3>
             <div class="breakdown-bar" id="breakdown-bar">
-              <div class="bar-seg" id="bar-pi" style="background:#3ECFCF; width:70%;"></div>
+              <div class="bar-seg" id="bar-pi" style="background:var(--color-primary); width:70%;"></div>
               <div class="bar-seg" id="bar-tax" style="background:#F5C842; width:15%;"></div>
               <div class="bar-seg" id="bar-ins" style="background:#60A5FA; width:10%;"></div>
               <div class="bar-seg" id="bar-pmi" style="background:#F97316; width:5%;"></div>
             </div>
             <div class="breakdown-items">
               <div class="breakdown-row">
-                <div class="breakdown-dot" style="background:#3ECFCF;"></div>
+                <div class="breakdown-dot" style="background:var(--color-primary);"></div>
                 <span class="breakdown-name">Principal &amp; Interest</span>
                 <span class="breakdown-amount" id="bk-pi">$1,896</span>
                 <span class="breakdown-pct" id="bk-pi-pct">70%</span>

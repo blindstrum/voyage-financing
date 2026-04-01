@@ -49,11 +49,11 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      background: var(--color-primary, #3ECFCF);
+      background: var(--color-primary, #0F7B6F);
       color: #fff;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(62,207,207,0.4);
+      box-shadow: 0 4px 20px rgba(15,123,111,0.4);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -62,7 +62,7 @@
     }
     .vhl-chat-bubble:hover {
       transform: scale(1.08);
-      box-shadow: 0 6px 28px rgba(62,207,207,0.5);
+      box-shadow: 0 6px 28px rgba(15,123,111,0.5);
     }
     .vhl-chat-bubble svg { width: 28px; height: 28px; }
 
@@ -75,7 +75,7 @@
       height: 16px;
       background: var(--nebula, #8B5CF6);
       border-radius: 50%;
-      border: 2px solid var(--color-bg, #06091A);
+      border: 2px solid var(--color-bg, #FFFFFF);
       display: none;
     }
     .vhl-chat-badge.show { display: block; }
@@ -89,7 +89,7 @@
       max-width: calc(100vw - 32px);
       height: 540px;
       max-height: calc(100vh - 140px);
-      background: var(--color-bg, #06091A);
+      background: var(--color-bg, #FFFFFF);
       border: 1px solid var(--color-divider, rgba(255,255,255,0.08));
       border-radius: 16px;
       box-shadow: 0 12px 48px rgba(0,0,0,0.15);
@@ -124,7 +124,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--color-primary, #3ECFCF);
+      background: var(--color-primary, #0F7B6F);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -183,7 +183,7 @@
       animation: vhlFadeIn 0.2s ease-out;
     }
     .vhl-msg a {
-      color: var(--color-primary, #3ECFCF);
+      color: var(--color-primary, #0F7B6F);
       text-decoration: underline;
     }
     @keyframes vhlFadeIn {
@@ -208,7 +208,7 @@
     }
     .vhl-msg-user {
       align-self: flex-end;
-      background: var(--color-primary, #3ECFCF);
+      background: var(--color-primary, #0F7B6F);
       color: #fff;
       border-bottom-right-radius: 4px;
     }
@@ -224,9 +224,9 @@
     .vhl-chip {
       padding: 7px 14px;
       border-radius: 20px;
-      border: 1px solid var(--color-primary, #3ECFCF);
+      border: 1px solid var(--color-primary, #0F7B6F);
       background: transparent;
-      color: var(--color-primary, #3ECFCF);
+      color: var(--color-primary, #0F7B6F);
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
@@ -234,7 +234,7 @@
       transition: background 0.15s, color 0.15s;
     }
     .vhl-chip:hover {
-      background: var(--color-primary, #3ECFCF);
+      background: var(--color-primary, #0F7B6F);
       color: #fff;
     }
 
@@ -269,7 +269,7 @@
       display: flex;
       gap: 8px;
       align-items: center;
-      background: var(--color-bg, #06091A);
+      background: var(--color-bg, #FFFFFF);
       flex-shrink: 0;
     }
     .vhl-chat-input {
@@ -286,7 +286,7 @@
       resize: none;
     }
     .vhl-chat-input:focus {
-      border-color: var(--color-primary, #3ECFCF);
+      border-color: var(--color-primary, #0F7B6F);
     }
     .vhl-chat-input::placeholder {
       color: var(--color-text-faint, #94a0a0);
@@ -296,7 +296,7 @@
       height: 38px;
       border-radius: 50%;
       border: none;
-      background: var(--color-primary, #3ECFCF);
+      background: var(--color-primary, #0F7B6F);
       color: #fff;
       cursor: pointer;
       display: flex;
@@ -321,7 +321,7 @@
       padding: 6px;
       font-size: 10px;
       color: var(--color-text-faint, #94a0a0);
-      background: var(--color-bg, #06091A);
+      background: var(--color-bg, #FFFFFF);
       flex-shrink: 0;
     }
 
