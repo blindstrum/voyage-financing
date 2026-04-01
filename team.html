@@ -18,11 +18,107 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us — Voyage Financing</title>
-<meta name="description" content="Voyage Financing was born from frustration with the broken mortgage industry. Learn our story, our mission, and the values that drive everything we do.">
+<title>Our Team — Voyage Home Loans</title>
+<meta name="description" content="Meet the crew behind Mission Control. Our licensed loan officers are here to guide you home.">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./base.css">
 <link rel="stylesheet" href="./style.css">
+<style>
+  /* Team page styles */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+
+  .team-card {
+    background: var(--color-surface);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+
+  .team-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 200, 200, 0.1);
+    border-color: rgba(0, 200, 200, 0.25);
+  }
+
+  .team-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-teal, #00c8c8) 0%, rgba(0,200,200,0.4) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-5);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.05em;
+  }
+
+  .team-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+    color: var(--color-text-primary, #fff);
+  }
+
+  .team-role {
+    font-size: 0.875rem;
+    color: var(--color-teal, #00c8c8);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+  }
+
+  .team-nmls {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, rgba(255,255,255,0.45));
+    margin-bottom: var(--space-5);
+  }
+
+  .team-contact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .team-contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, rgba(255,255,255,0.7));
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .team-contact a:hover {
+    color: var(--color-teal, #00c8c8);
+  }
+
+  .team-contact svg {
+    flex-shrink: 0;
+    opacity: 0.75;
+  }
+
+  .team-note {
+    text-align: center;
+    color: var(--color-text-muted, rgba(255,255,255,0.45));
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-top: var(--space-4);
+  }
+</style>
 </head>
 <body>
 
@@ -82,59 +178,82 @@
 <!-- PAGE HERO -->
 <section class="page-hero">
   <div class="container">
-    <h1>About Us</h1>
-    <p>Voyage Financial Is All About Your Success</p>
+    <h1>Our Team</h1>
+    <p>Meet the crew behind Mission Control.</p>
     <span class="teal-underline"></span>
   </div>
 </section>
 
-<!-- CUSTOMER SATISFACTION -->
-<section class="section" style="background: var(--color-surface);">
-  <div class="container-narrow">
-    <div class="mission-box">
-      <h3>Customer Satisfaction</h3>
-      <p>We attribute our success to one thing: our obsession with customer satisfaction. The Voyage Financial team thrives on creating tailored financial solutions to meet the needs of growing businesses, always delivering a world-class customer experience, and helping you meet your goals.</p>
-      <p style="margin-top: var(--space-4);">While customer satisfaction is our goal, it's the foundation we've built that gets us there. It all comes down to the team, the process, the network, and the solution. Our 20+ years of experience have helped us refine the way we operate, focusing on you, your business, and what you want to achieve, to drive financial solutions not found anywhere else.</p>
-    </div>
-  </div>
-</section>
+<!-- TEAM GRID -->
+<section class="section">
+  <div class="container">
+    <div class="team-grid">
 
-<!-- THE TEAM -->
-<section class="section" >
-  <div class="container-narrow">
-    <div class="mission-box">
-      <h3>The Team</h3>
-      <p>If our team is one thing, it's customer focused. We're always ready to help you unlock the growth in your business that you've worked so hard to achieve. When you work with Voyage Financial, you work with an expert dedicated to serving the need of your business.</p>
-    </div>
-  </div>
-</section>
+      <!-- Card 1 -->
+      <div class="team-card">
+        <div class="team-avatar">VH</div>
+        <h3>Your Name Here</h3>
+        <div class="team-role">Loan Officer</div>
+        <div class="team-nmls">NMLS# 0000000</div>
+        <div class="team-contact">
+          <a href="tel:+14143096013">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            (414) 309-6013
+          </a>
+          <a href="mailto:team@voyagefinancing.com">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+            team@voyagefinancing.com
+          </a>
+        </div>
+      </div>
 
-<!-- THE PROCESS -->
-<section class="section" style="background: var(--color-surface);">
-  <div class="container-narrow">
-    <div class="mission-box">
-      <h3>The Process</h3>
-      <p>Getting access to increased capital or financing growth within your business is a daunting task. Everything needs to fall into place at the right time, and efficiency is critical to meeting deadlines and preventing costly delays. Voyage Financial has created a frictionless end-to-end process, designed for speed to ensure you meet your business goals when you need to. Our application and approval process help avoid unnecessary delays, allowing funding in as little as 24 hours so you can get back to doing what you do best, managing your business.</p>
-    </div>
-  </div>
-</section>
+      <!-- Card 2 -->
+      <div class="team-card">
+        <div class="team-avatar">LO</div>
+        <h3>Loan Officer</h3>
+        <div class="team-role">Loan Officer</div>
+        <div class="team-nmls">NMLS# 0000000</div>
+        <div class="team-contact">
+          <a href="tel:+14143096013">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            (414) 309-6013
+          </a>
+          <a href="mailto:team@voyagefinancing.com">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+            team@voyagefinancing.com
+          </a>
+        </div>
+      </div>
 
-<!-- THE SOLUTION -->
-<section class="section" >
-  <div class="container-narrow">
-    <div class="mission-box">
-      <h3>The Solution</h3>
-      <p>Our business isn't just financial products; it's strategic, customized solutions. We take the time to understand the uniqueness of your business, its challenges, and path for growth, allowing us to create a solution that solves your immediate needs, while supporting long-term success. We think of our relationship as a long-term partnership, providing your business with the tools to weather the storm and maintain stability on the road to achieving your goals.</p>
+      <!-- Card 3 -->
+      <div class="team-card">
+        <div class="team-avatar">LO</div>
+        <h3>Loan Officer</h3>
+        <div class="team-role">Loan Officer</div>
+        <div class="team-nmls">NMLS# 0000000</div>
+        <div class="team-contact">
+          <a href="tel:+14143096013">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            (414) 309-6013
+          </a>
+          <a href="mailto:team@voyagefinancing.com">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+            team@voyagefinancing.com
+          </a>
+        </div>
+      </div>
+
     </div>
+    <p class="team-note">Team profiles coming soon. Contact us to learn more about our mortgage experts.</p>
   </div>
 </section>
 
 <!-- CTA BAND -->
 <section class="cta-band section">
   <div class="container">
-    <h2>Ready to get started?</h2>
-    <p>Contact us today to learn how Voyage Financial can help you achieve your goals.</p>
-    <a href="./apply.html" class="btn btn-lg">Get Started</a>
+    <h2>Ready to work with our team?</h2>
+    <p>Our loan officers are licensed in Wisconsin, Iowa, and Florida.</p>
+    <a href="./apply.html" class="btn btn-lg">Start Your Application</a>
   </div>
 </section>
 
