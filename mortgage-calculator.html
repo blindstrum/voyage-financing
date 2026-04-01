@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+   ______                            __
+  / ____/___  ____ ___  ____  __  __/ /____  _____
+ / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
+\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
+                    /_/
+        Created with Perplexity Computer
+        https://www.perplexity.ai/computer
+-->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage Calculator — Voyage Financing</title>
+<meta name="description" content="Calculate your estimated monthly mortgage payment instantly with Voyage Financing's free mortgage calculator. See principal, interest, taxes, insurance, and PMI estimates.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./base.css">
+<link rel="stylesheet" href="./style.css">
+<style>
+  /* ===== CALCULATOR LAYOUT ===== */
+  .calc-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .calc-layout {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  /* ===== RANGE SLIDER VALUES ===== */
+  .range-value {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .range-value-sub {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-left: var(--space-2);
+    font-weight: 400;
+    font-family: var(--font-body);
+  }
+  .range-bounds {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    margin-top: var(--space-1);
+  }
+
+  /* ===== TERM BUTTONS ===== */
+  .term-buttons {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+  .term-btn {
+    flex: 1;
+    padding: var(--space-3) var(--space-2);
+    border-radius: var(--radius-md);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    background: rgba(26,37,80,0.3);
+    color: var(--color-text-muted);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .term-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-text);
+    background: rgba(62,207,207,0.08);
+  }
+  .term-btn.active {
+    border-color: var(--color-primary);
+    background: rgba(62,207,207,0.15);
+    color: var(--color-primary);
+  }
+
+  /* ===== RESULTS PANEL ===== */
+  .results-panel {
+    position: sticky;
+    top: calc(var(--space-16) + var(--space-4));
+  }
+
+  .featured-payment {
+    text-align: center;
+    padding: var(--space-6) var(--space-4);
+    background: rgba(62,207,207,0.08);
+    border: 1px solid rgba(62,207,207,0.25);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-5);
+  }
+  .featured-payment .result-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .featured-amount {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-weight: 800;
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    margin-bottom: var(--space-1);
+  }
+  .featured-label-sub {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
+
+  /* ===== RESULTS GRID ===== */
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+  .result-item {
+    background: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+  .result-item .result-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    margin-bottom: var(--space-1);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .result-item .result-value {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ===== PIE CHART (CSS) ===== */
+  .pie-section {
+    background: var(--color-primary-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+  .pie-section h3 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--space-4);
+  }
+  .pie-chart-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+  .pie-wrap {
+    flex-shrink: 0;
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+  .pie-svg {
+    width: 100px;
+    height: 100px;
+    transform: rotate(-90deg);
+  }
+  .pie-svg circle {
+    fill: none;
+    stroke-width: 20;
+  }
+  .pie-center-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    color: var(--color-text-faint);
+    line-height: 1.2;
+    text-align: center;
+    pointer-events: none;
+  }
+  .pie-legend {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .pie-legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+  }
+  .pie-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .pie-legend-label {
+    color: var(--color-text-muted);
+    flex: 1;
+  }
+  .pie-legend-val {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ===== PAYMENT BREAKDOWN BAR ===== */
+  .breakdown-section {
+    background: var(--color-primary-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+  .breakdown-section h3 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--space-4);
+  }
+  .breakdown-bar {
+    display: flex;
+    height: 14px;
+    border-radius: 7px;
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+  }
+  .bar-seg {
+    transition: width 0.4s ease;
+    height: 100%;
+  }
+  .breakdown-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .breakdown-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+  }
+  .breakdown-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .breakdown-name {
+    flex: 1;
+    color: var(--color-text-muted);
+  }
+  .breakdown-amount {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-sm);
+  }
+  .breakdown-pct {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* PMI notice */
+  .pmi-notice {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    margin-top: var(--space-2);
+    display: none;
+  }
+  .pmi-notice.visible { display: block; }
+
+  /* ===== DISCLAIMER ===== */
+  .disclaimer-text {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    line-height: 1.6;
+    margin-top: var(--space-4);
+  }
+
+  /* ===== CTA BAND ===== */
+  .cta-band {
+    background: linear-gradient(135deg, rgba(62,207,207,0.08) 0%, rgba(139,92,246,0.08) 100%);
+    border: 1px solid rgba(62,207,207,0.18);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-12) var(--space-8);
+    text-align: center;
+    margin-top: var(--space-4);
+  }
+  .cta-band h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-3);
+  }
+  .cta-band p {
+    color: var(--color-text-muted);
+    max-width: 46ch;
+    margin: 0 auto var(--space-6);
+    font-size: var(--text-base);
+  }
+  .cta-actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>
+</head>
+<body>
+
+<!-- STARFIELD -->
+<div class="starfield"></div>
+<div class="page-content">
+
+
+<!-- UTILITY BAR -->
+<div class="utility-bar">
+  <div class="utility-bar-inner">
+    <div class="utility-left">
+      <a href="https://maps.app.goo.gl/zeK7FRGf99bxm1Yq9" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Menomonee Falls, WI
+      </a>
+    </div>
+    <div class="utility-right">
+      <a href="tel:+14143096013">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (414) 309-6013
+      </a>
+      <a href="mailto:team@voyagefinancing.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+        team@voyagefinancing.com
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header" id="site-header">
+  <nav class="nav-container">
+    <a href="./index.html" class="nav-logo">
+      <img src="./assets/voyage-home-loans-logo-clean.svg" alt="Voyage Home Loans" class="logo-svg-nav">
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <!-- Shop Rates Dropdown -->
+      <li>
+        <span class="nav-dropdown-trigger">Shop Rates <svg class="chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+        <div class="nav-dropdown dropdown-rates">
+          <div class="nav-dropdown-inner">
+            <div class="dropdown-rates-grid">
+              <a href="./rates.html" class="dropdown-rate-card">
+                <div class="card-icon-sm"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                <h4>Today's Rates</h4>
+                <p>Our most popular rates</p>
+              </a>
+              <a href="./compare.html" class="dropdown-rate-card">
+                <div class="card-icon-sm"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+                <h4>Compare Rates</h4>
+                <p>Compare &amp; shop rates</p>
+              </a>
+              <a href="./apply.html" class="dropdown-rate-card">
+                <div class="card-icon-sm"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                <h4>Get a Free Quote</h4>
+                <p>Only takes 60 seconds</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <!-- Loan Programs Dropdown -->
+      <li>
+        <span class="nav-dropdown-trigger">Loan Programs <svg class="chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+        <div class="nav-dropdown dropdown-programs">
+          <div class="nav-dropdown-inner">
+            <div class="dropdown-link-list">
+              <a href="./loan-products.html">Fixed-Rate Mortgage</a>
+              <a href="./loan-products.html">FHA Mortgage</a>
+              <a href="./loan-products.html">VA Mortgage</a>
+              <a href="./loan-products.html">Jumbo Mortgage</a>
+              <a href="./loan-products.html">Adjustable Rate Mortgages</a>
+              <a href="./loan-products.html">USDA Mortgages</a>
+              <a href="./loan-products.html">First Time Home Buyer</a>
+              <a href="./loan-products.html">Reverse Mortgages</a>
+              <a href="./loan-products.html">Interest Only Mortgages</a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <!-- About Us Dropdown -->
+      <li>
+        <span class="nav-dropdown-trigger">About Us <svg class="chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+        <div class="nav-dropdown dropdown-about">
+          <div class="nav-dropdown-inner">
+            <div class="dropdown-link-list">
+              <a href="./about.html">Our Story</a>
+              <a href="./team.html">Meet the Team</a>
+              <a href="./benefits.html">Why Voyage</a>
+              <a href="./faq.html">FAQ</a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <!-- Calculators Dropdown -->
+      <li>
+        <span class="nav-dropdown-trigger">Calculators <svg class="chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+        <div class="nav-dropdown dropdown-calcs">
+          <div class="nav-dropdown-inner">
+            <div class="dropdown-link-list">
+              <a href="./mortgage-calculator.html">Mortgage Calculator</a>
+              <a href="./affordability.html">Affordability Calculator</a>
+              <a href="./refinance.html">Refinance Calculator</a>
+              <a href="./buydown.html">3-2-1 Buydown</a>
+              <a href="./tax-deduction.html">Mortgage Tax Deduction</a>
+              <a href="./amortization.html">Amortization Calculator</a>
+              <a href="./calculators.html" class="dropdown-see-all">See All Calculators</a>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tel:+14143096013" class="nav-phone"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(414) 309-6013</a>
+      <a href="./apply.html" class="btn btn-primary btn-sm">Apply Now</a>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <h1>Mortgage Calculator</h1>
+    <p>Estimate your monthly mortgage payment in seconds.</p>
+    <span class="teal-underline"></span>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section">
+  <div class="container">
+    <div class="calc-layout">
+
+      <!-- INPUTS -->
+      <div class="tool-card">
+        <h2 style="font-size: var(--text-lg); margin-bottom: var(--space-6);">Loan Details</h2>
+
+        <!-- Home Price -->
+        <div class="form-group">
+          <label for="home-price">Home Price</label>
+          <div class="range-value" id="home-price-display">$350,000</div>
+          <input type="range" id="home-price" class="range-slider" min="50000" max="2000000" step="5000" value="350000">
+          <div class="range-bounds"><span>$50K</span><span>$2M</span></div>
+        </div>
+
+        <!-- Down Payment -->
+        <div class="form-group">
+          <label for="down-pct">Down Payment</label>
+          <div class="range-value" id="down-display">
+            20%<span class="range-value-sub" id="down-dollar">$70,000</span>
+          </div>
+          <input type="range" id="down-pct" class="range-slider" min="0" max="50" step="1" value="20">
+          <div class="range-bounds"><span>0%</span><span>50%</span></div>
+        </div>
+
+        <!-- Interest Rate -->
+        <div class="form-group">
+          <label for="interest-rate">Interest Rate</label>
+          <div class="range-value" id="rate-display">6.500%</div>
+          <input type="range" id="interest-rate" class="range-slider" min="2" max="12" step="0.125" value="6.5">
+          <div class="range-bounds"><span>2%</span><span>12%</span></div>
+        </div>
+
+        <!-- Loan Term -->
+        <div class="form-group" style="margin-bottom: 0;">
+          <label>Loan Term</label>
+          <div class="term-buttons">
+            <button class="term-btn" data-term="15">15 Year</button>
+            <button class="term-btn" data-term="20">20 Year</button>
+            <button class="term-btn active" data-term="30">30 Year</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="results-panel">
+        <div class="tool-card" style="padding: var(--space-5);">
+
+          <!-- Featured Monthly Payment -->
+          <div class="featured-payment">
+            <div class="result-label">Monthly P&amp;I Payment</div>
+            <div class="featured-amount" id="monthly-pi">$1,896</div>
+            <div class="featured-label-sub">Principal &amp; Interest only</div>
+          </div>
+
+          <!-- Summary Grid -->
+          <div class="results-grid">
+            <div class="result-item">
+              <div class="result-label">Loan Amount</div>
+              <div class="result-value" id="loan-amount-display">$280,000</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">Total Interest Paid</div>
+              <div class="result-value" id="total-interest-display">$402,456</div>
+            </div>
+            <div class="result-item" style="grid-column: 1 / -1;">
+              <div class="result-label">Total Cost of Loan</div>
+              <div class="result-value" id="total-cost-display" style="font-size: var(--text-lg);">$682,456</div>
+            </div>
+          </div>
+
+          <!-- Pie Chart -->
+          <div class="pie-section">
+            <h3>Principal vs. Interest</h3>
+            <div class="pie-chart-row">
+              <div class="pie-wrap">
+                <svg class="pie-svg" viewBox="0 0 100 100" aria-hidden="true">
+                  <!-- Track -->
+                  <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.06)" stroke-width="20"/>
+                  <!-- Interest segment (behind) -->
+                  <circle id="pie-interest" cx="50" cy="50" r="40" stroke="#8B5CF6" stroke-dasharray="251.33 251.33" stroke-dashoffset="0"/>
+                  <!-- Principal segment (on top) -->
+                  <circle id="pie-principal" cx="50" cy="50" r="40" stroke="#3ECFCF" stroke-dasharray="0 251.33" stroke-dashoffset="0"/>
+                </svg>
+                <div class="pie-center-label">
+                  <span id="pie-pct-principal" style="font-size:0.85rem;font-weight:700;color:#3ECFCF;">41%</span>
+                  <span>principal</span>
+                </div>
+              </div>
+              <div class="pie-legend">
+                <div class="pie-legend-item">
+                  <div class="pie-dot" style="background:#3ECFCF;"></div>
+                  <span class="pie-legend-label">Principal</span>
+                  <span class="pie-legend-val" id="pie-principal-val">$280,000</span>
+                </div>
+                <div class="pie-legend-item">
+                  <div class="pie-dot" style="background:#8B5CF6;"></div>
+                  <span class="pie-legend-label">Interest</span>
+                  <span class="pie-legend-val" id="pie-interest-val">$402,456</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Breakdown Bar -->
+          <div class="breakdown-section">
+            <h3>Monthly Payment Breakdown</h3>
+            <div class="breakdown-bar" id="breakdown-bar">
+              <div class="bar-seg" id="bar-pi" style="background:#3ECFCF; width:70%;"></div>
+              <div class="bar-seg" id="bar-tax" style="background:#F5C842; width:15%;"></div>
+              <div class="bar-seg" id="bar-ins" style="background:#60A5FA; width:10%;"></div>
+              <div class="bar-seg" id="bar-pmi" style="background:#F97316; width:5%;"></div>
+            </div>
+            <div class="breakdown-items">
+              <div class="breakdown-row">
+                <div class="breakdown-dot" style="background:#3ECFCF;"></div>
+                <span class="breakdown-name">Principal &amp; Interest</span>
+                <span class="breakdown-amount" id="bk-pi">$1,896</span>
+                <span class="breakdown-pct" id="bk-pi-pct">70%</span>
+              </div>
+              <div class="breakdown-row">
+                <div class="breakdown-dot" style="background:#F5C842;"></div>
+                <span class="breakdown-name">Est. Property Taxes</span>
+                <span class="breakdown-amount" id="bk-tax">$438</span>
+                <span class="breakdown-pct" id="bk-tax-pct">16%</span>
+              </div>
+              <div class="breakdown-row">
+                <div class="breakdown-dot" style="background:#60A5FA;"></div>
+                <span class="breakdown-name">Est. Home Insurance</span>
+                <span class="breakdown-amount" id="bk-ins">$146</span>
+                <span class="breakdown-pct" id="bk-ins-pct">5%</span>
+              </div>
+              <div class="breakdown-row" id="pmi-row" style="display:none;">
+                <div class="breakdown-dot" style="background:#F97316;"></div>
+                <span class="breakdown-name">Est. PMI</span>
+                <span class="breakdown-amount" id="bk-pmi">$117</span>
+                <span class="breakdown-pct" id="bk-pmi-pct">4%</span>
+              </div>
+            </div>
+            <p class="pmi-notice" id="pmi-notice">PMI estimated at 0.5%/yr until 20% equity is reached (down payment below 20%).</p>
+          </div>
+
+          <a href="./apply.html" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: var(--space-4);">Apply Now</a>
+
+          <p class="disclaimer-text">These calculations are estimates for educational purposes only. Actual results may vary based on your specific situation. Contact a Voyage Home Loans loan officer for personalized guidance.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="section-sm">
+  <div class="container">
+    <div class="cta-band">
+      <h2>Ready to see your real rate?</h2>
+      <p>Get a personalized rate quote from our team — no impact to your credit score, no obligation.</p>
+      <div class="cta-actions">
+        <a href="./apply.html" class="btn btn-primary">Apply Now</a>
+        <a href="tel:+14143096013" class="btn btn-secondary">Call (414) 309-6013</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="./index.html" class="nav-logo" style="margin-bottom: var(--space-3); display: inline-flex;">
+          <img src="./assets/voyage-home-loans-logo-clean.svg" alt="Voyage Home Loans" class="logo-svg-footer">
+        </a>
+        <p>Your new home is closer than you think. We're here to guide you every step of the way. Let's get you moving.</p>
+        <div style="margin-top: var(--space-4);">
+          <a href="./apply.html" class="btn btn-primary btn-sm">Start Your Application</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quicklinks</h4>
+        <ul>
+          <li><a href="https://www.voyagefinancing.com/contact" target="_blank" rel="noopener">Contact</a></li>
+          <li><a href="https://www.voyagefinancing.com/mortgage-calculator/" target="_blank" rel="noopener">Mortgage Calculators</a></li>
+          <li><a href="https://www.voyagefinancing.com/faqs/" target="_blank" rel="noopener">Mortgage FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="tel:+14143096013">(414) 309-6013</a></li>
+          <li><a href="mailto:team@voyagefinancing.com">team@voyagefinancing.com</a></li>
+          <li><a href="https://maps.app.goo.gl/zeK7FRGf99bxm1Yq9" target="_blank" rel="noopener">N88W16447 Main Street, Suite 200, Menomonee Falls, Wisconsin 53051</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>LL Financial LLC DBA Voyage Home Loans NMLS#2667229. Fair Housing Lender.</p>
+      <div class="footer-legal">
+        <a href="https://www.voyagefinancing.com/contact" target="_blank" rel="noopener">Contact Us</a>
+        <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- SCROLL TO TOP -->
+</div><!-- /.page-content -->
+
+<button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<!-- CHATBOT -->
+<script src="./chatbot.js"></script>
+
+<script>
+// Sticky Header
+const header=document.getElementById('site-header');
+window.addEventListener('scroll',()=>{header&&header.classList.toggle('scrolled',window.scrollY>10);},{passive:true});
+
+// Mobile Menu
+const menuBtn=document.getElementById('mobile-menu-btn');
+const navLinks=document.getElementById('nav-links');
+menuBtn&&menuBtn.addEventListener('click',()=>{navLinks.classList.toggle('open');});
+
+// Mobile dropdown toggles
+document.querySelectorAll('.nav-dropdown-trigger').forEach(trigger => {
+  trigger.addEventListener('click', (e) => {
+    if (window.innerWidth <= 900) {
+      e.preventDefault();
+      const dropdown = trigger.nextElementSibling;
+      if (dropdown) {
+        dropdown.classList.toggle('mobile-open');
+        trigger.classList.toggle('active');
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>

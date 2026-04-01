@@ -291,19 +291,165 @@ a:hover {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-1);
   list-style: none;
 }
-.nav-links a {
+.nav-links > li {
+  position: relative;
+}
+.nav-links > li > a,
+.nav-links > li > .nav-dropdown-trigger {
   font-size: var(--text-sm);
   font-weight: 500;
   color: var(--color-text-muted);
   text-decoration: none;
   white-space: nowrap;
   transition: color var(--transition-interactive);
+  padding: var(--space-3) var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
 }
-.nav-links a:hover { color: #fff; }
-.nav-links a.active { color: var(--color-primary); }
+.nav-links > li > a:hover,
+.nav-links > li > .nav-dropdown-trigger:hover,
+.nav-links > li:hover > .nav-dropdown-trigger,
+.nav-links > li:hover > a { color: #fff; }
+.nav-links > li > a.active { color: var(--color-primary); }
+
+/* Dropdown chevron */
+.nav-dropdown-trigger .chevron-down {
+  width: 12px;
+  height: 12px;
+  transition: transform var(--transition-interactive);
+}
+.nav-links > li:hover .chevron-down {
+  transform: rotate(180deg);
+}
+
+/* === MEGA DROPDOWN PANELS === */
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease, visibility 200ms;
+  z-index: 200;
+  padding-top: 8px;
+}
+.nav-links > li:hover > .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav-dropdown-inner {
+  background: rgba(11,17,40,0.97);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--space-border);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(62,207,207,0.05);
+  overflow: hidden;
+}
+
+/* -- Shop Rates Dropdown (visual cards) -- */
+.dropdown-rates {
+  min-width: 560px;
+}
+.dropdown-rates-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--space-border);
+}
+.dropdown-rate-card {
+  padding: var(--space-6) var(--space-5);
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(11,17,40,0.97);
+  transition: background var(--transition-interactive);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+.dropdown-rate-card:hover {
+  background: rgba(62,207,207,0.06);
+}
+.dropdown-rate-card h4 {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+.dropdown-rate-card p {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+.dropdown-rate-card .card-icon-sm {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  margin-bottom: var(--space-1);
+}
+
+/* -- Loan Programs Dropdown (link list) -- */
+.dropdown-programs {
+  min-width: 260px;
+}
+.dropdown-link-list {
+  padding: var(--space-3) 0;
+}
+.dropdown-link-list a {
+  display: block;
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: all var(--transition-interactive);
+}
+.dropdown-link-list a:hover {
+  color: #fff;
+  background: rgba(62,207,207,0.06);
+  padding-left: calc(var(--space-6) + 4px);
+}
+
+/* -- Calculators Dropdown -- */
+.dropdown-calcs {
+  min-width: 280px;
+}
+.dropdown-link-list .dropdown-see-all {
+  border-top: 1px solid var(--space-border);
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+.dropdown-link-list .dropdown-see-all:hover {
+  color: var(--color-primary-hover);
+}
+
+/* -- About Us Dropdown -- */
+.dropdown-about {
+  min-width: 200px;
+}
 
 .nav-actions {
   display: flex;
@@ -333,7 +479,7 @@ a:hover {
   color: var(--space-void);
   border-color: var(--color-primary);
 }
-@media (min-width: 1100px) {
+@media (min-width: 901px) {
   .nav-phone { display: inline-flex; }
 }
 
@@ -1835,7 +1981,7 @@ a:hover {
   transition: all 0.3s var(--ease-out);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 900px) {
   .mobile-menu-btn { display: flex; }
   .nav-links {
     display: none;
@@ -1843,23 +1989,91 @@ a:hover {
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(6,9,26,0.95);
-    backdrop-filter: blur(20px);
+    background: rgba(6,9,26,0.99);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     flex-direction: column;
     padding: var(--space-4);
     border-bottom: 1px solid var(--space-border);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
     gap: 0;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 300;
   }
   .nav-links.open { display: flex; }
-  .nav-links li { width: 100%; }
-  .nav-links a {
-    display: block;
+  .nav-links > li { width: 100%; }
+  .nav-links > li > a,
+  .nav-links > li > .nav-dropdown-trigger {
+    display: flex;
+    width: 100%;
     padding: var(--space-3) 0;
     border-bottom: 1px solid var(--space-border);
     font-size: var(--text-base);
+    justify-content: space-between;
+  }
+  /* Mobile: dropdowns are inline, not absolute */
+  .nav-dropdown {
+    position: static !important;
+    transform: none !important;
+    left: auto !important;
+    top: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    padding-top: 0;
+    display: none;
+    z-index: auto;
+    transition: none;
+  }
+  .nav-links > li:hover > .nav-dropdown {
+    transform: none !important;
+    left: auto !important;
+  }
+  .nav-dropdown.mobile-open {
+    display: block;
+  }
+  .nav-dropdown-inner {
+    background: rgba(6,9,26,0.97);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  .dropdown-rates { min-width: unset; }
+  .dropdown-programs { min-width: unset; }
+  .dropdown-calcs { min-width: unset; }
+  .dropdown-about { min-width: unset; }
+  .dropdown-rates-grid {
+    grid-template-columns: 1fr;
+    background: transparent;
+    gap: 0;
+  }
+  .dropdown-rate-card {
+    text-align: left;
+    flex-direction: row;
+    padding: var(--space-3) var(--space-4);
+    background: transparent;
+    border-bottom: 1px solid var(--space-border);
+  }
+  .dropdown-rate-card .card-icon-sm { display: none; }
+  .dropdown-link-list {
+    padding: 0;
+  }
+  .dropdown-link-list a {
+    padding: var(--space-3) var(--space-4) var(--space-3) var(--space-6);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: var(--text-sm);
+  }
+  .dropdown-link-list a:hover {
+    padding-left: var(--space-6);
+  }
+  .dropdown-link-list .dropdown-see-all {
+    margin-top: 0;
+    padding-top: var(--space-3);
   }
   .nav-signin { display: none; }
+  .nav-phone { display: none !important; }
 }
 
 /* ===== THEME TOGGLE (hidden — space theme is always dark) ===== */

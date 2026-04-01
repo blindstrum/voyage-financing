@@ -1,35 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!--
-   ______                            __
-  / ____/___  ____ ___  ____  __  __/ /____  _____
- / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
-/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
-\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
-                    /_/
-        Created with Perplexity Computer
-        https://www.perplexity.ai/computer
--->
-<meta name="generator" content="Perplexity Computer">
-<meta name="author" content="Perplexity Computer">
-<meta property="og:see_also" content="https://www.perplexity.ai/computer">
-<link rel="author" href="https://www.perplexity.ai/computer">
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Loan Products — Voyage Financing</title>
-<meta name="description" content="Explore Voyage Financing's full range of loan products including Conventional, FHA, VA, USDA, Jumbo, Fixed-Rate, ARM, and First-Time Buyer programs.">
+<title>Mortgage Calculators — Voyage Financing</title>
+<meta name="description" content="Use Voyage Financing's free mortgage calculators to estimate payments, affordability, refinance savings, amortization, buydowns, and tax deductions.">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./base.css">
 <link rel="stylesheet" href="./style.css">
+<style>
+  .calc-hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+  .calc-hub-card {
+    background: var(--color-card-dark);
+    border: 1px solid var(--space-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    transition: transform var(--transition-interactive), border-color var(--transition-interactive), box-shadow var(--transition-interactive);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+  .calc-hub-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 32px rgba(62,207,207,0.15);
+  }
+  .calc-hub-card .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    background: var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-5);
+    color: var(--color-primary);
+  }
+  .calc-hub-card h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+  .calc-hub-card p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: var(--space-5);
+  }
+  .calc-hub-card .card-link {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .calc-hub-card .card-link svg {
+    transition: transform var(--transition-interactive);
+  }
+  .calc-hub-card:hover .card-link svg {
+    transform: translateX(4px);
+  }
+</style>
 </head>
 <body>
 
 <!-- STARFIELD -->
 <div class="starfield"></div>
 <div class="page-content">
-
 
 <!-- UTILITY BAR -->
 <div class="utility-bar">
@@ -149,230 +196,88 @@
 <!-- PAGE HERO -->
 <section class="page-hero">
   <div class="container">
-    <h1>Loan Products</h1>
-    <p>Find the right loan for your mission.</p>
+    <h1>Mortgage Calculators</h1>
+    <p>Free tools to plan your home financing with confidence.</p>
     <span class="teal-underline"></span>
   </div>
 </section>
 
-<!-- LOAN PRODUCTS GRID -->
+<!-- CALCULATORS GRID -->
 <section class="section">
   <div class="container">
-    <div class="loan-products-grid">
+    <div class="calc-hub-grid">
 
-      <!-- Conventional Loans -->
-      <div class="loan-card">
+      <!-- Mortgage Calculator -->
+      <a href="./mortgage-calculator.html" class="calc-hub-card">
         <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3" y="9" width="18" height="13" rx="1"/>
-            <path d="M9 22V12h6v10"/>
-            <path d="M1 9l11-7 11 7"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="12" y1="10" x2="14" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="12" y1="14" x2="14" y2="14"/><line x1="8" y1="18" x2="14" y2="18"/>
           </svg>
         </div>
-        <h3>Conventional Loans</h3>
-        <p>Standard financing with as little as 3% down. Best for borrowers with good credit and steady income looking for flexible terms.</p>
-        <ul class="loan-highlights">
-          <li>3% Down</li>
-          <li>PMI Cancellable</li>
-          <li>620+ Credit</li>
-        </ul>
-      </div>
+        <h3>Mortgage Calculator</h3>
+        <p>Estimate your monthly mortgage payment based on home price, down payment, interest rate, and loan term.</p>
+        <span class="card-link">Calculate Payment <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
 
-      <!-- FHA Loans -->
-      <div class="loan-card">
+      <!-- Affordability Calculator -->
+      <a href="./affordability.html" class="calc-hub-card">
         <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
           </svg>
         </div>
-        <h3>FHA Loans</h3>
-        <p>Government-backed loans ideal for first-time buyers or lower credit scores. 3.5% down with 580+ credit.</p>
-        <ul class="loan-highlights">
-          <li>3.5% Down</li>
-          <li>580+ Credit</li>
-          <li>First-Time Buyers</li>
-        </ul>
-      </div>
+        <h3>Affordability Calculator</h3>
+        <p>Find out how much house you can afford based on your income, debts, and down payment.</p>
+        <span class="card-link">Check Affordability <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
 
-      <!-- VA Loans -->
-      <div class="loan-card">
+      <!-- Refinance Calculator -->
+      <a href="./refinance.html" class="calc-hub-card">
         <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
           </svg>
         </div>
-        <h3>VA Loans</h3>
-        <p>For veterans, active-duty service members, and eligible spouses. Zero down payment and no PMI required.</p>
-        <ul class="loan-highlights">
-          <li>0% Down</li>
-          <li>No PMI</li>
-          <li>Veterans Only</li>
-        </ul>
-      </div>
+        <h3>Refinance Calculator</h3>
+        <p>See if refinancing makes sense. Compare your current loan to new terms and calculate potential savings.</p>
+        <span class="card-link">Check Savings <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
 
-      <!-- USDA Loans -->
-      <div class="loan-card">
+      <!-- 3-2-1 Buydown -->
+      <a href="./buydown.html" class="calc-hub-card">
         <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <path d="M12 2v5"/>
-            <path d="M8 17c0-2.2 1.8-4 4-4s4 1.8 4 4"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
           </svg>
         </div>
-        <h3>USDA Loans</h3>
-        <p>For rural and suburban homebuyers. Zero down payment, low rates, and flexible eligibility — income limits apply.</p>
-        <ul class="loan-highlights">
-          <li>0% Down</li>
-          <li>Rural Areas</li>
-          <li>Income Limits</li>
-        </ul>
-      </div>
+        <h3>3-2-1 Buydown</h3>
+        <p>See how a temporary rate buydown can reduce your payments in the early years of your mortgage.</p>
+        <span class="card-link">Explore Buydowns <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
 
-      <!-- Jumbo Loans -->
-      <div class="loan-card">
+      <!-- Mortgage Tax Deduction -->
+      <a href="./tax-deduction.html" class="calc-hub-card">
         <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-            <polyline points="17 6 23 6 23 12"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/>
           </svg>
         </div>
-        <h3>Jumbo Loans</h3>
-        <p>For properties exceeding conforming loan limits. Competitive rates for luxury homes and high-value purchases.</p>
-        <ul class="loan-highlights">
-          <li>High Loan Amounts</li>
-          <li>Competitive Rates</li>
-        </ul>
-      </div>
+        <h3>Mortgage Tax Deduction</h3>
+        <p>Estimate your potential tax savings from mortgage interest deductions based on your income and filing status.</p>
+        <span class="card-link">Estimate Tax Savings <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
 
-      <!-- Fixed-Rate Mortgages -->
-      <div class="loan-card">
+      <!-- Amortization Calculator -->
+      <a href="./amortization.html" class="calc-hub-card">
         <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
           </svg>
         </div>
-        <h3>Fixed-Rate Mortgages</h3>
-        <p>Stable monthly payments with a consistent interest rate for the entire life of your loan. Available in 15, 20, and 30-year terms.</p>
-        <ul class="loan-highlights">
-          <li>15/20/30 Year</li>
-          <li>Stable Payments</li>
-        </ul>
-      </div>
-
-      <!-- ARM -->
-      <div class="loan-card">
-        <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <polyline points="23 4 23 10 17 10"/>
-            <polyline points="1 20 1 14 7 14"/>
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-          </svg>
-        </div>
-        <h3>Adjustable Rate Mortgages (ARM)</h3>
-        <p>Starts with a lower initial rate that adjusts over time. Great for short-term ownership or when rates are expected to decline.</p>
-        <ul class="loan-highlights">
-          <li>Lower Initial Rate</li>
-          <li>5/7/10 Year ARM</li>
-        </ul>
-      </div>
-
-      <!-- First-Time Buyer Programs -->
-      <div class="loan-card">
-        <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
-          </svg>
-        </div>
-        <h3>First-Time Buyer Programs</h3>
-        <p>Special programs with low down payments, grant assistance, and educational resources to help you achieve homeownership.</p>
-        <ul class="loan-highlights">
-          <li>Low Down Payment</li>
-          <li>Grants Available</li>
-          <li>Education</li>
-        </ul>
-      </div>
-
-      <!-- Reverse Mortgages -->
-      <div class="loan-card">
-        <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <polyline points="1 4 1 10 7 10"/>
-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
-          </svg>
-        </div>
-        <h3>Reverse Mortgages</h3>
-        <p>For homeowners 62 and older. Convert home equity into cash without monthly mortgage payments. Stay in your home while accessing your equity.</p>
-        <ul class="loan-highlights">
-          <li>Age 62+</li>
-          <li>No Monthly Payments</li>
-          <li>Access Equity</li>
-        </ul>
-      </div>
-
-      <!-- Interest Only Mortgages -->
-      <div class="loan-card">
-        <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <line x1="12" y1="1" x2="12" y2="23"/>
-            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-        </div>
-        <h3>Interest Only Mortgages</h3>
-        <p>Pay only interest for an initial period, resulting in lower monthly payments. Ideal for borrowers expecting income growth or short-term ownership.</p>
-        <ul class="loan-highlights">
-          <li>Lower Initial Payments</li>
-          <li>5-10 Year IO Period</li>
-          <li>Flexible Cash Flow</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- STATE PROGRAMS -->
-<section class="section" style="background: var(--color-surface);">
-  <div class="container">
-    <div class="section-eyebrow">Licensed in 3 States</div>
-    <h2 class="section-title">State-specific programs to save you more.</h2>
-    <div class="state-programs">
-
-      <!-- Wisconsin -->
-      <div class="state-card">
-        <h3>Wisconsin <span style="opacity:0.6; font-weight:500;">(WHEDA)</span></h3>
-        <p>Wisconsin Housing and Economic Development Authority programs for first-time and repeat buyers.</p>
-        <ul>
-          <li>Advantage Conventional &amp; FHA — competitive rates</li>
-          <li>Easy Close DPA — up to 6% of purchase price</li>
-          <li>Capital Access — up to $7,500 in down payment help</li>
-          <li>Tax Advantage — Mortgage Credit Certificate program</li>
-        </ul>
-      </div>
-
-      <!-- Iowa -->
-      <div class="state-card">
-        <h3>Iowa <span style="opacity:0.6; font-weight:500;">(IFA)</span></h3>
-        <p>Iowa Finance Authority programs helping Iowans achieve homeownership.</p>
-        <ul>
-          <li>FirstHome Program — below-market rates for first-time buyers</li>
-          <li>Homes for Iowans — available to all buyers</li>
-          <li>DPA Grant — $2,500 grant (no repayment)</li>
-          <li>Military Homeownership — additional benefits for veterans</li>
-        </ul>
-      </div>
-
-      <!-- Florida -->
-      <div class="state-card">
-        <h3>Florida <span style="opacity:0.6; font-weight:500;">(FHFC)</span></h3>
-        <p>Florida Housing Finance Corporation programs with generous assistance.</p>
-        <ul>
-          <li>FL Assist — $10,000 deferred second mortgage at 0%</li>
-          <li>Hometown Heroes — up to $35,000 for community workers</li>
-          <li>HFA Preferred/Advantage — competitive rates + DPA</li>
-          <li>Salute Our Soldiers — specialized veteran program</li>
-        </ul>
-      </div>
+        <h3>Amortization Calculator</h3>
+        <p>View your full payment schedule and see how extra payments can save you thousands in interest.</p>
+        <span class="card-link">View Schedule <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
 
     </div>
   </div>
@@ -381,8 +286,8 @@
 <!-- CTA BAND -->
 <section class="cta-band section">
   <div class="container">
-    <h2>Not sure which loan is right for you?</h2>
-    <p>Our team will help you find the perfect loan for your situation — no pressure, no jargon.</p>
+    <h2>Numbers looking good?</h2>
+    <p>Take the next step and get pre-approved in minutes. A loan officer is standing by to help.</p>
     <a href="./apply.html" class="btn btn-lg">Start Your Application</a>
   </div>
 </section>
@@ -404,7 +309,7 @@
         <h4>Quicklinks</h4>
         <ul>
           <li><a href="https://www.voyagefinancing.com/contact" target="_blank" rel="noopener">Contact</a></li>
-          <li><a href="https://www.voyagefinancing.com/mortgage-calculator/" target="_blank" rel="noopener">Mortgage Calculators</a></li>
+          <li><a href="./calculators.html">Mortgage Calculators</a></li>
           <li><a href="https://www.voyagefinancing.com/faqs/" target="_blank" rel="noopener">Mortgage FAQ</a></li>
         </ul>
       </div>
@@ -452,7 +357,6 @@ document.querySelectorAll('.nav-dropdown-trigger').forEach(trigger => {
 });
 </script>
 
-<!-- SCROLL TO TOP -->
 </div><!-- /.page-content -->
 
 <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">
